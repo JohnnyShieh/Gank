@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+package com.johnny.gank.data;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -14,10 +13,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */-->
-<resources>
-    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
-         (such as screen margins) for screens with more than 820dp of available width. This
-         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
-    <dimen name="activity_horizontal_margin">64dp</dimen>
-</resources>
+ */
+
+/**
+ * 干货类型: 福利 | Android | iOS | 休息视频 | 拓展资源 | 前端 | 瞎推荐 | App
+ *
+ * @author Johnny Shieh
+ * @version 1.0
+ */
+public class GankType {
+
+    public static final String WELFARE = "福利";
+    public static final String ANDROID = "Android";
+    public static final String IOS = "iOS";
+    public static final String VIDEO = "休息视频";
+    public static final String EXTRA = "拓展资源";
+    public static final String FRONTEND = "前端";
+    public static final String CASUAL = "瞎推荐";
+    public static final String APP = "App";
+
+}

@@ -16,27 +16,21 @@
  * limitations under the License.
  */-->
 <resources>
-    <string name="app_name">Gank</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
 
     <!-- nav header-->
-    <string name="nav_header_title">Gank</string>
-    <string name="nav_today">Today</string>
-    <string name="nav_welfare">welfare</string>
+    <string name="nav_header_title">干货集中营</string>
+    <string name="nav_today">今天</string>
+    <string name="nav_welfare">福利</string>
     <string name="nav_android">Android</string>
     <string name="nav_ios">iOS</string>
-    <string name="nav_front_end">Front</string>
-    <string name="nav_extra">Extra</string>
-    <string name="nav_casual">Casual</string>
-    <string name="nav_video">Video</string>
+    <string name="nav_front_end">前端</string>
+    <string name="nav_extra">拓展资源</string>
+    <string name="nav_casual">瞎推荐</string>
+    <string name="nav_video">休息视频</string>
     <string name="nav_app">App</string>
-    <string name="nav_all">All</string>
-    <string name="nav_contact_title">Contact</string>
-    <string name="nav_about">About</string>
-    <string name="nav_feedback">Feedback</string>
+    <string name="nav_all">全部</string>
+    <string name="nav_contact_title">联系</string>
+    <string name="nav_about">关于</string>
+    <string name="nav_feedback">反馈</string>
 
 </resources>

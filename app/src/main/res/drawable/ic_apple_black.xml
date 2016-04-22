@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2016 Johnny Shieh Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="140.000000dp"
+        android:height="140.000000dp"
+        android:viewportWidth="140.000000"
+        android:viewportHeight="140.000000">
+
+    <group
+        android:translateY="140.000000"
+        android:scaleX="0.100000"
+        android:scaleY="-0.100000">
+        <path
+            android:fillColor="#000000"
+            android:pathData="M833 1274 c-83 -40 -127 -106 -147 -223 l-6 -34 41 6 c100 13 199 137 199 250 0 34
+-18 35 -87 1z" />
+        <path
+            android:fillColor="#000000"
+            android:pathData="M415 1021 c-145 -38 -239 -215 -220 -415 14 -151 91 -322 190 -423 78 -80 107 -86
+219 -49 96 31 114 32 197 7 35 -11 78 -22 95 -26 39 -8 97 15 138 53 39 36 111 148
+135 209 l20 50 -37 24 c-46 30 -98 99 -112 147 -16 58 -12 142 9 189 11 23 39 62
+62 88 l42 46 -29 31 c-71 75 -190 97 -316 58 -75 -24 -124 -25 -198 -5 -71 19 -157
+26 -195 16z" />
+    </group>
+</vector>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+package com.johnny.gank.data;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -14,10 +13,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */-->
-<resources>
-    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
-         (such as screen margins) for screens with more than 820dp of available width. This
-         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
-    <dimen name="activity_horizontal_margin">64dp</dimen>
-</resources>
+ */
+
+/**
+ * @author Johnny Shieh
+ * @version 1.0
+ */
+public interface GankApi {
+
+    String BASE_URL = "http://gank.io/api/";
+
+    // The published date history
+    String DATE_HISTORY = "day/history";
+
+    // The category gank data, such as, http://gank.io/api/data/Android/10/1
+    // The gank data of one day, such as, http://gank.io/api/day/年/月/日
+
+}

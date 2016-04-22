@@ -1,8 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2016 Johnny Shieh Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <item name="ic_menu_camera" type="drawable">@android:drawable/ic_menu_camera</item>
-    <item name="ic_menu_gallery" type="drawable">@android:drawable/ic_menu_gallery</item>
-    <item name="ic_menu_slideshow" type="drawable">@android:drawable/ic_menu_slideshow</item>
-    <item name="ic_menu_manage" type="drawable">@android:drawable/ic_menu_manage</item>
-    <item name="ic_menu_share" type="drawable">@android:drawable/ic_menu_share</item>
-    <item name="ic_menu_send" type="drawable">@android:drawable/ic_menu_send</item>
+    <item name="ic_menu_today" type="drawable">@drawable/ic_today_black_18dp</item>
+    <item name="ic_menu_welfare" type="drawable">@drawable/ic_sentiment_satisfied_black_18dp</item>
+    <item name="ic_menu_android" type="drawable">@drawable/ic_android_black_18dp</item>
+    <item name="ic_menu_ios" type="drawable">@drawable/ic_apple_black</item>
+    <item name="ic_menu_front_end" type="drawable">@drawable/ic_js_black</item>
+    <item name="ic_menu_extra" type="drawable">@drawable/ic_near_me_black_18dp</item>
+    <item name="ic_menu_casual" type="drawable">@drawable/ic_toys_black_18dp</item>
+    <item name="ic_menu_video" type="drawable">@drawable/ic_video_library_black_18dp</item>
+    <item name="ic_menu_app" type="drawable">@drawable/ic_apps_black_18dp</item>
+    <item name="ic_menu_all" type="drawable">@drawable/ic_view_list_black_18dp</item>
+    <item name="ic_menu_about" type="drawable">@drawable/ic_person_black_18dp</item>
+    <item name="ic_menu_feedback" type="drawable">@drawable/ic_feedback_black_18dp</item>
 </resources>
