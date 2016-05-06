@@ -49,8 +49,10 @@ dependencies {
     compile dependencies['butterKnife']
     compile dependencies['rxJava']
     compile dependencies['rxAndroid']
+    compile dependencies['rxFlux']
     compile dependencies['retrofit']
     compile dependencies['converterGson']
+    compile dependencies['adapterRxjava']
     compile dependencies['gson']
     provided dependencies['javaxAnnotation']
 }

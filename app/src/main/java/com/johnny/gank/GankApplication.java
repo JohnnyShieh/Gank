@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+package com.johnny.gank;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
-<resources>
-    <color name="colorPrimary">#00acc1</color>
-    <color name="colorPrimaryDark">#0097A7</color>
-    <color name="colorAccent">#0097A7</color>
-    <color name="textColorPrimary">#212121</color>
-    <color name="textColorSencondary">#727272</color>
-</resources>
+
+import android.app.Application;
+
+/**
+ * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * @version 1.0
+ */
+public class GankApplication extends Application{
+
+}

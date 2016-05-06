@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 -->
-<com.johnny.gank.ui.view.widget.ScrimInsetsFrameLayout
+<com.johnny.gank.ui.widget.ScrimInsetsFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -43,4 +43,4 @@
             android:text="@string/nav_header_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
     </LinearLayout>
-</com.johnny.gank.ui.view.widget.ScrimInsetsFrameLayout>
+</com.johnny.gank.ui.widget.ScrimInsetsFrameLayout>

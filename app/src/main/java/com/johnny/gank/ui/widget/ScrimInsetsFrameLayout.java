@@ -1,4 +1,4 @@
-package com.johnny.gank.ui.view.widget;
+package com.johnny.gank.ui.widget;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *

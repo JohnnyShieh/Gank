@@ -14,12 +14,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
--->
-<resources>
-    <color name="colorPrimary">#00acc1</color>
-    <color name="colorPrimaryDark">#0097A7</color>
-    <color name="colorAccent">#0097A7</color>
-    <color name="textColorPrimary">#212121</color>
-    <color name="textColorSencondary">#727272</color>
-</resources>
+ */-->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+    <TextView
+        android:id="@+id/category_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</FrameLayout>

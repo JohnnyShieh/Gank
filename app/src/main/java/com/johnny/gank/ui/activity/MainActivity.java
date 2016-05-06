@@ -1,4 +1,4 @@
-package com.johnny.gank.ui.view.activity;
+package com.johnny.gank.ui.activity;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *

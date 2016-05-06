@@ -1,4 +1,4 @@
-package com.johnny.gank.domain.http;
+package com.johnny.gank.action;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,30 +15,12 @@ package com.johnny.gank.domain.http;
  * limitations under the License.
  */
 
-import com.johnny.gank.data.GankApi;
-import com.johnny.gank.domain.GankService;
-
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 /**
+ * description
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class GankRetrofit {
-
-    private static class ServiceHolder {
-        public static final GankService sGankService = new Retrofit.Builder()
-            .client(new OkHttpClient())
-            .baseUrl(GankApi.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(GankService.class);
-    }
-
-    public static GankService getGankService() {
-        return ServiceHolder.sGankService;
-    }
+public interface ActionType {
+    String GET_WELFARE_LIST = "get_welfare_list";
 }
