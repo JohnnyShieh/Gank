@@ -1,4 +1,4 @@
-package com.johnny.gank.core.http;
+package com.johnny.gank.di.component;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,29 +15,29 @@ package com.johnny.gank.core.http;
  * limitations under the License.
  */
 
-import com.johnny.gank.data.GankApi;
+import com.johnny.gank.di.module.AppModule;
+import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.util.SubscriptionManager;
 
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import android.content.Context;
+
+import javax.inject.Singleton;
+
+import dagger.Component;
 
 /**
+ * description
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class GankRetrofit {
+@Singleton
+@Component(modules = {AppModule.class})
+public interface AppComponent {
 
-    private static class ServiceHolder {
-        public static final GankService sGankService = new Retrofit.Builder()
-            .client(new OkHttpClient())
-            .baseUrl(GankApi.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(GankService.class);
-    }
+    Context getAppContext();
 
-    public static GankService getGankService() {
-        return ServiceHolder.sGankService;
-    }
+    Dispatcher getDispatcher();
+
+    SubscriptionManager getSubscriptManager();
 }

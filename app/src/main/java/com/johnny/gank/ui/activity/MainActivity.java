@@ -16,6 +16,10 @@ package com.johnny.gank.ui.activity;
  */
 
 import com.johnny.gank.R;
+import com.johnny.gank.di.component.DaggerMainActivityComponent;
+import com.johnny.gank.di.component.MainActivityComponent;
+import com.johnny.gank.di.module.ActivityModule;
+import com.johnny.gank.ui.fragment.WelfareFragment;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,7 +29,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,13 +37,18 @@ import android.view.MenuItem;
  * @author Johnny Shieh
  * @version 1.0
  */
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
     implements NavigationView.OnNavigationItemSelectedListener {
+
+    private MainActivityComponent mComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initInjector();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,6 +70,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_welfare);
+    }
+
+    private void initInjector() {
+        mComponent = DaggerMainActivityComponent.builder()
+            .appComponent(getAppComponent())
+            .activityModule(new ActivityModule(this))
+            .build();
+    }
+
+    public MainActivityComponent getMainActivityComponent() {
+        return mComponent;
     }
 
     @Override
@@ -105,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_today) {
             // Handle the camera action
         } else if (id == R.id.nav_welfare) {
-
+            replaceFragment(R.id.fragment_container, WelfareFragment.getInstance(), WelfareFragment.TAG);
         } else if (id == R.id.nav_android) {
 
         } else if (id == R.id.nav_ios) {

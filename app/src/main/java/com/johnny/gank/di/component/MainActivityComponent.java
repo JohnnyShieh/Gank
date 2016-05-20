@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+package com.johnny.gank.di.component;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -14,18 +13,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */-->
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp"
-    android:layout_marginTop="6dp"
-    >
-    <ImageView
-        android:id="@+id/girl_image"
-        android:layout_width="match_parent"
-        android:layout_height="300dp">
-    </ImageView>
-</FrameLayout>
+ */
+
+import com.johnny.gank.di.PerActivity;
+import com.johnny.gank.di.module.ActivityModule;
+
+import dagger.Component;
+
+/**
+ * description
+ *
+ * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * @version 1.0
+ */
+@PerActivity
+@Component(dependencies = {AppComponent.class}, modules = {ActivityModule.class})
+public interface MainActivityComponent extends ActivityComponent {
+
+    WelfareFragmentComponent welfareFragmentComponent();
+}

@@ -1,4 +1,4 @@
-package com.johnny.gank;
+package com.johnny.gank.ui.activity;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,37 +15,36 @@ package com.johnny.gank;
  * limitations under the License.
  */
 
+import com.johnny.gank.GankApplication;
 import com.johnny.gank.di.component.AppComponent;
-import com.johnny.gank.di.component.DaggerAppComponent;
-import com.johnny.gank.di.module.AppModule;
-import com.johnny.gank.util.AppUtil;
 
-import android.app.Application;
+import android.app.Fragment;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 
 /**
+ * description
+ *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class GankApplication extends Application{
-
-    private AppComponent mAppComponent;
+public class BaseActivity extends AppCompatActivity {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-
-        AppUtil.init(this);
-        initInjector();
-    }
-
-    private void initInjector() {
-        mAppComponent = DaggerAppComponent.builder()
-            .appModule(new AppModule(this))
-            .build();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     public AppComponent getAppComponent() {
-        return mAppComponent;
+        return ((GankApplication)getApplication()).getAppComponent();
     }
 
+    public void replaceFragment(int containerViewId, Fragment fragment, String tag) {
+        if(null == getFragmentManager().findFragmentByTag(tag)) {
+            getFragmentManager().beginTransaction()
+                .replace(containerViewId, fragment, tag)
+                .commit();
+        }
+    }
 }

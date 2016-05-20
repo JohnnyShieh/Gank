@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+package com.johnny.gank.di;
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +13,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */-->
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp"
-    android:layout_marginTop="6dp"
-    >
-    <ImageView
-        android:id="@+id/girl_image"
-        android:layout_width="match_parent"
-        android:layout_height="300dp">
-    </ImageView>
-</FrameLayout>
+ */
+
+import java.lang.annotation.Retention;
+
+import javax.inject.Scope;
+
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+/**
+ * A scoping annotation to permit objects whose lifetime should
+ * conform to the life of the activity to be memorized in the
+ * correct component.
+ *
+ * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * @version 1.0 2015-10-24
+ *
+ */
+@Scope
+@Retention(RUNTIME)
+public @interface PerActivity {}

@@ -15,6 +15,8 @@ package com.johnny.gank.data.entity;
  * limitations under the License.
  */
 
+import java.util.Objects;
+
 /**
  * 干货数据
  *
@@ -34,7 +36,7 @@ package com.johnny.gank.data.entity;
  */
 public class Gank {
 
-    public long _id;
+    public String _id;
     public String createdAt;
     public String desc;
     public String publishedAt;
@@ -42,5 +44,23 @@ public class Gank {
     public String type;
     public String url;
     public boolean used;
-    public boolean who;
+    public String who;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Gank gank = (Gank) o;
+        return _id == gank._id &&
+            Objects.equals(type, gank.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_id, type);
+    }
 }
