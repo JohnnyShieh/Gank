@@ -16,15 +16,16 @@ package com.johnny.gank.ui.adapter;
  */
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.johnny.gank.R;
 import com.johnny.gank.data.entity.Gank;
+import com.johnny.gank.ui.widget.RatioImageView;
 
 import android.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import java.util.List;
 
@@ -77,12 +78,19 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Gank welfare = mWelfareList.get(position);
         Glide.with(mFragment)
             .load(welfare.url)
             .centerCrop()
-            .into(holder.vGirlImage);
+            .placeholder(R.color.imageColorPlaceholder)
+            .into(holder.vGirlImage)
+            .getSize(new SizeReadyCallback() {
+                @Override
+                public void onSizeReady(int width, int height) {
+                    holder.vGirlImage.setRatio((float)width / height);
+                }
+            });
     }
 
     @Override
@@ -92,11 +100,14 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.girl_image) ImageView vGirlImage;
+        @Bind(R.id.girl_image) RatioImageView vGirlImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            // set the ratio to golden ratio.
+            vGirlImage.setRatio(0.618f);
         }
     }
 }

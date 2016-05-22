@@ -45,6 +45,7 @@ dependencies {
     compile dependencies['appcompat']
     compile dependencies['design']
     compile dependencies['recyclerView']
+    compile dependencies['cardView']
     compile dependencies['dagger']
     compile dependencies['butterKnife']
     compile dependencies['rxJava']

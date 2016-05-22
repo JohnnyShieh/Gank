@@ -33,6 +33,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -57,7 +58,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
     @Bind(R.id.refresh_layout) SwipeRefreshLayout vRefreshLayout;
     @Bind(R.id.welfare_recycler) RecyclerView vWelfareRecycler;
 
-    private StaggeredGridLayoutManager mLayoutManager;
+    private GridLayoutManager mLayoutManager;
 
     private WelfareFragmentComponent mComponent;
 
@@ -98,8 +99,10 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
         ButterKnife.bind(this, contentView);
 
         vRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
-        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        vRefreshLayout.setOnRefreshListener(this);
+        mLayoutManager = new GridLayoutManager(getActivity(), 2);
         vWelfareRecycler.setLayoutManager(mLayoutManager);
+        vWelfareRecycler.setHasFixedSize(true);
         vWelfareRecycler.addOnScrollListener(mScrollListener);
         mAdapter = new WelfareAdapter(this);
         vWelfareRecycler.setAdapter(mAdapter);
@@ -115,6 +118,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
         vRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
+                vRefreshLayout.setRefreshing(true);
                 refreshList();
             }
         });
@@ -128,7 +132,6 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
     }
 
     private void refreshList() {
-        vRefreshLayout.setRefreshing(true);
         mActionCreator.getWelfareList(1);
     }
 
@@ -173,8 +176,8 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            boolean reachBottom = mLayoutManager.findLastCompletelyVisibleItemPositions(null)[0]
-                >= mLayoutManager.getItemCount() - 2;
+            boolean reachBottom = mLayoutManager.findLastCompletelyVisibleItemPosition()
+                >= mLayoutManager.getItemCount() - 1;
             if(!mLoadingMore && reachBottom) {
                 loadMore();
             }

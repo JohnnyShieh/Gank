@@ -22,4 +22,6 @@
     <color name="colorAccent">#0097A7</color>
     <color name="textColorPrimary">#212121</color>
     <color name="textColorSencondary">#727272</color>
+
+    <color name="imageColorPlaceholder">#ededed</color>
 </resources>

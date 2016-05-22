@@ -8,6 +8,7 @@ ext {
 
     //Libraries
     recyclerViewVersion = '23.2.1'
+    cardViewVersion = '23.2.1'
     appcompatVersion = '23.2.1'
     designVersion = '23.2.1'
     butterKnifeVersion = '7.0.1'
@@ -28,6 +29,7 @@ ext {
 
     dependencies = [
             recyclerView:       "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+            cardView:           "com.android.support:cardview-v7:${cardViewVersion}",
             appcompat:          "com.android.support:appcompat-v7:${appcompatVersion}",
             design:             "com.android.support:design:${designVersion}",
             daggerCompiler:     "com.google.dagger:dagger-compiler:${daggerVersion}",
