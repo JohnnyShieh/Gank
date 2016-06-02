@@ -37,4 +37,24 @@
     <style name="AppTheme.PopupOverlay"
            parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="HeaderTitleTextAppearance"
+           parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_header_title</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TitleTextAppearance"
+           parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+    </style>
+
+    <style name="SummaryTextAppearance"
+           parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/text_size_summary</item>
+        <item name="android:textColor">@color/textColorSummary</item>
+    </style>
+
 </resources>

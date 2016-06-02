@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+package com.johnny.gank.di.component;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -14,17 +13,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */-->
-<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refresh_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/welfare_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="6dp"
-        android:paddingRight="6dp"/>
+ */
 
-</android.support.v4.widget.SwipeRefreshLayout>
+import com.johnny.gank.di.PerFragment;
+import com.johnny.gank.ui.fragment.TodayGankFragment;
+
+import dagger.Subcomponent;
+
+/**
+ * description
+ *
+ * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * @version 1.0
+ */
+@PerFragment
+@Subcomponent
+public interface TodayGankFragmentComponent {
+
+    void inject(TodayGankFragment todayGankFragment);
+
+}

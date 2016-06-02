@@ -36,6 +36,8 @@ import java.util.Objects;
  */
 public class Gank {
 
+    private static final String TYPE_CATEGORY_HEADER = "category_header";
+
     public String _id;
     public String createdAt;
     public String desc;
@@ -55,12 +57,22 @@ public class Gank {
             return false;
         }
         Gank gank = (Gank) o;
-        return _id == gank._id &&
+        return Objects.equals(_id, gank._id) &&
             Objects.equals(type, gank.type);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(_id, type);
+    }
+
+    public boolean isCategoryHeader() {
+        return Objects.equals(type, TYPE_CATEGORY_HEADER);
+    }
+
+    public static Gank newCategoryHeader(String categoryName) {
+        Gank category = new Gank();
+        category.desc = categoryName;
+        return category;
     }
 }

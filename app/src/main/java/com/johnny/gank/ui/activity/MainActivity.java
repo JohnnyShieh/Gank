@@ -19,6 +19,7 @@ import com.johnny.gank.R;
 import com.johnny.gank.di.component.DaggerMainActivityComponent;
 import com.johnny.gank.di.component.MainActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
+import com.johnny.gank.ui.fragment.TodayGankFragment;
 import com.johnny.gank.ui.fragment.WelfareFragment;
 
 import android.os.Bundle;
@@ -70,7 +71,6 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_welfare);
     }
 
     private void initInjector() {
@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_today) {
-            // Handle the camera action
+            replaceFragment(R.id.fragment_container, TodayGankFragment.getInstance(), TodayGankFragment.TAG);
         } else if (id == R.id.nav_welfare) {
             replaceFragment(R.id.fragment_container, WelfareFragment.getInstance(), WelfareFragment.TAG);
         } else if (id == R.id.nav_android) {

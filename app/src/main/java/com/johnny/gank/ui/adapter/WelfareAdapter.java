@@ -98,7 +98,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHold
         return null == mWelfareList ? 0 : mWelfareList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.girl_image) RatioImageView vGirlImage;
 

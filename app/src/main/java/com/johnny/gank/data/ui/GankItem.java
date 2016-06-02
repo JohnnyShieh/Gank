@@ -1,6 +1,6 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.data.ui;
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,12 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.PerActivity;
-import com.johnny.gank.di.module.ActivityModule;
-
-import dagger.Component;
-
 /**
- * description
+ * Unified data model for all sorts of gank items
  *
- * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * @author Johnny Shieh
  * @version 1.0
  */
-@PerActivity
-@Component(dependencies = {AppComponent.class}, modules = {ActivityModule.class})
-public interface MainActivityComponent extends ActivityComponent {
+public interface GankItem {
 
-    WelfareFragmentComponent welfareFragmentComponent();
-
-    TodayGankFragmentComponent todayGankFragmentComponent();
 }

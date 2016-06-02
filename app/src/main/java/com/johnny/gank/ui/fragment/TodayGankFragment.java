@@ -16,19 +16,140 @@ package com.johnny.gank.ui.fragment;
  */
 
 import com.johnny.gank.R;
+import com.johnny.gank.action.ActionType;
+import com.johnny.gank.action.RxError;
+import com.johnny.gank.action.TodayGankActionCreator;
+import com.johnny.gank.di.component.TodayGankFragmentComponent;
+import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.dispatcher.RxViewDispatch;
+import com.johnny.gank.store.RxStoreChange;
+import com.johnny.gank.store.TodayGankStore;
+import com.johnny.gank.ui.activity.MainActivity;
+import com.johnny.gank.ui.adapter.TodayGankAdapter;
 
 import android.app.Fragment;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class TodayGankFragment extends Fragment {
+public class TodayGankFragment extends Fragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener{
 
-    @Bind(R.id.gank_recycler) RecyclerView vGankRecycler;
+    public static final String TAG = TodayGankFragment.class.getSimpleName();
 
+    @Bind(R.id.refresh_layout) SwipeRefreshLayout vRefreshLayout;
+    @Bind(R.id.recycler_view) RecyclerView vWelfareRecycler;
 
+    private TodayGankFragmentComponent mComponent;
+
+    public static TodayGankFragment sInstance;
+
+    @Inject TodayGankStore mStore;
+    @Inject TodayGankActionCreator mActionCreator;
+    @Inject Dispatcher mDispatcher;
+
+    private TodayGankAdapter mAdapter;
+
+    public static TodayGankFragment getInstance() {
+        if(null == sInstance) {
+            sInstance = new TodayGankFragment();
+        }
+        return sInstance;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initInjector();
+    }
+
+    private void initInjector() {
+        mComponent = ((MainActivity)getActivity()).getMainActivityComponent().todayGankFragmentComponent();
+        mComponent.inject(this);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
+        View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, null);
+        ButterKnife.bind(this, contentView);
+
+        vRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
+        vRefreshLayout.setOnRefreshListener(this);
+        vWelfareRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        vWelfareRecycler.setHasFixedSize(true);
+        mAdapter = new TodayGankAdapter();
+        vWelfareRecycler.setAdapter(mAdapter);
+
+        mDispatcher.subscribeRxStore(mStore);
+        mDispatcher.subscribeRxView(this);
+        return contentView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        vRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                vRefreshLayout.setRefreshing(true);
+                refreshData();
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        mDispatcher.unsubscribeRxStore(mStore);
+        mDispatcher.unsubscribeRxView(this);
+        super.onDestroyView();
+    }
+
+    private void refreshData() {
+        mActionCreator.getTodayGank();
+    }
+
+    @Override
+    public void onRxStoreChanged(@NonNull RxStoreChange change) {
+        switch (change.getStoreId()) {
+            case TodayGankStore.ID:
+                vRefreshLayout.setRefreshing(false);
+                mAdapter.swapData(mStore.getItems());
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onRxError(@NonNull RxError error) {
+        switch (error.getAction().getType()) {
+            case ActionType.GET_TODAY_GANK:
+                vRefreshLayout.setRefreshing(false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        refreshData();
+    }
 }

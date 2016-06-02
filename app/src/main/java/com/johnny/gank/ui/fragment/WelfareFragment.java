@@ -35,7 +35,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
     public static final String TAG = WelfareFragment.class.getSimpleName();
 
     @Bind(R.id.refresh_layout) SwipeRefreshLayout vRefreshLayout;
-    @Bind(R.id.welfare_recycler) RecyclerView vWelfareRecycler;
+    @Bind(R.id.recycler_view) RecyclerView vWelfareRecycler;
 
     private GridLayoutManager mLayoutManager;
 
@@ -95,7 +94,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-        View contentView = inflater.inflate(R.layout.fragment_welfare, null);
+        View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, null);
         ButterKnife.bind(this, contentView);
 
         vRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
@@ -162,6 +161,8 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
             case ActionType.GET_WELFARE_LIST:
                 vRefreshLayout.setRefreshing(false);
                 mLoadingMore = false;
+                break;
+            default:
                 break;
         }
     }

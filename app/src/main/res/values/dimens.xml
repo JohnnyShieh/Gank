@@ -23,4 +23,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="text_size_header_title">22sp</dimen>
+    <dimen name="text_size_title">18sp</dimen>
+    <dimen name="text_size_summary">14sp</dimen>
+
 </resources>

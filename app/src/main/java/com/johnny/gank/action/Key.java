@@ -25,4 +25,5 @@ public interface Key {
 
     String PAGE = "page";
     String WELFARE = "welfare";
+    String DAY_GANK = "day_gank";
 }

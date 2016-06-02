@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+package com.johnny.gank.data.ui;
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +13,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */-->
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+ */
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/gank_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+/**
+ * description
+ *
+ * @author Johnny Shieh
+ * @version 1.0
+ */
+public class GankHeaderItem implements GankItem {
 
-</FrameLayout>
+    public String name;
+
+    public GankHeaderItem(String name) {
+        this.name = name;
+    }
+}

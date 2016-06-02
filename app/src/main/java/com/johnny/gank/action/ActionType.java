@@ -23,4 +23,5 @@ package com.johnny.gank.action;
  */
 public interface ActionType {
     String GET_WELFARE_LIST = "get_welfare_list";
+    String GET_TODAY_GANK = "get_today_gank";
 }

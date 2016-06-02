@@ -23,5 +23,8 @@
     <color name="textColorPrimary">#212121</color>
     <color name="textColorSencondary">#727272</color>
 
+    <color name="textColorTitle">@color/textColorPrimary</color>
+    <color name="textColorSummary">@color/textColorSencondary</color>
+
     <color name="imageColorPlaceholder">#ededed</color>
 </resources>
