@@ -94,7 +94,7 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
         vRefreshLayout.setOnRefreshListener(this);
         vWelfareRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         vWelfareRecycler.setHasFixedSize(true);
-        mAdapter = new TodayGankAdapter();
+        mAdapter = new TodayGankAdapter(this);
         vWelfareRecycler.setAdapter(mAdapter);
 
         mDispatcher.subscribeRxStore(mStore);

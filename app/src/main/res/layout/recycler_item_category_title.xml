@@ -19,11 +19,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:paddingStart="@dimen/recycler_item_padding"
+    android:paddingEnd="@dimen/recycler_item_padding"
     >
     <TextView
         android:id="@+id/category_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_gank_header"
+        android:paddingBottom="@dimen/padding_gank_title"
         style="@style/HeaderTitleTextAppearance"
         />
 </FrameLayout>

@@ -41,6 +41,7 @@
            parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/text_size_header_title</item>
         <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -54,7 +55,7 @@
     <style name="SummaryTextAppearance"
            parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/text_size_summary</item>
-        <item name="android:textColor">@color/textColorSummary</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
     </style>
 
 </resources>

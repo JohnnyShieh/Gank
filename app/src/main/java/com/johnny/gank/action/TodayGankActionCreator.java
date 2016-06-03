@@ -19,6 +19,7 @@ import com.johnny.gank.core.http.GankService;
 import com.johnny.gank.data.GankType;
 import com.johnny.gank.data.response.DateData;
 import com.johnny.gank.data.response.DayData;
+import com.johnny.gank.data.ui.GankGirlImageItem;
 import com.johnny.gank.data.ui.GankHeaderItem;
 import com.johnny.gank.data.ui.GankItem;
 import com.johnny.gank.data.ui.GankNormalItem;
@@ -123,9 +124,36 @@ public class TodayGankActionCreator extends RxActionCreator {
             return null;
         }
         List<GankItem> gankList = new ArrayList<>(10);
+        if(null != dayData.results.welfareList && dayData.results.welfareList.size() > 0) {
+            gankList.add(GankGirlImageItem.newImageItem(dayData.results.welfareList.get(0).url));
+        }
         if(null != dayData.results.androidList && dayData.results.androidList.size() > 0) {
             gankList.add(new GankHeaderItem(GankType.ANDROID));
             gankList.addAll(GankNormalItem.newGankList(dayData.results.androidList));
+        }
+        if(null != dayData.results.iosList && dayData.results.iosList.size() > 0) {
+            gankList.add(new GankHeaderItem(GankType.IOS));
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.iosList));
+        }
+        if(null != dayData.results.frontEndList && dayData.results.frontEndList.size() > 0) {
+            gankList.add(new GankHeaderItem(GankType.FRONTEND));
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.frontEndList));
+        }
+        if(null != dayData.results.extraList && dayData.results.extraList.size() > 0) {
+            gankList.add(new GankHeaderItem(GankType.EXTRA));
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.extraList));
+        }
+        if(null != dayData.results.casualList && dayData.results.casualList.size() > 0) {
+            gankList.add(new GankHeaderItem(GankType.CASUAL));
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.casualList));
+        }
+        if(null != dayData.results.appList && dayData.results.appList.size() > 0) {
+            gankList.add(new GankHeaderItem(GankType.APP));
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.appList));
+        }
+        if(null != dayData.results.videoList && dayData.results.videoList.size() > 0) {
+            gankList.add(new GankHeaderItem(GankType.VIDEO));
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.videoList));
         }
 
         return gankList;

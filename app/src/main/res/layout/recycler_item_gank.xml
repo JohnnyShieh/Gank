@@ -20,25 +20,26 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="bottom"
+    android:paddingStart="@dimen/recycler_item_padding"
+    android:paddingEnd="@dimen/recycler_item_padding"
+    android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground"
     >
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_dot"
         />
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding_gank_title"
+        android:paddingTop="@dimen/padding_gank_title"
+        android:paddingBottom="@dimen/padding_gank_title"
         style="@style/TitleTextAppearance"
-        />
-    <TextView
-        android:id="@+id/author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/SummaryTextAppearance"
         />
 
 </LinearLayout>

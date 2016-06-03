@@ -84,13 +84,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHold
             .load(welfare.url)
             .centerCrop()
             .placeholder(R.color.imageColorPlaceholder)
-            .into(holder.vGirlImage)
-            .getSize(new SizeReadyCallback() {
-                @Override
-                public void onSizeReady(int width, int height) {
-                    holder.vGirlImage.setRatio((float)width / height);
-                }
-            });
+            .into(holder.vGirlImage);
     }
 
     @Override

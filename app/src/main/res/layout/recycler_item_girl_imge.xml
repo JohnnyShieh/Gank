@@ -15,15 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */-->
-<android.support.v4.widget.SwipeRefreshLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    android:layout_height="wrap_content">
+    <com.johnny.gank.ui.widget.RatioImageView
+        android:id="@+id/girl_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         />
-
-</android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>

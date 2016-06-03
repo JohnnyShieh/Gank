@@ -38,7 +38,7 @@ public class GankNormalItem extends Gank implements GankItem {
         gankBean.source = gank.source;
         gankBean.type = gank.type;
         gankBean.url = gank.url;
-        gankBean.used = gank.used;
+        gankBean.who = gank.who;
         gankBean.used = gank.used;
         return gankBean;
     }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+package com.johnny.gank.data.ui;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -14,16 +13,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */-->
-<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refresh_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+ */
 
-</android.support.v4.widget.SwipeRefreshLayout>
+/**
+ * description
+ *
+ * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * @version 1.0
+ */
+public class GankGirlImageItem implements GankItem {
+
+    public String imgUrl;
+
+    public static GankGirlImageItem newImageItem(String imgUrl) {
+        GankGirlImageItem imageItem = new GankGirlImageItem();
+        imageItem.imgUrl = imgUrl;
+        return imageItem;
+    }
+}

@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        replaceFragment(R.id.fragment_container, TodayGankFragment.getInstance(), TodayGankFragment.TAG);
     }
 
     private void initInjector() {
