@@ -25,10 +25,6 @@
             android:title="@string/nav_today"
             android:checked="true"/>
         <item
-            android:id="@+id/nav_welfare"
-            android:icon="@drawable/ic_menu_welfare"
-            android:title="@string/nav_welfare"/>
-        <item
             android:id="@+id/nav_android"
             android:icon="@drawable/ic_menu_android"
             android:title="@string/nav_android"/>
@@ -41,9 +37,9 @@
             android:icon="@drawable/ic_menu_front_end"
             android:title="@string/nav_front_end"/>
         <item
-            android:id="@+id/nav_casual"
-            android:icon="@drawable/ic_menu_casual"
-            android:title="@string/nav_casual"/>
+            android:id="@+id/nav_welfare"
+            android:icon="@drawable/ic_menu_welfare"
+            android:title="@string/nav_welfare"/>
         <item
             android:id="@+id/nav_video"
             android:icon="@drawable/ic_menu_video"

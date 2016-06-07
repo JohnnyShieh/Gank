@@ -31,6 +31,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -54,6 +55,13 @@ public class TodayGankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Fragment mFragment;
     private List<GankItem> mItems;
 
+    private OnItemClickListener mItemClickListener;
+
+    public interface OnItemClickListener {
+        void onClickNormalItem(View view, GankNormalItem normalItem);
+        void onClickGirlItem(View view, GankGirlImageItem girlItem);
+    }
+
     public TodayGankAdapter(Fragment fragment) {
         mFragment = fragment;
     }
@@ -61,6 +69,10 @@ public class TodayGankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void swapData(List<GankItem> list) {
         mItems = list;
         notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener clickListener) {
+        mItemClickListener = clickListener;
     }
 
     @Override
@@ -85,18 +97,34 @@ public class TodayGankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         if(holder instanceof NormalViewHolder) {
             NormalViewHolder normalHolder = (NormalViewHolder) holder;
-            GankNormalItem normalItem = (GankNormalItem) mItems.get(position);
+            final GankNormalItem normalItem = (GankNormalItem) mItems.get(position);
             normalHolder.title.setText(getGankTitleStr(normalItem.desc, normalItem.who));
+            normalHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(null != mItemClickListener) {
+                        mItemClickListener.onClickNormalItem(v, normalItem);
+                    }
+                }
+            });
             return;
         }
         if(holder instanceof GirlImageViewHolder) {
             GirlImageViewHolder girlHolder = (GirlImageViewHolder) holder;
-            GankGirlImageItem girlItem = (GankGirlImageItem) mItems.get(position);
+            final GankGirlImageItem girlItem = (GankGirlImageItem) mItems.get(position);
             Glide.with(mFragment)
                 .load(girlItem.imgUrl)
                 .placeholder(R.color.imageColorPlaceholder)
                 .centerCrop()
                 .into(girlHolder.girl_image);
+            girlHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(null != mItemClickListener) {
+                        mItemClickListener.onClickGirlItem(v, girlItem);
+                    }
+                }
+            });
         }
     }
 

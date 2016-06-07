@@ -125,7 +125,7 @@ public class TodayGankActionCreator extends RxActionCreator {
         }
         List<GankItem> gankList = new ArrayList<>(10);
         if(null != dayData.results.welfareList && dayData.results.welfareList.size() > 0) {
-            gankList.add(GankGirlImageItem.newImageItem(dayData.results.welfareList.get(0).url));
+            gankList.add(GankGirlImageItem.newImageItem(dayData.results.welfareList.get(0)));
         }
         if(null != dayData.results.androidList && dayData.results.androidList.size() > 0) {
             gankList.add(new GankHeaderItem(GankType.ANDROID));

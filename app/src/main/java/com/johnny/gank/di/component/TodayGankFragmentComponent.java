@@ -18,6 +18,8 @@ package com.johnny.gank.di.component;
 import com.johnny.gank.di.PerFragment;
 import com.johnny.gank.ui.fragment.TodayGankFragment;
 
+import android.app.Activity;
+
 import dagger.Subcomponent;
 
 /**
@@ -32,4 +34,5 @@ public interface TodayGankFragmentComponent {
 
     void inject(TodayGankFragment todayGankFragment);
 
+    Activity getActivity();
 }

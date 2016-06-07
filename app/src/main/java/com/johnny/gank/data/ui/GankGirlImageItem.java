@@ -15,6 +15,8 @@ package com.johnny.gank.data.ui;
  * limitations under the License.
  */
 
+import com.johnny.gank.data.entity.Gank;
+
 /**
  * description
  *
@@ -25,9 +27,9 @@ public class GankGirlImageItem implements GankItem {
 
     public String imgUrl;
 
-    public static GankGirlImageItem newImageItem(String imgUrl) {
+    public static GankGirlImageItem newImageItem(Gank gank) {
         GankGirlImageItem imageItem = new GankGirlImageItem();
-        imageItem.imgUrl = imgUrl;
+        imageItem.imgUrl = gank.url;
         return imageItem;
     }
 }
