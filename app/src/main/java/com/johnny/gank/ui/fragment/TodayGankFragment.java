@@ -28,7 +28,7 @@ import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.store.TodayGankStore;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
-import com.johnny.gank.ui.adapter.TodayGankAdapter;
+import com.johnny.gank.ui.adapter.GankListAdapter;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -51,7 +51,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class TodayGankFragment extends Fragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener, TodayGankAdapter.OnItemClickListener{
+public class TodayGankFragment extends Fragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener, GankListAdapter.OnItemClickListener{
 
     public static final String TAG = TodayGankFragment.class.getSimpleName();
 
@@ -66,7 +66,7 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
     @Inject TodayGankActionCreator mActionCreator;
     @Inject Dispatcher mDispatcher;
 
-    private TodayGankAdapter mAdapter;
+    private GankListAdapter mAdapter;
 
     public static TodayGankFragment getInstance() {
         if(null == sInstance) {
@@ -98,7 +98,7 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
         vRefreshLayout.setOnRefreshListener(this);
         vWelfareRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         vWelfareRecycler.setHasFixedSize(true);
-        mAdapter = new TodayGankAdapter(this);
+        mAdapter = new GankListAdapter(this);
         mAdapter.setOnItemClickListener(this);
         vWelfareRecycler.setAdapter(mAdapter);
 

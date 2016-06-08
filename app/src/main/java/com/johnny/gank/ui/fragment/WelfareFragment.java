@@ -94,7 +94,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-        View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, null);
+        View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false);
         ButterKnife.bind(this, contentView);
 
         vRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
@@ -146,7 +146,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
                 if(1 == mStore.getPage()) {
                     vRefreshLayout.setRefreshing(false);
                 }
-                mAdapter.updateData(mStore.getPage(), mStore.getGankData().results);
+                mAdapter.updateData(mStore.getPage(), mStore.getGankList());
                 mLoadingMore = false;
                 Snackbar.make(vWelfareRecycler, "Loaded Success!", Snackbar.LENGTH_SHORT).show();
                 break;

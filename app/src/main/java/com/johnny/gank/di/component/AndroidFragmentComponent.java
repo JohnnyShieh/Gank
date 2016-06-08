@@ -1,4 +1,4 @@
-package com.johnny.gank.action;
+package com.johnny.gank.di.component;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,16 +15,21 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
+import com.johnny.gank.di.PerFragment;
+import com.johnny.gank.ui.fragment.AndroidFragment;
+import com.johnny.gank.ui.fragment.CategoryGankFragment;
+
+import dagger.Subcomponent;
+
 /**
  * description
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public interface ActionType {
-    String GET_WELFARE_LIST = "get_welfare_list";
-    String GET_ANDROID_LIST = "get_android_list";
-    String GET_IOS_LIST = "get_ios_list";
-    String GET_FRONT_END_LIST = "get_front_end_list";
-    String GET_TODAY_GANK = "get_today_gank";
+@PerFragment
+@Subcomponent
+public interface AndroidFragmentComponent {
+
+    void inject(AndroidFragment androidFragment);
 }

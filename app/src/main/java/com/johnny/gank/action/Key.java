@@ -24,6 +24,6 @@ package com.johnny.gank.action;
 public interface Key {
 
     String PAGE = "page";
-    String WELFARE = "welfare";
+    String GANK_LIST = "gank_list";
     String DAY_GANK = "day_gank";
 }

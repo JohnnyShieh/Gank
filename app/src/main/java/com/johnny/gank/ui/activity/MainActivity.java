@@ -19,6 +19,7 @@ import com.johnny.gank.R;
 import com.johnny.gank.di.component.DaggerMainActivityComponent;
 import com.johnny.gank.di.component.MainActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
+import com.johnny.gank.ui.fragment.AndroidFragment;
 import com.johnny.gank.ui.fragment.TodayGankFragment;
 import com.johnny.gank.ui.fragment.WelfareFragment;
 
@@ -116,14 +117,12 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_welfare) {
             replaceFragment(R.id.fragment_container, WelfareFragment.getInstance(), WelfareFragment.TAG);
         } else if (id == R.id.nav_android) {
-
+            replaceFragment(R.id.fragment_container, AndroidFragment.getInstance(), AndroidFragment.TAG);
         } else if (id == R.id.nav_ios) {
 
         } else if (id == R.id.nav_front_end) {
 
-        }  else if (id == R.id.nav_casual) {
-
-        } else if (id == R.id.nav_video) {
+        }else if (id == R.id.nav_video) {
 
         } else if (id == R.id.nav_all) {
 

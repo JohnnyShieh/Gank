@@ -33,4 +33,6 @@ public interface MainActivityComponent extends ActivityComponent {
     WelfareFragmentComponent welfareFragmentComponent();
 
     TodayGankFragmentComponent todayGankFragmentComponent();
+
+    AndroidFragmentComponent androidFragmentComponent();
 }

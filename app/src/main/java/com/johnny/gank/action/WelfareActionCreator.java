@@ -15,17 +15,11 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
-import com.johnny.gank.core.http.GankService;
 import com.johnny.gank.data.GankType;
-import com.johnny.gank.data.response.GankData;
 import com.johnny.gank.dispatcher.Dispatcher;
 import com.johnny.gank.util.SubscriptionManager;
 
 import javax.inject.Inject;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * description
@@ -33,9 +27,7 @@ import rx.schedulers.Schedulers;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class WelfareActionCreator extends RxActionCreator {
-
-    private static final int WELFARE_PAGE_COUNT = 10;
+public class WelfareActionCreator extends CategoryGankActionCreator {
 
     @Inject
     public WelfareActionCreator(Dispatcher dispatcher,
@@ -43,31 +35,13 @@ public class WelfareActionCreator extends RxActionCreator {
         super(dispatcher, manager);
     }
 
-    public void getWelfareList(final int page) {
-        final RxAction rxAction = newRxAction(ActionType.GET_WELFARE_LIST);
-        if(hasRxAction(rxAction)) {
-            return;
-        }
+    @Override
+    protected String getActionId() {
+        return ActionType.GET_WELFARE_LIST;
+    }
 
-        addRxAction(rxAction, GankService.Factory.getGankService()
-            .getGank(GankType.WELFARE, WELFARE_PAGE_COUNT, page)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Action1<GankData>() {
-                @Override
-                public void call(GankData gankData) {
-                    RxAction action = RxAction.type(ActionType.GET_WELFARE_LIST)
-                        .bundle(Key.WELFARE, gankData)
-                        .bundle(Key.PAGE, page)
-                        .build();
-                    postRxAction(action);
-                }
-            }, new Action1<Throwable>() {
-                @Override
-                public void call(Throwable throwable) {
-                    postError(rxAction, throwable);
-                }
-            }));
+    public void getWelfareList(final int page) {
+        getGankList(GankType.WELFARE, page);
     }
 
 }

@@ -18,7 +18,6 @@ package com.johnny.gank.store;
 import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.Key;
 import com.johnny.gank.action.RxAction;
-import com.johnny.gank.data.response.GankData;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.dispatcher.Dispatcher;
 
@@ -32,22 +31,22 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class WelfareStore extends RxStore {
+public class AndroidStore extends RxStore {
 
-    public static final String ID = "WelfareStore";
+    public static final String ID = "AndroidStore";
 
     private int mPage;
     private List<GankNormalItem> mGankList;
 
     @Inject
-    public WelfareStore(Dispatcher dispatcher) {
+    public AndroidStore(Dispatcher dispatcher) {
         super(dispatcher);
     }
 
     @Override
     public void onRxAction(RxAction action) {
         switch (action.getType()) {
-            case ActionType.GET_WELFARE_LIST:
+            case ActionType.GET_ANDROID_LIST:
                 mPage = action.get(Key.PAGE);
                 mGankList = action.get(Key.GANK_LIST);
                 break;

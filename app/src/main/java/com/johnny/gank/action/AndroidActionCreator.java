@@ -15,16 +15,32 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
+import com.johnny.gank.data.GankType;
+import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.util.SubscriptionManager;
+
+import javax.inject.Inject;
+
 /**
  * description
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public interface ActionType {
-    String GET_WELFARE_LIST = "get_welfare_list";
-    String GET_ANDROID_LIST = "get_android_list";
-    String GET_IOS_LIST = "get_ios_list";
-    String GET_FRONT_END_LIST = "get_front_end_list";
-    String GET_TODAY_GANK = "get_today_gank";
+public class AndroidActionCreator extends CategoryGankActionCreator {
+
+    @Inject
+    public AndroidActionCreator(Dispatcher dispatcher,
+        SubscriptionManager manager) {
+        super(dispatcher, manager);
+    }
+
+    @Override
+    protected String getActionId() {
+        return ActionType.GET_ANDROID_LIST;
+    }
+
+    public void getAndroidList(final int page) {
+        getGankList(GankType.ANDROID, page);
+    }
 }

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.johnny.gank.R;
 import com.johnny.gank.data.entity.Gank;
+import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.ui.widget.RatioImageView;
 
 import android.app.Fragment;
@@ -41,7 +42,7 @@ import butterknife.ButterKnife;
 public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHolder> {
 
     private Fragment mFragment;
-    private List<Gank> mWelfareList;
+    private List<GankNormalItem> mWelfareList;
 
     private int mCurPage = 0;
 
@@ -49,7 +50,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHold
         mFragment = fragment;
     }
 
-    public void updateData(int page, List<Gank> list) {
+    public void updateData(int page, List<GankNormalItem> list) {
         if(page - mCurPage > 1) {
             return;
         }
@@ -79,7 +80,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Gank welfare = mWelfareList.get(position);
+        GankNormalItem welfare = mWelfareList.get(position);
         Glide.with(mFragment)
             .load(welfare.url)
             .centerCrop()

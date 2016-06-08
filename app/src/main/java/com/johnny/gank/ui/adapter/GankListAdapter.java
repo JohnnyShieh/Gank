@@ -46,7 +46,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class TodayGankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class GankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int VIEW_TYPE_NORMAL = 1;
     private static final int VIEW_TYPE_HEADER = 2;
@@ -62,7 +62,7 @@ public class TodayGankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onClickGirlItem(View view, GankGirlImageItem girlItem);
     }
 
-    public TodayGankAdapter(Fragment fragment) {
+    public GankListAdapter(Fragment fragment) {
         mFragment = fragment;
     }
 
