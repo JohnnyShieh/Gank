@@ -20,7 +20,10 @@ import com.johnny.gank.di.component.DaggerMainActivityComponent;
 import com.johnny.gank.di.component.MainActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
 import com.johnny.gank.ui.fragment.AndroidFragment;
+import com.johnny.gank.ui.fragment.FrontEndFragment;
+import com.johnny.gank.ui.fragment.IOSFragment;
 import com.johnny.gank.ui.fragment.TodayGankFragment;
+import com.johnny.gank.ui.fragment.VideoFragment;
 import com.johnny.gank.ui.fragment.WelfareFragment;
 
 import android.os.Bundle;
@@ -119,11 +122,11 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_android) {
             replaceFragment(R.id.fragment_container, AndroidFragment.getInstance(), AndroidFragment.TAG);
         } else if (id == R.id.nav_ios) {
-
+            replaceFragment(R.id.fragment_container, IOSFragment.getInstance(), IOSFragment.TAG);
         } else if (id == R.id.nav_front_end) {
-
+            replaceFragment(R.id.fragment_container, FrontEndFragment.getInstance(), FrontEndFragment.TAG);
         }else if (id == R.id.nav_video) {
-
+            replaceFragment(R.id.fragment_container, VideoFragment.getInstance(), VideoFragment.TAG);
         } else if (id == R.id.nav_all) {
 
         } else if (id == R.id.nav_about) {

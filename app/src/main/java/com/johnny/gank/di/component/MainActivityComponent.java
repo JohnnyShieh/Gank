@@ -35,4 +35,10 @@ public interface MainActivityComponent extends ActivityComponent {
     TodayGankFragmentComponent todayGankFragmentComponent();
 
     AndroidFragmentComponent androidFragmentComponent();
+
+    IOSFragmentComponent iosFragmentComponent();
+
+    FrontEndFragmentComponent frontEndFragmentComponent();
+
+    VideoFramentComponent videoFragmentComponent();
 }

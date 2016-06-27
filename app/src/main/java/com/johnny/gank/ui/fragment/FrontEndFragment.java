@@ -1,6 +1,6 @@
 package com.johnny.gank.ui.fragment;
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@ package com.johnny.gank.ui.fragment;
  */
 
 import com.johnny.gank.action.ActionType;
-import com.johnny.gank.action.AndroidActionCreator;
+import com.johnny.gank.action.FrontEndActionCreator;
 import com.johnny.gank.action.RxError;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.di.component.AndroidFragmentComponent;
+import com.johnny.gank.di.component.FrontEndFragmentComponent;
 import com.johnny.gank.dispatcher.Dispatcher;
-import com.johnny.gank.store.AndroidStore;
+import com.johnny.gank.store.FrontEndStore;
+import com.johnny.gank.store.IOSStore;
 import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
@@ -43,21 +44,21 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class AndroidFragment extends CategoryGankFragment {
+public class FrontEndFragment extends CategoryGankFragment {
 
-    public static final String TAG = AndroidFragment.class.getSimpleName();
+    public static final String TAG = FrontEndFragment.class.getSimpleName();
 
-    @Inject AndroidStore mStore;
-    @Inject AndroidActionCreator mActionCreator;
+    @Inject FrontEndStore mStore;
+    @Inject FrontEndActionCreator mActionCreator;
     @Inject Dispatcher mDispatcher;
 
-    protected AndroidFragmentComponent mComponent;
+    private FrontEndFragmentComponent mComponent;
 
-    private static AndroidFragment sInstance;
+    private static FrontEndFragment sInstance;
 
-    public static AndroidFragment getInstance() {
+    public static FrontEndFragment getInstance() {
         if(null == sInstance) {
-            sInstance = new AndroidFragment();
+            sInstance = new FrontEndFragment();
         }
         return sInstance;
     }
@@ -70,7 +71,7 @@ public class AndroidFragment extends CategoryGankFragment {
     }
 
     private void initInjector() {
-        mComponent = ((MainActivity)getActivity()).getMainActivityComponent().androidFragmentComponent();
+        mComponent = ((MainActivity)getActivity()).getMainActivityComponent().frontEndFragmentComponent();
         mComponent.inject(this);
     }
 
@@ -100,18 +101,18 @@ public class AndroidFragment extends CategoryGankFragment {
 
     @Override
     protected void refreshList() {
-        mActionCreator.getAndroidList(1);
+        mActionCreator.getFrontEndList(1);
     }
 
     @Override
     protected void loadMore() {
-        mActionCreator.getAndroidList(mAdapter.getCurPage() + 1);
+        mActionCreator.getFrontEndList(mAdapter.getCurPage() + 1);
     }
 
     @Override
     public void onRxStoreChanged(@NonNull RxStoreChange change) {
         switch (change.getStoreId()) {
-            case AndroidStore.ID:
+            case FrontEndStore.ID:
                 if(1 == mStore.getPage()) {
                     vRefreshLayout.setRefreshing(false);
                 }
@@ -127,7 +128,7 @@ public class AndroidFragment extends CategoryGankFragment {
     @Override
     public void onRxError(@NonNull RxError error) {
         switch (error.getAction().getType()) {
-            case ActionType.GET_ANDROID_LIST:
+            case ActionType.GET_FRONT_END_LIST:
                 vRefreshLayout.setRefreshing(false);
                 mLoadingMore = false;
                 break;

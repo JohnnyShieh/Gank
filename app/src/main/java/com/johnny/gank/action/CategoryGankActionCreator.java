@@ -36,7 +36,7 @@ import rx.schedulers.Schedulers;
  */
 abstract class CategoryGankActionCreator extends RxActionCreator{
 
-    private static final int DEFAULT_PAGE_COUNT = 10;
+    private static final int DEFAULT_PAGE_COUNT = 17;
 
     public CategoryGankActionCreator(Dispatcher dispatcher,
         SubscriptionManager manager) {
