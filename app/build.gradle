@@ -55,5 +55,7 @@ dependencies {
     compile dependencies['adapterRxjava']
     compile dependencies['gson']
     compile dependencies['glide']
+    debugCompile dependencies['leakcanary']
+    releaseCompile dependencies['leakcanaryNoOp']
     provided dependencies['javaxAnnotation']
 }

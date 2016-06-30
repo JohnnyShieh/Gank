@@ -19,6 +19,7 @@ import com.johnny.gank.di.component.AppComponent;
 import com.johnny.gank.di.component.DaggerAppComponent;
 import com.johnny.gank.di.module.AppModule;
 import com.johnny.gank.util.AppUtil;
+import com.squareup.leakcanary.LeakCanary;
 
 import android.app.Application;
 
@@ -36,6 +37,7 @@ public class GankApplication extends Application{
 
         AppUtil.init(this);
         initInjector();
+        LeakCanary.install(this);
     }
 
     private void initInjector() {
