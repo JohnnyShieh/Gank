@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHolder> {
+public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Fragment mFragment;
     private List<GankNormalItem> mWelfareList;
@@ -51,6 +51,9 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHold
     }
 
     public void updateData(int page, List<GankNormalItem> list) {
+        if(null == list || 0 == list.size()) {
+            return;
+        }
         if(page - mCurPage > 1) {
             return;
         }
@@ -73,19 +76,20 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.ViewHold
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_welfare, parent, false);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        ViewHolder vh = (ViewHolder) holder;
         GankNormalItem welfare = mWelfareList.get(position);
         Glide.with(mFragment)
             .load(welfare.url)
             .centerCrop()
             .placeholder(R.color.imageColorPlaceholder)
-            .into(holder.vGirlImage);
+            .into(vh.vGirlImage);
     }
 
     @Override

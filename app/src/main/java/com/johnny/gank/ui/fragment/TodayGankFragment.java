@@ -60,19 +60,14 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
 
     private TodayGankFragmentComponent mComponent;
 
-    public static TodayGankFragment sInstance;
-
     @Inject TodayGankStore mStore;
     @Inject TodayGankActionCreator mActionCreator;
     @Inject Dispatcher mDispatcher;
 
     private GankListAdapter mAdapter;
 
-    public static TodayGankFragment getInstance() {
-        if(null == sInstance) {
-            sInstance = new TodayGankFragment();
-        }
-        return sInstance;
+    public static TodayGankFragment newInstance() {
+        return new TodayGankFragment();
     }
 
     @Override
@@ -91,7 +86,7 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-        View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, null);
+        View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false);
         ButterKnife.bind(this, contentView);
 
         vRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);

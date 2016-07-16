@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        replaceFragment(R.id.fragment_container, TodayGankFragment.getInstance(), TodayGankFragment.TAG);
+        replaceFragment(R.id.fragment_container, TodayGankFragment.newInstance(), TodayGankFragment.TAG);
     }
 
     private void initInjector() {
@@ -116,21 +116,41 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_today) {
-            replaceFragment(R.id.fragment_container, TodayGankFragment.getInstance(), TodayGankFragment.TAG);
+            if(null == getFragmentManager().findFragmentByTag(TodayGankFragment.TAG)) {
+                replaceFragment(R.id.fragment_container, TodayGankFragment.newInstance(), TodayGankFragment.TAG);
+                setTitle(R.string.app_name);
+            }
         } else if (id == R.id.nav_welfare) {
-            replaceFragment(R.id.fragment_container, WelfareFragment.getInstance(), WelfareFragment.TAG);
+            if(null == getFragmentManager().findFragmentByTag(WelfareFragment.TAG)) {
+                replaceFragment(R.id.fragment_container, WelfareFragment.newInstance(), WelfareFragment.TAG);
+                setTitle(R.string.nav_welfare);
+            }
         } else if (id == R.id.nav_android) {
-            replaceFragment(R.id.fragment_container, AndroidFragment.getInstance(), AndroidFragment.TAG);
+            if(null == getFragmentManager().findFragmentByTag(AndroidFragment.TAG)) {
+                replaceFragment(R.id.fragment_container, AndroidFragment.newInstance(), AndroidFragment.TAG);
+                setTitle(R.string.nav_android);
+            }
         } else if (id == R.id.nav_ios) {
-            replaceFragment(R.id.fragment_container, IOSFragment.getInstance(), IOSFragment.TAG);
+            if(null == getFragmentManager().findFragmentByTag(IOSFragment.TAG)) {
+                replaceFragment(R.id.fragment_container, IOSFragment.newInstance(), IOSFragment.TAG);
+                setTitle(R.string.nav_ios);
+            }
         } else if (id == R.id.nav_front_end) {
-            replaceFragment(R.id.fragment_container, FrontEndFragment.getInstance(), FrontEndFragment.TAG);
+            if(null == getFragmentManager().findFragmentByTag(FrontEndFragment.TAG)) {
+                replaceFragment(R.id.fragment_container, FrontEndFragment.newInstance(), FrontEndFragment.TAG);
+                setTitle(R.string.nav_front_end);
+            }
         }else if (id == R.id.nav_video) {
-            replaceFragment(R.id.fragment_container, VideoFragment.getInstance(), VideoFragment.TAG);
+            if(null == getFragmentManager().findFragmentByTag(VideoFragment.TAG)) {
+                replaceFragment(R.id.fragment_container, VideoFragment.newInstance(), VideoFragment.TAG);
+                setTitle(R.string.nav_video);
+            }
         } else if (id == R.id.nav_all) {
 
+            setTitle(R.string.nav_all);
         } else if (id == R.id.nav_about) {
 
+            setTitle(R.string.nav_about);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

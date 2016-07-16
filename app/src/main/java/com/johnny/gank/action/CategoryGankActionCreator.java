@@ -22,6 +22,7 @@ import com.johnny.gank.dispatcher.Dispatcher;
 import com.johnny.gank.util.SubscriptionManager;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -66,6 +67,7 @@ abstract class CategoryGankActionCreator extends RxActionCreator{
                     return GankNormalItem.newGankList(gankData.results);
                 }
             })
+            .delay(500, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Action1<List<GankNormalItem>>() {

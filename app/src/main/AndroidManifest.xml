@@ -47,7 +47,12 @@
         <activity
             android:name=".ui.activity.WebviewActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            />
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"
+                />
+        </activity>
     </application>
 
 </manifest>

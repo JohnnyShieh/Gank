@@ -26,6 +26,7 @@ import com.johnny.gank.store.VideoStore;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.CategoryGankAdapter;
+import com.johnny.gank.ui.widget.LoadMoreView;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -53,13 +54,8 @@ public class VideoFragment extends CategoryGankFragment {
 
     private VideoFramentComponent mComponent;
 
-    private static VideoFragment sInstance;
-
-    public static VideoFragment getInstance() {
-        if(null == sInstance) {
-            sInstance = new VideoFragment();
-        }
-        return sInstance;
+    public static VideoFragment newInstance() {
+        return new VideoFragment();
     }
 
     @Override
@@ -105,6 +101,7 @@ public class VideoFragment extends CategoryGankFragment {
 
     @Override
     protected void loadMore() {
+        vLoadMore.setStatus(LoadMoreView.STATUS_LOADING);
         mActionCreator.getVideoList(mAdapter.getCurPage() + 1);
     }
 
@@ -115,9 +112,9 @@ public class VideoFragment extends CategoryGankFragment {
                 if(1 == mStore.getPage()) {
                     vRefreshLayout.setRefreshing(false);
                 }
+                vLoadMore.setStatus(LoadMoreView.STATUS_INIT);
                 mAdapter.updateData(mStore.getPage(), mStore.getGankList());
                 mLoadingMore = false;
-                Snackbar.make(vWelfareRecycler, "Loaded Success!", Snackbar.LENGTH_SHORT).show();
                 break;
             default:
                 break;
@@ -130,6 +127,7 @@ public class VideoFragment extends CategoryGankFragment {
             case ActionType.GET_VIDEO_LIST:
                 vRefreshLayout.setRefreshing(false);
                 mLoadingMore = false;
+                vLoadMore.setStatus(LoadMoreView.STATUS_FAIL);
                 break;
             default:
                 break;

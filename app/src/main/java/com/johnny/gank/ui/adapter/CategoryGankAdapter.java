@@ -58,6 +58,9 @@ public class CategoryGankAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public void updateData(int page, List<GankNormalItem> list) {
+        if(null == list || list.size() == 0) {
+            return;
+        }
         if(page - mCurPage > 1) {
             return;
         }

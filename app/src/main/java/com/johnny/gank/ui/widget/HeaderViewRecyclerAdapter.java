@@ -33,15 +33,13 @@ public class HeaderViewRecyclerAdapter extends WrapperRecyclerAdapter {
     public static final int VIEW_TYPE_FOOTER = 1 << 7 + 1;
     public static final int VIEW_TYPE_LOADING = 1 << 7 + 2;
 
-    private final RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
-
     private View mHeaderView;
     private View mFooterView;
     private View mLoadingView;
 
     public HeaderViewRecyclerAdapter(
         RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
-        mAdapter = adapter;
+        super(adapter);
     }
 
     public int getHeaderViewCount() {
@@ -195,11 +193,6 @@ public class HeaderViewRecyclerAdapter extends WrapperRecyclerAdapter {
             return VIEW_TYPE_FOOTER;
         }
         return mAdapter.getItemViewType(position);
-    }
-
-    @Override
-    public RecyclerView.Adapter<RecyclerView.ViewHolder> getWrappedAdapter() {
-        return mAdapter;
     }
 
     private static class HeaderViewHolder extends RecyclerView.ViewHolder {

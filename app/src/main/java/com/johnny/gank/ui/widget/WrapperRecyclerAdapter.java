@@ -26,10 +26,102 @@ import android.support.v7.widget.RecyclerView;
  */
 public abstract class WrapperRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    protected final RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
+
+    public WrapperRecyclerAdapter(
+        RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
+        mAdapter = adapter;
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount) {
+                notifyItemRangeChanged(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                notifyItemRangeInserted(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
+                notifyItemRangeChanged(positionStart, itemCount, payload);
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                notifyItemRangeRemoved(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                notifyItemMoved(fromPosition, toPosition);
+            }
+        });
+    }
+
     /**
      * Returns the adapter wrapped by this recycler adapter.
      *
      * @return The {@link android.support.v7.widget.RecyclerView.Adapter} wrapped by this adapter.
      */
-    public abstract RecyclerView.Adapter<RecyclerView.ViewHolder> getWrappedAdapter();
+    public RecyclerView.Adapter<RecyclerView.ViewHolder> getWrappedAdapter() {
+        return mAdapter;
+    }
+
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        mAdapter.setHasStableIds(hasStableIds);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return mAdapter.getItemId(position);
+    }
+
+    @Override
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        mAdapter.onViewRecycled(holder);
+    }
+
+    @Override
+    public boolean onFailedToRecycleView(RecyclerView.ViewHolder holder) {
+        return mAdapter.onFailedToRecycleView(holder);
+    }
+
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        mAdapter.onViewAttachedToWindow(holder);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+        mAdapter.onViewDetachedFromWindow(holder);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        mAdapter.onAttachedToRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        mAdapter.onDetachedFromRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void registerAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
+        mAdapter.registerAdapterDataObserver(observer);
+    }
+
+    @Override
+    public void unregisterAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
+        mAdapter.unregisterAdapterDataObserver(observer);
+    }
+
+
 }

@@ -19,8 +19,10 @@ import com.johnny.gank.R;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -65,6 +67,7 @@ public class LoadMoreView extends FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.load_more_content, this);
 
         ButterKnife.bind(this);
+        setStatus(mStatus);
     }
 
     public int getStatus() {

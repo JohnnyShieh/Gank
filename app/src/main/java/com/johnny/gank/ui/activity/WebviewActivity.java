@@ -26,6 +26,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -116,6 +118,17 @@ public class WebviewActivity extends AppCompatActivity implements SwipeRefreshLa
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (android.R.id.home == item.getItemId()) {
+            if(vWebView.canGoBack()) {
+                vWebView.goBack();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onRefresh() {
         vWebView.reload();
     }
@@ -137,6 +150,11 @@ public class WebviewActivity extends AppCompatActivity implements SwipeRefreshLa
     protected void onDestroy() {
         super.onDestroy();
         if(null != vWebView) {
+            // After Android 5.1, there has a problem in Webview:
+            // if onDetach is called after destroy, AwComponentCallbacks object will be leaked.
+            if(null != vWebView.getParent()) {
+                ((ViewGroup)vWebView.getParent()).removeView(vWebView);
+            }
             vWebView.destroy();
         }
         ButterKnife.unbind(this);

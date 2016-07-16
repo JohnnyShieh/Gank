@@ -26,6 +26,7 @@ import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.CategoryGankAdapter;
+import com.johnny.gank.ui.widget.LoadMoreView;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -53,13 +54,8 @@ public class AndroidFragment extends CategoryGankFragment {
 
     protected AndroidFragmentComponent mComponent;
 
-    private static AndroidFragment sInstance;
-
-    public static AndroidFragment getInstance() {
-        if(null == sInstance) {
-            sInstance = new AndroidFragment();
-        }
-        return sInstance;
+    public static AndroidFragment newInstance() {
+        return new AndroidFragment();
     }
 
     @Override
@@ -105,6 +101,7 @@ public class AndroidFragment extends CategoryGankFragment {
 
     @Override
     protected void loadMore() {
+        vLoadMore.setStatus(LoadMoreView.STATUS_LOADING);
         mActionCreator.getAndroidList(mAdapter.getCurPage() + 1);
     }
 
@@ -117,7 +114,7 @@ public class AndroidFragment extends CategoryGankFragment {
                 }
                 mAdapter.updateData(mStore.getPage(), mStore.getGankList());
                 mLoadingMore = false;
-                Snackbar.make(vWelfareRecycler, "Loaded Success!", Snackbar.LENGTH_SHORT).show();
+                vLoadMore.setStatus(LoadMoreView.STATUS_INIT);
                 break;
             default:
                 break;
@@ -130,6 +127,7 @@ public class AndroidFragment extends CategoryGankFragment {
             case ActionType.GET_ANDROID_LIST:
                 vRefreshLayout.setRefreshing(false);
                 mLoadingMore = false;
+                vLoadMore.setStatus(LoadMoreView.STATUS_FAIL);
                 break;
             default:
                 break;

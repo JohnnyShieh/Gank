@@ -56,6 +56,7 @@ public class LoadingIndicatorView extends View {
         mPaint.setAntiAlias(true);
 
         mIndicator = new BallSpinFadeLoadingIndicator();
+        mIndicator.setTarget(this);
     }
 
     @Override
@@ -111,14 +112,14 @@ public class LoadingIndicatorView extends View {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if(getVisibility() == VISIBLE) {
-            mIndicator.setAnimationStatus(BaseLoadingIndicator.STATUS_END);
+            mIndicator.setAnimationStatus(BaseLoadingIndicator.STATUS_START);
         }
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mIndicator.setAnimationStatus(BaseLoadingIndicator.STATUS_CACEL);
+        mIndicator.setAnimationStatus(BaseLoadingIndicator.STATUS_CANCEL);
     }
 
     private void applyAnimation() {

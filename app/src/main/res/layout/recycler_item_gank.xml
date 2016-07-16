@@ -30,6 +30,7 @@
         android:id="@+id/align_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_gank_title"
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_dot"
         />
@@ -37,7 +38,6 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_gank_title"
         android:paddingTop="@dimen/padding_gank_title"
         android:paddingBottom="@dimen/padding_gank_title"
         style="@style/TitleTextAppearance"

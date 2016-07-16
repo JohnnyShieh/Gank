@@ -33,10 +33,10 @@ public abstract class BaseLoadingIndicator {
 
     public static final int STATUS_START = 1;
     public static final int STATUS_END = 2;
-    public static final int STATUS_CACEL = -1;
+    public static final int STATUS_CANCEL = -1;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({STATUS_START, STATUS_END, STATUS_CACEL})
+    @IntDef({STATUS_START, STATUS_END, STATUS_CANCEL})
     public @interface AnimStatus{}
 
     private WeakReference<View> mTarget;
@@ -109,7 +109,7 @@ public abstract class BaseLoadingIndicator {
                         animator.end();
                     }
                     break;
-                case STATUS_CACEL:
+                case STATUS_CANCEL:
                     if (isRunning){
                         animator.cancel();
                     }

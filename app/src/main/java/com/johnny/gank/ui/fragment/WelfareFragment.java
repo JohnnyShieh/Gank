@@ -26,6 +26,8 @@ import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.store.WelfareStore;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.adapter.WelfareAdapter;
+import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter;
+import com.johnny.gank.ui.widget.LoadMoreView;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -56,6 +58,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
 
     @Bind(R.id.refresh_layout) SwipeRefreshLayout vRefreshLayout;
     @Bind(R.id.recycler_view) RecyclerView vWelfareRecycler;
+    private LoadMoreView vLoadMore;
 
     private GridLayoutManager mLayoutManager;
 
@@ -69,13 +72,8 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
 
     private boolean mLoadingMore = false;
 
-    private static WelfareFragment sInstance;
-
-    public static WelfareFragment getInstance() {
-        if(null == sInstance) {
-            sInstance = new WelfareFragment();
-        }
-        return sInstance;
+    public static WelfareFragment newInstance() {
+        return new WelfareFragment();
     }
 
     @Override
@@ -103,8 +101,12 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
         vWelfareRecycler.setLayoutManager(mLayoutManager);
         vWelfareRecycler.setHasFixedSize(true);
         vWelfareRecycler.addOnScrollListener(mScrollListener);
+
+        vLoadMore = (LoadMoreView) inflater.inflate(R.layout.load_more, vWelfareRecycler, false);
         mAdapter = new WelfareAdapter(this);
-        vWelfareRecycler.setAdapter(mAdapter);
+        HeaderViewRecyclerAdapter adapter = new HeaderViewRecyclerAdapter(mAdapter);
+        adapter.setLoadingView(vLoadMore);
+        vWelfareRecycler.setAdapter(adapter);
 
         mDispatcher.subscribeRxStore(mStore);
         mDispatcher.subscribeRxView(this);
@@ -136,6 +138,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
 
     private void loadMore() {
         mLoadingMore = true;
+        vLoadMore.setStatus(LoadMoreView.STATUS_LOADING);
         mActionCreator.getWelfareList(mAdapter.getCurPage() + 1);
     }
 
@@ -148,7 +151,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
                 }
                 mAdapter.updateData(mStore.getPage(), mStore.getGankList());
                 mLoadingMore = false;
-                Snackbar.make(vWelfareRecycler, "Loaded Success!", Snackbar.LENGTH_SHORT).show();
+                vLoadMore.setStatus(LoadMoreView.STATUS_INIT);
                 break;
             default:
                 break;
@@ -161,6 +164,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
             case ActionType.GET_WELFARE_LIST:
                 vRefreshLayout.setRefreshing(false);
                 mLoadingMore = false;
+                vLoadMore.setStatus(LoadMoreView.STATUS_FAIL);
                 break;
             default:
                 break;

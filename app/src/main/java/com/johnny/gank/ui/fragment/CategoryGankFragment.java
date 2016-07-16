@@ -18,6 +18,8 @@ package com.johnny.gank.ui.fragment;
 import com.johnny.gank.R;
 import com.johnny.gank.dispatcher.RxViewDispatch;
 import com.johnny.gank.ui.adapter.CategoryGankAdapter;
+import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter;
+import com.johnny.gank.ui.widget.LoadMoreView;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ public abstract class CategoryGankFragment extends Fragment implements RxViewDis
 
     @Bind(R.id.refresh_layout) SwipeRefreshLayout vRefreshLayout;
     @Bind(R.id.recycler_view) RecyclerView vWelfareRecycler;
+    protected LoadMoreView vLoadMore;
 
     protected LinearLayoutManager mLayoutManager;
 
@@ -59,7 +62,11 @@ public abstract class CategoryGankFragment extends Fragment implements RxViewDis
         vWelfareRecycler.setHasFixedSize(true);
         vWelfareRecycler.addOnScrollListener(mScrollListener);
         mAdapter = new CategoryGankAdapter();
-        vWelfareRecycler.setAdapter(mAdapter);
+
+        vLoadMore = (LoadMoreView) inflater.inflate(R.layout.load_more, vWelfareRecycler, false);
+        HeaderViewRecyclerAdapter adapter = new HeaderViewRecyclerAdapter(mAdapter);
+        adapter.setLoadingView(vLoadMore);
+        vWelfareRecycler.setAdapter(adapter);
 
         return contentView;
     }
