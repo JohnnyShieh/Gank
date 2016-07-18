@@ -179,6 +179,17 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
 
     private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            boolean reachBottom = mLayoutManager.findLastCompletelyVisibleItemPosition()
+                >= mLayoutManager.getItemCount() - 1;
+            if(newState == RecyclerView.SCROLL_STATE_IDLE && !mLoadingMore && reachBottom) {
+                mLoadingMore = true;
+                loadMore();
+            }
+        }
+
+        @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             boolean reachBottom = mLayoutManager.findLastCompletelyVisibleItemPosition()
