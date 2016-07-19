@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+ * Copyright (C) 2016 Johnny Shieh Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="30dp"
+        android:height="30dp"
+        android:viewportWidth="900.000000"
+        android:viewportHeight="900.000000">
+
+    <group
+        android:translateY="900.000000"
+        android:scaleX="0.100000"
+        android:scaleY="-0.100000">
+        <path
+            android:fillColor="#333333"
+            android:strokeWidth="1"
+            android:pathData="M1220 6579 c-25 -5 -66 -12 -92 -15 -26 -4 -53 -13 -59 -20 -6 -8 -19 -14 -29 -14
+-10 0 -23 -7 -30 -15 -7 -8 -18 -15 -26 -15 -17 0 -137 -117 -155 -152 -37 -70 -57
+-117 -70 -163 -12 -42 -14 -307 -14 -1685 0 -1679 0 -1689 36 -1750 5 -8 11 -21 14
+-27 10 -26 16 -39 29 -60 18 -32 127 -142 151 -154 11 -5 28 -13 38 -19 9 -5 25
+-15 35 -20 81 -47 -57 -45 3227 -45 2630 0 3097 2 3140 14 46 13 95 34 162 70 34
+18 153 139 153 155 0 8 7 19 15 26 8 7 15 20 15 30 0 10 6 23 14 29 7 6 16 33 19
+59 4 26 11 70 16 97 5 28 10 166 10 308 l1 257 48 0 c27 0 57 6 68 15 10 8 29 15
+40 15 12 0 27 7 34 15 7 8 18 15 25 15 17 0 145 138 145 157 0 7 6 24 14 36 8 12
+18 60 23 107 10 102 9 1280 -1 1365 -10 82 -59 176 -121 232 -27 25 -59 49 -70 54
+-11 5 -27 13 -35 18 -30 17 -86 34 -127 38 -24 3 -43 10 -43 17 -1 6 -1 118 0 249
+1 246 -14 387 -46 449 -8 14 -14 31 -14 37 0 26 -103 145 -164 192 -36 27 -70 49
+-77 49 -6 0 -23 6 -37 14 -15 8 -67 21 -117 30 -81 15 -380 16 -3095 15 -1699 -1
+-3025 -5 -3050 -10z m6147 -433 l28 -24 5 -489 5 -488 200 -3 c144 -2 201 -6 207
+-15 4 -6 8 -290 8 -629 0 -611 0 -617 -20 -628 -13 -7 -87 -11 -198 -10 -97 1 -183
+1 -189 1 -10 -1 -13 -104 -13 -481 0 -479 0 -481 -22 -510 l-22 -30 -3075 0 -3075
+0 -23 22 -23 21 0 1621 0 1620 28 23 27 22 3062 1 3062 0 28 -24z" />
+        <path
+            android:fillColor="#333333"
+            android:strokeWidth="1"
+            android:pathData="M1580 4505 l0 -1245 2700 0 2700 0 -2 1243 -3 1242 -2697 3 -2698 2 0 -1245z" />
+    </group>
+</vector>

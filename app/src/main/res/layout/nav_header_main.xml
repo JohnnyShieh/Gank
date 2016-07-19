@@ -31,9 +31,9 @@
         android:gravity="center_vertical"
         >
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/sym_def_app_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/app_icon"
             android:id="@+id/imageView"/>
 
         <TextView
