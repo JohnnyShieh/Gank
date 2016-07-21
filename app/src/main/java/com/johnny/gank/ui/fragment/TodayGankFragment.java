@@ -27,6 +27,7 @@ import com.johnny.gank.dispatcher.RxViewDispatch;
 import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.store.TodayGankStore;
 import com.johnny.gank.ui.activity.MainActivity;
+import com.johnny.gank.ui.activity.PictureActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.GankListAdapter;
 
@@ -73,10 +74,10 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        initInjector();
     }
 
+    // the method can not be call in onCreate
+    // because getMainActivityComponent will be null when MainActivity is restore from last save status.
     private void initInjector() {
         mComponent = ((MainActivity)getActivity()).getMainActivityComponent().todayGankFragmentComponent();
         mComponent.inject(this);
@@ -88,6 +89,7 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
         Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false);
         ButterKnife.bind(this, contentView);
+        initInjector();
 
         vRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
         vRefreshLayout.setOnRefreshListener(this);
@@ -162,6 +164,8 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
 
     @Override
     public void onClickGirlItem(View view, GankGirlImageItem girlItem) {
-
+        if(null != girlItem && !TextUtils.isEmpty(girlItem.imgUrl)) {
+            startActivity(PictureActivity.newIntent(mComponent.getActivity(), girlItem.imgUrl));
+        }
     }
 }

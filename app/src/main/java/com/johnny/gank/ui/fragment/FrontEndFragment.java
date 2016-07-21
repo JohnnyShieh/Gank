@@ -62,8 +62,6 @@ public class FrontEndFragment extends CategoryGankFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        initInjector();
     }
 
     private void initInjector() {
@@ -83,6 +81,7 @@ public class FrontEndFragment extends CategoryGankFragment {
             }
         });
 
+        initInjector();
         mDispatcher.subscribeRxStore(mStore);
         mDispatcher.subscribeRxView(this);
         return contentView;

@@ -19,12 +19,14 @@ import com.johnny.gank.R;
 import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.RxError;
 import com.johnny.gank.action.WelfareActionCreator;
+import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.WelfareFragmentComponent;
 import com.johnny.gank.dispatcher.Dispatcher;
 import com.johnny.gank.dispatcher.RxViewDispatch;
 import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.store.WelfareStore;
 import com.johnny.gank.ui.activity.MainActivity;
+import com.johnny.gank.ui.activity.PictureActivity;
 import com.johnny.gank.ui.adapter.WelfareAdapter;
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
@@ -79,8 +81,6 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        initInjector();
     }
 
     private void initInjector() {
@@ -94,6 +94,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
         Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false);
         ButterKnife.bind(this, contentView);
+        initInjector();
 
         vRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
         vRefreshLayout.setOnRefreshListener(this);
@@ -104,6 +105,7 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
 
         vLoadMore = (LoadMoreView) inflater.inflate(R.layout.load_more, vWelfareRecycler, false);
         mAdapter = new WelfareAdapter(this);
+        mAdapter.setItemClickListener(mItemClickListener);
         HeaderViewRecyclerAdapter adapter = new HeaderViewRecyclerAdapter(mAdapter);
         adapter.setLoadingView(vLoadMore);
         vWelfareRecycler.setAdapter(adapter);
@@ -196,6 +198,15 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
                 >= mLayoutManager.getItemCount() - 1;
             if(!mLoadingMore && reachBottom) {
                 loadMore();
+            }
+        }
+    };
+
+    private WelfareAdapter.OnItemClickListener mItemClickListener = new WelfareAdapter.OnItemClickListener() {
+        @Override
+        public void onClickItem(View view, GankNormalItem item) {
+            if(null != item) {
+                startActivity(PictureActivity.newIntent(mComponent.getActivity(), item.page, item._id));
             }
         }
     };

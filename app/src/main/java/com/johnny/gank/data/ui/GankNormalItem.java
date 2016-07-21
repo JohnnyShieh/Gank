@@ -29,6 +29,8 @@ import java.util.Objects;
  */
 public class GankNormalItem extends Gank implements GankItem {
 
+    public int page = -1;
+
     public static GankNormalItem newGankBean(Gank gank) {
         GankNormalItem gankBean = new GankNormalItem();
         gankBean._id = gank._id;
@@ -47,10 +49,23 @@ public class GankNormalItem extends Gank implements GankItem {
         if(null == gankList || gankList.size() == 0) {
             return null;
         }
-        List<GankNormalItem> gankBeanList = new ArrayList<>(gankList.size());
+        List<GankNormalItem> itemList = new ArrayList<>(gankList.size());
         for (Gank gank : gankList) {
-            gankBeanList.add(newGankBean(gank));
+            itemList.add(newGankBean(gank));
         }
-        return gankBeanList;
+        return itemList;
+    }
+
+    public static List<GankNormalItem> newGankList(List<Gank> gankList, int pageIndex) {
+        if(null == gankList || gankList.size() == 0) {
+            return null;
+        }
+        List<GankNormalItem> itemList = new ArrayList<>(gankList.size());
+        for (Gank gank : gankList) {
+            GankNormalItem item = newGankBean(gank);
+            item.page = pageIndex;
+            itemList.add(item);
+        }
+        return itemList;
     }
 }

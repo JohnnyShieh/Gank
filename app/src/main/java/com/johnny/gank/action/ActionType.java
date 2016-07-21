@@ -28,4 +28,5 @@ public interface ActionType {
     String GET_FRONT_END_LIST = "get_front_end_list";
     String GET_VIDEO_LIST = "get_video_list";
     String GET_TODAY_GANK = "get_today_gank";
+    String GET_PICTURE_LIST = "get_picture_list";
 }

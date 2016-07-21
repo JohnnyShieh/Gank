@@ -21,6 +21,7 @@ import java.util.Objects;
  * 干货数据
  *
  * 示例:
+ * {
  * "_id": "5715097267765974f5e27db0",
  * "createdAt": "2016-04-19T00:21:06.420Z",
  * "desc": "\u6c34\u5e73\u8fdb\u5ea6\u6761",
@@ -30,13 +31,12 @@ import java.util.Objects;
  * "url": "https://github.com/MasayukiSuda/AnimateHorizontalProgressBar",
  * "used": true,
  * "who": "Jason"
+ * }
  *
  * @author Johnny Shieh
  * @version 1.0
  */
 public class Gank {
-
-    private static final String TYPE_CATEGORY_HEADER = "category_header";
 
     public String _id;
     public String createdAt;
@@ -66,13 +66,4 @@ public class Gank {
         return Objects.hash(_id, type);
     }
 
-    public boolean isCategoryHeader() {
-        return Objects.equals(type, TYPE_CATEGORY_HEADER);
-    }
-
-    public static Gank newCategoryHeader(String categoryName) {
-        Gank category = new Gank();
-        category.desc = categoryName;
-        return category;
-    }
 }

@@ -1,4 +1,5 @@
-package com.johnny.gank.di.component;
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -13,29 +14,15 @@ package com.johnny.gank.di.component;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-
-import com.johnny.gank.di.PerFragment;
-import com.johnny.gank.di.module.ActivityModule;
-import com.johnny.gank.di.module.AppModule;
-import com.johnny.gank.ui.fragment.WelfareFragment;
-
-import android.app.Activity;
-
-import dagger.Component;
-import dagger.Subcomponent;
-
-/**
- * description
- *
- * @author Johnny Shieh (JohnnyShieh17@gmail.com)
- * @version 1.0
- */
-@PerFragment
-@Subcomponent
-public interface WelfareFragmentComponent {
-
-    void inject(WelfareFragment welfareFragment);
-
-    Activity getActivity();
-}
+ */-->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        />
+</FrameLayout>

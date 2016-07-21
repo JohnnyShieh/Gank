@@ -64,10 +64,9 @@ abstract class CategoryGankActionCreator extends RxActionCreator{
                     if(null == gankData || null == gankData.results || 0 == gankData.results.size()) {
                         return null;
                     }
-                    return GankNormalItem.newGankList(gankData.results);
+                    return GankNormalItem.newGankList(gankData.results, page);
                 }
             })
-            .delay(500, TimeUnit.MILLISECONDS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Action1<List<GankNormalItem>>() {

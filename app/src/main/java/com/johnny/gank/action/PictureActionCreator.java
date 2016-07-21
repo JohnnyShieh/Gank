@@ -1,4 +1,4 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.action;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,15 +15,11 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.PerFragment;
-import com.johnny.gank.di.module.ActivityModule;
-import com.johnny.gank.di.module.AppModule;
-import com.johnny.gank.ui.fragment.WelfareFragment;
+import com.johnny.gank.data.GankType;
+import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.util.SubscriptionManager;
 
-import android.app.Activity;
-
-import dagger.Component;
-import dagger.Subcomponent;
+import javax.inject.Inject;
 
 /**
  * description
@@ -31,11 +27,20 @@ import dagger.Subcomponent;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-@PerFragment
-@Subcomponent
-public interface WelfareFragmentComponent {
+public class PictureActionCreator extends CategoryGankActionCreator {
 
-    void inject(WelfareFragment welfareFragment);
+    @Inject
+    public PictureActionCreator(Dispatcher dispatcher,
+        SubscriptionManager manager) {
+        super(dispatcher, manager);
+    }
 
-    Activity getActivity();
+    @Override
+    protected String getActionId() {
+        return ActionType.GET_PICTURE_LIST;
+    }
+
+    public void getPictureList(final int page) {
+        getGankList(GankType.WELFARE, page);
+    }
 }

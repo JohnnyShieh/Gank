@@ -46,8 +46,18 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private int mCurPage = 0;
 
+    private OnItemClickListener mItemClickListener;
+
+    public interface OnItemClickListener {
+        void onClickItem(View view, GankNormalItem item);
+    }
+
     public WelfareAdapter(Fragment fragment) {
         mFragment = fragment;
+    }
+
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
     }
 
     public void updateData(int page, List<GankNormalItem> list) {
@@ -78,12 +88,25 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_welfare, parent, false);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Object tag = v.getTag();
+                if(null != tag && tag instanceof Integer) {
+                    int position = (Integer) tag;
+                    if(null != mItemClickListener) {
+                        mItemClickListener.onClickItem(v, mWelfareList.get(position));
+                    }
+                }
+            }
+        });
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         ViewHolder vh = (ViewHolder) holder;
+        holder.itemView.setTag(position);
         GankNormalItem welfare = mWelfareList.get(position);
         Glide.with(mFragment)
             .load(welfare.url)
