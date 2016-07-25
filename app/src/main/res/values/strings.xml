@@ -43,4 +43,13 @@
     <string name="load_fail">Load failed, Please slide up to try again</string>
     <string name="load_no_more">There is nothing more</string>
 
+    <!-- about page -->
+    <string name="about_introduction">Introduction</string>
+    <string name="about_developer">Developer</string>
+    <string name="developer_name">Johnny Shieh</string>
+    <string name="developer_github">https://github.com/JohnnyShieh</string>
+    <string name="developer_blog">http://johnnyshieh.github.io/</string>
+    <string name="open_source_library">Open Source Library</string>
+    <string name="open_source_library_content">RxJava: https://github.com/ReactiveX/RxJava\n\nRxAndroid: https://github.com/ReactiveX/RxAndroid\n\nRetrofit: https://github.com/square/retrofit\n\nOkhttp: https://github.com/square/okhttp\n\nGlide: https://github.com/bumptech/glide\n\nDagger2: https://github.com/google/dagger\n\nLeakcanary: https://github.com/square/leakcanary\n\nButterknife: https://github.com/JakeWharton/butterknife\n\nRxFlux: https://github.com/skimarxall/RxFlux</string>
+
 </resources>

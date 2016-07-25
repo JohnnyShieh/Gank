@@ -145,12 +145,8 @@ public class MainActivity extends BaseActivity
                 replaceFragment(R.id.fragment_container, VideoFragment.newInstance(), VideoFragment.TAG);
                 setTitle(R.string.nav_video);
             }
-        } else if (id == R.id.nav_all) {
-
-            setTitle(R.string.nav_all);
         } else if (id == R.id.nav_about) {
-
-            setTitle(R.string.nav_about);
+            startActivity(AboutActivity.newIntent(this));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

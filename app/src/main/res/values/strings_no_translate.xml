@@ -14,18 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
--->
+ */-->
 <resources>
-    <color name="colorPrimary">#00acc1</color>
-    <color name="colorPrimaryDark">#0097A7</color>
-    <color name="colorAccent">#0097A7</color>
-    <color name="textColorPrimary">#212121</color>
-    <color name="textColorSencondary">#727272</color>
-
-    <color name="textColorTitle">@color/textColorPrimary</color>
-    <color name="textColorSummary">@color/textColorSencondary</color>
-
-    <color name="imageColorPlaceholder">#ededed</color>
-    <color name="divider">#33000000</color>
+    <string name="about_introduction_content" translatable="false">Gank是干货集中营的非官方Android客户端, 每天精选妹纸图片, 一个精选休息视频以及若干Android, ios, 前端方面的技术干货. \n\n本项目完全开源, 使用Facebook的Flux应用架构实现单向数据流, 并学习RxJava, RxAndroid, Retrofit, Glide等优秀开源库.\n\n数据来源: http://gank.io/api (干货集中营)\n\n项目源码: https://github.com/JohnnyShieh/Gank</string>
 </resources>

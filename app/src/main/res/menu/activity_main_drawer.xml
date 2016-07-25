@@ -44,10 +44,10 @@
             android:id="@+id/nav_video"
             android:icon="@drawable/ic_menu_video"
             android:title="@string/nav_video"/>
-        <item
+<!--        <item
             android:id="@+id/nav_all"
             android:icon="@drawable/ic_menu_all"
-            android:title="@string/nav_all"/>
+            android:title="@string/nav_all"/>-->
     </group>
 
     <item android:title="@string/nav_contact_title">
