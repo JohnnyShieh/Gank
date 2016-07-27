@@ -25,6 +25,7 @@ import com.johnny.gank.ui.fragment.IOSFragment;
 import com.johnny.gank.ui.fragment.TodayGankFragment;
 import com.johnny.gank.ui.fragment.VideoFragment;
 import com.johnny.gank.ui.fragment.WelfareFragment;
+import com.umeng.analytics.MobclickAgent;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -75,6 +76,19 @@ public class MainActivity extends BaseActivity
 
     public MainActivityComponent getMainActivityComponent() {
         return mComponent;
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

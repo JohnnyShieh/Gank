@@ -24,10 +24,12 @@ import com.johnny.gank.di.component.DaggerPictureActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
 import com.johnny.gank.dispatcher.Dispatcher;
 import com.johnny.gank.dispatcher.RxViewDispatch;
+import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.PictureStore;
 import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.store.WelfareStore;
 import com.johnny.gank.ui.adapter.PicturePagerAdapter;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.content.Intent;
@@ -142,13 +144,26 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
             .inject(this);
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
         mDispatcher.unsubscribeRxStore(mStore);
         mDispatcher.unsubscribeRxView(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(StatName.PAGE_PICTURE);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(StatName.PAGE_PICTURE);
+        MobclickAgent.onPause(this);
     }
 
     private void loadPictureList(int page) {

@@ -23,6 +23,7 @@ import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.WelfareFragmentComponent;
 import com.johnny.gank.dispatcher.Dispatcher;
 import com.johnny.gank.dispatcher.RxViewDispatch;
+import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.store.WelfareStore;
 import com.johnny.gank.ui.activity.MainActivity;
@@ -54,7 +55,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener{
+public class WelfareFragment extends BaseFragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener{
 
     public static final String TAG = WelfareFragment.class.getSimpleName();
 
@@ -177,6 +178,11 @@ public class WelfareFragment extends Fragment implements RxViewDispatch, SwipeRe
     public void onRefresh() {
         // Refresh the first page data.
         refreshList();
+    }
+
+    @Override
+    protected String getStatPageName() {
+        return StatName.PAGE_WELFARE;
     }
 
     private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {

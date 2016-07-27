@@ -46,6 +46,7 @@ ext {
             gson:               "com.google.code.gson:gson:${gsonVersion}",
             leakcanary:         "com.squareup.leakcanary:leakcanary-android:${leakcanaryVersion}",
             leakcanaryNoOp:     "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}",
+            umengAnalytics:    "com.umeng.analytics:analytics:latest.integration",
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
             junit:              "junit:junit:${junitVersion}"

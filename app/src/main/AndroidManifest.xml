@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name=".GankApplication"
@@ -71,6 +72,15 @@
                 android:value=".ui.activity.MainActivity"
                 />
         </activity>
+
+        <!-- begin umeng -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57986e2a67e58e48a000310a"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+        <!-- end umeng -->
     </application>
 
 </manifest>

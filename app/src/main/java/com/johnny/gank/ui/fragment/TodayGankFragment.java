@@ -24,6 +24,7 @@ import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.TodayGankFragmentComponent;
 import com.johnny.gank.dispatcher.Dispatcher;
 import com.johnny.gank.dispatcher.RxViewDispatch;
+import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.store.TodayGankStore;
 import com.johnny.gank.ui.activity.MainActivity;
@@ -52,7 +53,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class TodayGankFragment extends Fragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener, GankListAdapter.OnItemClickListener{
+public class TodayGankFragment extends BaseFragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener, GankListAdapter.OnItemClickListener{
 
     public static final String TAG = TodayGankFragment.class.getSimpleName();
 
@@ -156,6 +157,11 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
     }
 
     @Override
+    protected String getStatPageName() {
+        return StatName.PAGE_TODAY;
+    }
+
+    @Override
     public void onClickNormalItem(View view, GankNormalItem normalItem) {
         if(null != normalItem && !TextUtils.isEmpty(normalItem.url)) {
             WebviewActivity.openUrl(mComponent.getActivity(), normalItem.url, normalItem.desc);
@@ -168,4 +174,5 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
             startActivity(PictureActivity.newIntent(mComponent.getActivity(), girlItem.imgUrl, girlItem.publishedAt));
         }
     }
+
 }

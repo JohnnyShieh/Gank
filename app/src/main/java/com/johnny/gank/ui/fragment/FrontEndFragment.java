@@ -21,6 +21,7 @@ import com.johnny.gank.action.RxError;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.FrontEndFragmentComponent;
 import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.FrontEndStore;
 import com.johnny.gank.store.IOSStore;
 import com.johnny.gank.store.RxStoreChange;
@@ -132,5 +133,10 @@ public class FrontEndFragment extends CategoryGankFragment {
             default:
                 break;
         }
+    }
+
+    @Override
+    protected String getStatPageName() {
+        return StatName.PAGE_FRONTEND;
     }
 }

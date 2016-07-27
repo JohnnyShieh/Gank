@@ -20,6 +20,7 @@ import com.johnny.gank.di.component.DaggerAppComponent;
 import com.johnny.gank.di.module.AppModule;
 import com.johnny.gank.util.AppUtil;
 import com.squareup.leakcanary.LeakCanary;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Application;
 
@@ -35,6 +36,8 @@ public class GankApplication extends Application{
     public void onCreate() {
         super.onCreate();
 
+        MobclickAgent.openActivityDurationTrack(false);
+        MobclickAgent.enableEncrypt(true);
         AppUtil.init(this);
         initInjector();
         LeakCanary.install(this);

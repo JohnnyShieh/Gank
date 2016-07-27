@@ -8,6 +8,9 @@
 # Java class files
 *.class
 
+# Store key files
+*.jks
+
 # Generated files
 bin/
 gen/

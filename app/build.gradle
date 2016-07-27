@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+def keyStore = file('gank.jks')
+
 android {
 
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -25,12 +31,49 @@ android {
         ignoreWarnings true
         disable 'InvalidPackage'            //Some libraries have issues with this.
         disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'MissingTranslation'
+    }
+
+    signingConfigs {
+        release {
+            storeFile keyStore
+            storePassword 'gank666'
+            keyAlias 'Gank'
+            keyPassword '94a186'
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled true
+            debuggable false
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if(keyStore.exists()) {
+                println "using johnnyshieh's key"
+                signingConfig signingConfigs.release
+            }
+            applicationVariants.all { variant ->
+                if (variant.buildType.name.equals('release')) {
+                    variant.outputs.each { output ->
+                        def outputFile = output.outputFile
+                        if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                            def fileName = "Gank_v${defaultConfig.versionName}_${releaseTime()}_${variant.flavorName}.apk"
+                            output.outputFile = new File(outputFile.parent, fileName)
+                        }
+                    }
+                }
+            }
+
+            productFlavors.all { flavor ->
+                manifestPlaceholders.put("UMENG_CHANNEL_VALUE",name)
+            }
+        }
+
+        productFlavors {
+            fir {
+            }
         }
     }
 }
@@ -55,6 +98,7 @@ dependencies {
     compile dependencies['adapterRxjava']
     compile dependencies['gson']
     compile dependencies['glide']
+    compile dependencies['umengAnalytics']
     debugCompile dependencies['leakcanary']
     releaseCompile dependencies['leakcanaryNoOp']
     provided dependencies['javaxAnnotation']

@@ -16,6 +16,8 @@ package com.johnny.gank.ui.activity;
  */
 
 import com.johnny.gank.R;
+import com.johnny.gank.stat.StatName;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -43,7 +45,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class WebviewActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class WebviewActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String EXTRA_URL = "URL";
     private static final String EXTRA_TITLE = "TITLE";
@@ -80,6 +82,23 @@ public class WebviewActivity extends AppCompatActivity implements SwipeRefreshLa
         }
         setTitle(mTitle);
         vWebView.loadUrl(mUrl);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(StatName.PAGE_WEBVIEW);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(null != vWebView) {
+            vWebView.onPause();
+        }
+        MobclickAgent.onPageEnd(StatName.PAGE_WEBVIEW);
+        MobclickAgent.onPause(this);
     }
 
     private void setUpWebView() {
@@ -131,19 +150,6 @@ public class WebviewActivity extends AppCompatActivity implements SwipeRefreshLa
     @Override
     public void onRefresh() {
         vWebView.reload();
-    }
-
-    @Override
-    protected void onPause() {
-        if(null != vWebView) {
-            vWebView.onPause();
-        }
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override

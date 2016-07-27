@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public abstract class CategoryGankFragment extends Fragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener{
+public abstract class CategoryGankFragment extends BaseFragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener{
 
     @Bind(R.id.refresh_layout) SwipeRefreshLayout vRefreshLayout;
     @Bind(R.id.recycler_view) RecyclerView vWelfareRecycler;

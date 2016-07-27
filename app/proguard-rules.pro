@@ -21,3 +21,27 @@
 -keep class retrofit2.** { *; }
 -keepattributes Signature
 -keepattributes Exceptions
+
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+# for umeng
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keep public class com.johnny.gank.R$*{
+    public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+

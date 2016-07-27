@@ -16,6 +16,8 @@ package com.johnny.gank.ui.activity;
  */
 
 import com.johnny.gank.R;
+import com.johnny.gank.stat.StatName;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.content.Intent;
@@ -51,5 +53,19 @@ public class AboutActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle(R.string.nav_about);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(StatName.PAGE_ABOUT);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(StatName.PAGE_ABOUT);
+        MobclickAgent.onPause(this);
     }
 }
