@@ -15,6 +15,7 @@ package com.johnny.gank.data.entity;
  * limitations under the License.
  */
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -39,9 +40,9 @@ import java.util.Objects;
 public class Gank {
 
     public String _id;
-    public String createdAt;
+    public Date createdAt;
     public String desc;
-    public String publishedAt;
+    public Date publishedAt;
     public String source;
     public String type;
     public String url;

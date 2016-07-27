@@ -165,7 +165,7 @@ public class TodayGankFragment extends Fragment implements RxViewDispatch, Swipe
     @Override
     public void onClickGirlItem(View view, GankGirlImageItem girlItem) {
         if(null != girlItem && !TextUtils.isEmpty(girlItem.imgUrl)) {
-            startActivity(PictureActivity.newIntent(mComponent.getActivity(), girlItem.imgUrl));
+            startActivity(PictureActivity.newIntent(mComponent.getActivity(), girlItem.imgUrl, girlItem.publishedAt));
         }
     }
 }

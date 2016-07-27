@@ -39,8 +39,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -56,8 +59,12 @@ import butterknife.ButterKnife;
 public class PictureActivity extends BaseActivity implements RxViewDispatch{
 
     private static final String EXTRA_URL_SINGLE_PIC = "url_single_pic";
+    private static final String EXTRA_PUBLISH_SINGLE_PIC = "publish_single_pic";
     private static final String EXTRA_PAGE_INDEX = "page_index";
     private static final String EXTRA_PIC_ID = "pic_id";
+
+    private static final SimpleDateFormat sDateFormatter = new SimpleDateFormat("yyyy-MM-dd",
+        Locale.getDefault());
 
     @Bind(R.id.view_pager) ViewPager vViewPager;
 
@@ -69,9 +76,10 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
     @Inject PictureActionCreator mActionCreator;
     @Inject Dispatcher mDispatcher;
 
-    public static Intent newIntent(Context context, String url) {
+    public static Intent newIntent(Context context, String url, Date publishAt) {
         Intent intent = new Intent(context, PictureActivity.class);
         intent.putExtra(EXTRA_URL_SINGLE_PIC, url);
+        intent.putExtra(EXTRA_PUBLISH_SINGLE_PIC, publishAt);
         return intent;
     }
 
@@ -87,12 +95,15 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
         if(null == intent)  return;
         String singlePicUrl = intent.getStringExtra(EXTRA_URL_SINGLE_PIC);
         if(!TextUtils.isEmpty(singlePicUrl)) {
+            Date publishAt = (Date) intent.getSerializableExtra(EXTRA_PUBLISH_SINGLE_PIC);
             List<GankNormalItem> itemList = new ArrayList<>(1);
             GankNormalItem item = new GankNormalItem();
             item.url = singlePicUrl;
+            item.publishedAt = publishAt;
             itemList.add(item);
 
             mPagerAdapter.initList(itemList);
+            setTitle(sDateFormatter.format(publishAt));
         }else {
             int pageIndex = intent.getIntExtra(EXTRA_PAGE_INDEX, -1);
             String picId = intent.getStringExtra(EXTRA_PIC_ID);
@@ -194,16 +205,18 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
 
         @Override
         public void onPageSelected(int position) {
+            GankNormalItem curItem = mPagerAdapter.getItem(position);
+            if(null != curItem.publishedAt) {
+                setTitle(sDateFormatter.format(curItem.publishedAt));
+            }
             // when scroll to the first position.
             if(position == 0) {
-                GankNormalItem curItem = mPagerAdapter.getItem(position);
                 if(curItem.page > 1) {
                     loadPictureList(curItem.page - 1);
                 }
                 return;
             }
             if(position == mPagerAdapter.getCount() - 1) {
-                GankNormalItem curItem = mPagerAdapter.getItem(position);
                 loadPictureList(curItem.page + 1);
             }
         }

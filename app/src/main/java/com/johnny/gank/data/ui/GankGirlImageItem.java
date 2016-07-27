@@ -17,6 +17,8 @@ package com.johnny.gank.data.ui;
 
 import com.johnny.gank.data.entity.Gank;
 
+import java.util.Date;
+
 /**
  * description
  *
@@ -26,10 +28,12 @@ import com.johnny.gank.data.entity.Gank;
 public class GankGirlImageItem implements GankItem {
 
     public String imgUrl;
+    public Date publishedAt;
 
     public static GankGirlImageItem newImageItem(Gank gank) {
         GankGirlImageItem imageItem = new GankGirlImageItem();
         imageItem.imgUrl = gank.url;
+        imageItem.publishedAt = gank.publishedAt;
         return imageItem;
     }
 }
