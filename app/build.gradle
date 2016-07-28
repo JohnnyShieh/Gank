@@ -7,6 +7,12 @@ def releaseTime() {
 
 def keyStore = file('gank.jks')
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 android {
 
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -78,28 +84,28 @@ android {
     }
 }
 
+def dependeny = rootProject.ext.dependencies
+
 dependencies {
-    def dependencies = rootProject.ext.dependencies
-
-    apt dependencies['daggerCompiler']
-
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile dependencies['junit']
-    compile dependencies['appcompat']
-    compile dependencies['design']
-    compile dependencies['recyclerView']
-    compile dependencies['cardView']
-    compile dependencies['dagger']
-    compile dependencies['butterKnife']
-    compile dependencies['rxJava']
-    compile dependencies['rxAndroid']
-    compile dependencies['retrofit']
-    compile dependencies['converterGson']
-    compile dependencies['adapterRxjava']
-    compile dependencies['gson']
-    compile dependencies['glide']
-    compile dependencies['umengAnalytics']
-    debugCompile dependencies['leakcanary']
-    releaseCompile dependencies['leakcanaryNoOp']
-    provided dependencies['javaxAnnotation']
+    apt dependeny['daggerCompiler']
+    testCompile dependeny['junit']
+    compile(name:'feedbacksdk', ext:'aar')
+    compile dependeny['appcompat']
+    compile dependeny['design']
+    compile dependeny['recyclerView']
+    compile dependeny['cardView']
+    compile dependeny['dagger']
+    compile dependeny['butterKnife']
+    compile dependeny['rxJava']
+    compile dependeny['rxAndroid']
+    compile dependeny['retrofit']
+    compile dependeny['converterGson']
+    compile dependeny['adapterRxjava']
+    compile dependeny['gson']
+    compile dependeny['glide']
+    compile dependeny['umengAnalytics']
+    debugCompile dependeny['leakcanary']
+    releaseCompile dependeny['leakcanaryNoOp']
+    provided dependeny['javaxAnnotation']
 }

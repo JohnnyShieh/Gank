@@ -15,6 +15,7 @@ package com.johnny.gank;
  * limitations under the License.
  */
 
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.johnny.gank.di.component.AppComponent;
 import com.johnny.gank.di.component.DaggerAppComponent;
 import com.johnny.gank.di.module.AppModule;
@@ -38,6 +39,7 @@ public class GankApplication extends Application{
 
         MobclickAgent.openActivityDurationTrack(false);
         MobclickAgent.enableEncrypt(true);
+        FeedbackAPI.initAnnoy(this, getString(R.string.ali_app_key));
         AppUtil.init(this);
         initInjector();
         LeakCanary.install(this);

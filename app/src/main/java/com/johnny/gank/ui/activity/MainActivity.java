@@ -15,6 +15,7 @@ package com.johnny.gank.ui.activity;
  * limitations under the License.
  */
 
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.johnny.gank.R;
 import com.johnny.gank.di.component.DaggerMainActivityComponent;
 import com.johnny.gank.di.component.MainActivityComponent;
@@ -35,6 +36,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.HashMap;
 
 /**
  * @author Johnny Shieh
@@ -129,42 +132,66 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_today) {
-            if(null == getFragmentManager().findFragmentByTag(TodayGankFragment.TAG)) {
-                replaceFragment(R.id.fragment_container, TodayGankFragment.newInstance(), TodayGankFragment.TAG);
-                setTitle(R.string.app_name);
-            }
-        } else if (id == R.id.nav_welfare) {
-            if(null == getFragmentManager().findFragmentByTag(WelfareFragment.TAG)) {
-                replaceFragment(R.id.fragment_container, WelfareFragment.newInstance(), WelfareFragment.TAG);
-                setTitle(R.string.nav_welfare);
-            }
-        } else if (id == R.id.nav_android) {
-            if(null == getFragmentManager().findFragmentByTag(AndroidFragment.TAG)) {
-                replaceFragment(R.id.fragment_container, AndroidFragment.newInstance(), AndroidFragment.TAG);
-                setTitle(R.string.nav_android);
-            }
-        } else if (id == R.id.nav_ios) {
-            if(null == getFragmentManager().findFragmentByTag(IOSFragment.TAG)) {
-                replaceFragment(R.id.fragment_container, IOSFragment.newInstance(), IOSFragment.TAG);
-                setTitle(R.string.nav_ios);
-            }
-        } else if (id == R.id.nav_front_end) {
-            if(null == getFragmentManager().findFragmentByTag(FrontEndFragment.TAG)) {
-                replaceFragment(R.id.fragment_container, FrontEndFragment.newInstance(), FrontEndFragment.TAG);
-                setTitle(R.string.nav_front_end);
-            }
-        }else if (id == R.id.nav_video) {
-            if(null == getFragmentManager().findFragmentByTag(VideoFragment.TAG)) {
-                replaceFragment(R.id.fragment_container, VideoFragment.newInstance(), VideoFragment.TAG);
-                setTitle(R.string.nav_video);
-            }
-        } else if (id == R.id.nav_about) {
-            startActivity(AboutActivity.newIntent(this));
+        switch (id) {
+            case R.id.nav_today:
+                if(null == getFragmentManager().findFragmentByTag(TodayGankFragment.TAG)) {
+                    replaceFragment(R.id.fragment_container, TodayGankFragment.newInstance(), TodayGankFragment.TAG);
+                    setTitle(R.string.app_name);
+                }
+                break;
+            case R.id.nav_welfare:
+                if(null == getFragmentManager().findFragmentByTag(WelfareFragment.TAG)) {
+                    replaceFragment(R.id.fragment_container, WelfareFragment.newInstance(), WelfareFragment.TAG);
+                    setTitle(R.string.nav_welfare);
+                }
+                break;
+            case R.id.nav_android:
+                if(null == getFragmentManager().findFragmentByTag(AndroidFragment.TAG)) {
+                    replaceFragment(R.id.fragment_container, AndroidFragment.newInstance(), AndroidFragment.TAG);
+                    setTitle(R.string.nav_android);
+                }
+                break;
+            case R.id.nav_ios:
+                if(null == getFragmentManager().findFragmentByTag(IOSFragment.TAG)) {
+                    replaceFragment(R.id.fragment_container, IOSFragment.newInstance(), IOSFragment.TAG);
+                    setTitle(R.string.nav_ios);
+                }
+                break;
+            case R.id.nav_front_end:
+                if(null == getFragmentManager().findFragmentByTag(FrontEndFragment.TAG)) {
+                    replaceFragment(R.id.fragment_container, FrontEndFragment.newInstance(), FrontEndFragment.TAG);
+                    setTitle(R.string.nav_front_end);
+                }
+                break;
+            case R.id.nav_video:
+                if(null == getFragmentManager().findFragmentByTag(VideoFragment.TAG)) {
+                    replaceFragment(R.id.fragment_container, VideoFragment.newInstance(), VideoFragment.TAG);
+                    setTitle(R.string.nav_video);
+                }
+                break;
+            case R.id.nav_about:
+                startActivity(AboutActivity.newIntent(this));
+                break;
+            case R.id.nav_feedback:
+                startFeedbackActivity();
+                break;
+            default:
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void startFeedbackActivity() {
+        HashMap<String, String> uiCustomInfoMap = new HashMap<>();
+        uiCustomInfoMap.put("enableAudio", "0");
+        uiCustomInfoMap.put("themeColor", "#00acc1");
+        uiCustomInfoMap.put("hideLoginSuccess", "true");
+        uiCustomInfoMap.put("pageTitle", getString(R.string.nav_feedback));
+        FeedbackAPI.setUICustomInfo(uiCustomInfoMap);
+        FeedbackAPI.setCustomContact("Contact", true);
+        FeedbackAPI.openFeedbackActivity(this);
     }
 }
