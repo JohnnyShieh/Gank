@@ -187,7 +187,13 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
                 if(0 == mPagerAdapter.getCount()) {
                     mPagerAdapter.initList(mStore.getPictureList());
                     mPagerAdapter.notifyDataSetChanged();
-                    vViewPager.setCurrentItem(getInitPicPos(mStore.getPictureList()), false);
+                    int initPos = getInitPicPos(mStore.getPictureList());
+                    vViewPager.setCurrentItem(initPos, false);
+                    // when use setCurrentItem(0), onPageSelected would not be called.
+                    // so just call it manually.
+                    if(0 == initPos) {
+                        mPageChangeListener.onPageSelected(0);
+                    }
                 }else {
                     int addStatus = mPagerAdapter.appendList(mStore.getPage(), mStore.getPictureList());
                     mPagerAdapter.notifyDataSetChanged();
