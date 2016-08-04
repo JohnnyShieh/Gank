@@ -20,10 +20,13 @@ import com.johnny.gank.di.component.AppComponent;
 import com.johnny.gank.di.component.DaggerAppComponent;
 import com.johnny.gank.di.module.AppModule;
 import com.johnny.gank.util.AppUtil;
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.Settings;
 import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Application;
+import android.util.Log;
 
 /**
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
@@ -41,6 +44,13 @@ public class GankApplication extends Application{
         MobclickAgent.enableEncrypt(true);
         FeedbackAPI.initAnnoy(this, getString(R.string.ali_app_key));
         AppUtil.init(this);
+        Logger.initialize(
+            new Settings()
+                .isShowMethodLink(true)
+                .isShowThreadInfo(false)
+                .setMethodOffset(0)
+                .setLogPriority(BuildConfig.DEBUG ? Log.VERBOSE : Log.ASSERT)
+        );
         initInjector();
         LeakCanary.install(this);
     }

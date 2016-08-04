@@ -84,28 +84,30 @@ android {
     }
 }
 
-def dependeny = rootProject.ext.dependencies
+def dependency = rootProject.ext.dependencies
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    apt dependeny['daggerCompiler']
-    testCompile dependeny['junit']
+    apt dependency['daggerCompiler']
+    testCompile dependency['junit']
     compile(name:'feedbacksdk', ext:'aar')
-    compile dependeny['appcompat']
-    compile dependeny['design']
-    compile dependeny['recyclerView']
-    compile dependeny['cardView']
-    compile dependeny['dagger']
-    compile dependeny['butterKnife']
-    compile dependeny['rxJava']
-    compile dependeny['rxAndroid']
-    compile dependeny['retrofit']
-    compile dependeny['converterGson']
-    compile dependeny['adapterRxjava']
-    compile dependeny['gson']
-    compile dependeny['glide']
-    compile dependeny['umengAnalytics']
-    debugCompile dependeny['leakcanary']
-    releaseCompile dependeny['leakcanaryNoOp']
-    provided dependeny['javaxAnnotation']
+    compile dependency['appcompat']
+    compile dependency['design']
+    compile dependency['recyclerView']
+    compile dependency['cardView']
+    compile dependency['dagger']
+    compile dependency['butterKnife']
+    compile dependency['rxJava']
+    compile dependency['rxAndroid']
+    compile dependency['retrofit']
+    compile dependency['converterGson']
+    compile dependency['adapterRxjava']
+    compile dependency['gson']
+    compile dependency['glide']
+    compile dependency['umengAnalytics']
+    compile dependency['timber']
+    compile dependency['logger']
+    debugCompile dependency['leakcanary']
+    releaseCompile dependency['leakcanaryNoOp']
+    provided dependency['javaxAnnotation']
 }
