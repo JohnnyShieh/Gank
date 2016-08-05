@@ -148,13 +148,13 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        mDispatcher.unsubscribeRxStore(mStore);
-        mDispatcher.unsubscribeRxView(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mDispatcher.subscribeRxStore(mStore);
+        mDispatcher.subscribeRxView(this);
         MobclickAgent.onPageStart(StatName.PAGE_PICTURE);
         MobclickAgent.onResume(this);
     }
@@ -162,6 +162,10 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
     @Override
     protected void onPause() {
         super.onPause();
+        // if unsubscribe is in onDestroy, this activity's onDestroy may delay to new activity's onCreate
+        // it will cause that storeChange event can't receive in new activity
+        mDispatcher.unsubscribeRxStore(mStore);
+        mDispatcher.unsubscribeRxView(this);
         MobclickAgent.onPageEnd(StatName.PAGE_PICTURE);
         MobclickAgent.onPause(this);
     }
