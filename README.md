@@ -32,7 +32,7 @@ App基本包含下面几个页面:
 
 基本上使用原生的控件实现, 首先使用support包中DrawLayout实现侧滑抽屉式导航, 使用Toolbar替换之前的Actionbar, 并在Android 5.0上实现沉浸式状态. 主页和Android分类页等都是用SwipeRefreshLayout + RecyclerView, 点击具体干货进入WebViewActivity使用WebView加载网页.
 
-**架构**
+**Architecture**
 
 项目使用Facebook的Flux架构实现单向数据流, 因为app基本上只是展示网络获取的数据, 单向数据流可以保证数据获取清晰明了. 
 
@@ -44,7 +44,7 @@ App主要分为UI, Action, Store三层, UI请求数据的时候用ActionCreator�
 
 Web API获取数据是使用RxJava + Retrofit + okhttp, 使用Glide完成图片加载, 使用Dagger2完成依赖注入.
 
-**开源库**
+**Library**
 
 * [RxJava](https://github.com/ReactiveX/RxJava)
 
