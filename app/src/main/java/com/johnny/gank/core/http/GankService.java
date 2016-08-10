@@ -27,6 +27,8 @@ import com.johnny.gank.util.AppUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -70,8 +72,18 @@ public interface GankService {
                     Request request = chain.request();
                     Response response = chain.proceed(request);
                     if(request.url().toString().startsWith(GankApi.BASE_URL)) {
+                        int maxAge = CACHE_MAX_AGE;
+                        Date receiveDate = response.headers().getDate("Date");
+                        if(null != receiveDate) {
+                            // set expire time to tomorrow.
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(receiveDate);
+                            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                            int min = calendar.get(Calendar.MINUTE);
+                            maxAge = 24 * 3600 - hour * 3600 - min * 60;
+                        }
                         return response.newBuilder()
-                            .header("Cache-Control", "max-age=" + CACHE_MAX_AGE)
+                            .header("Cache-Control", "max-age=" + maxAge)
                             .build();
                     }
                     return response;
