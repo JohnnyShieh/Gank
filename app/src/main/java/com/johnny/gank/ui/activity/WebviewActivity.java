@@ -22,14 +22,17 @@ import com.umeng.analytics.MobclickAgent;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -125,6 +128,15 @@ public class WebviewActivity extends BaseActivity implements SwipeRefreshLayout.
                 vRefreshLayout.setRefreshing(false);
             }
         });
+        vWebView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                if(newProgress >= 80) {
+                    vRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -137,14 +149,46 @@ public class WebviewActivity extends BaseActivity implements SwipeRefreshLayout.
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_webview, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (android.R.id.home == item.getItemId()) {
-            if(vWebView.canGoBack()) {
-                vWebView.goBack();
+        switch (item.getItemId()){
+            case android.R.id.home:
+                if(vWebView.canGoBack()) {
+                    vWebView.goBack();
+                    return true;
+                }
+                break;
+            case R.id.action_share:
+                sharePage();
                 return true;
-            }
+            case R.id.action_open_in_browser:
+                openInBrowser();
+                return true;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sharePage() {
+        String title = vWebView.getTitle();
+        String url = vWebView.getUrl();
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_page, title, url));
+        intent.setType("text/plain");
+        startActivity(Intent.createChooser(intent, getString(R.string.share)));
+    }
+
+    private void openInBrowser() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse(vWebView.getUrl());
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     @Override
