@@ -20,6 +20,7 @@
     <string name="share_page" translatable="false">「%1$s%2$1s (分享自 @Gank) </string>
     <string name="share" translatable="false">分享</string>
     <string name="open_in_browser" translatable="false">浏览器打开</string>
+    <string name="query_empty" translatable="false">未找到符合条件的干货\n试试搜索其他关键词</string>
 
     <string name="ali_app_key">23421395</string>
 </resources>

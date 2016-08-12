@@ -19,19 +19,25 @@ import com.johnny.gank.R;
 import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.QueryActionCreator;
 import com.johnny.gank.action.RxError;
+import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.DaggerSearchActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
+import com.johnny.gank.dispatcher.Dispatcher;
 import com.johnny.gank.dispatcher.RxViewDispatch;
 import com.johnny.gank.store.RxStoreChange;
 import com.johnny.gank.store.SearchStore;
+import com.johnny.gank.ui.adapter.QueryGankAdapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import javax.inject.Inject;
 
@@ -48,9 +54,14 @@ public class SearchActivity extends BaseActivity implements RxViewDispatch {
 
     @Bind(R.id.toolbar) Toolbar vToolbar;
     @Bind(R.id.search_view) SearchView vSearchView;
+    @Bind(R.id.recycler_view) RecyclerView vRecyclerView;
+    @Bind(R.id.empty_view) View vEmptyView;
 
     @Inject SearchStore mStore;
     @Inject QueryActionCreator mQueryActionCreator;
+    @Inject Dispatcher mDispatcher;
+
+    private QueryGankAdapter mAdapter;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
@@ -67,8 +78,11 @@ public class SearchActivity extends BaseActivity implements RxViewDispatch {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         initSearchView();
+        initRecyclerView();
         handleIntent(getIntent());
         initInjector();
+        mDispatcher.subscribeRxStore(mStore);
+        mDispatcher.subscribeRxView(this);
     }
 
     private void initInjector() {
@@ -100,6 +114,19 @@ public class SearchActivity extends BaseActivity implements RxViewDispatch {
         });
     }
 
+    private void initRecyclerView() {
+        mAdapter = new QueryGankAdapter();
+        mAdapter.setOnItemClickListener(new QueryGankAdapter.OnItemClickListener() {
+            @Override
+            public void onClickNormalItem(View view, GankNormalItem normalItem) {
+                WebviewActivity.openUrl(SearchActivity.this, normalItem.url, normalItem.desc);
+            }
+        });
+        vRecyclerView.setHasFixedSize(true);
+        vRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        vRecyclerView.setAdapter(mAdapter);
+    }
+
     private void handleIntent(Intent intent) {
         vSearchView.requestFocus();
     }
@@ -108,6 +135,8 @@ public class SearchActivity extends BaseActivity implements RxViewDispatch {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        mDispatcher.unsubscribeRxStore(mStore);
+        mDispatcher.unsubscribeRxView(this);
     }
 
     private void queryGank(String queryText) {
@@ -118,7 +147,8 @@ public class SearchActivity extends BaseActivity implements RxViewDispatch {
     public void onRxStoreChanged(@NonNull RxStoreChange change) {
         switch (change.getStoreId()) {
             case SearchStore.ID:
-
+                mAdapter.updateData(mStore.getGankList());
+                vEmptyView.setVisibility(null == mStore.getGankList() ? View.VISIBLE : View.INVISIBLE);
                 break;
             default:
                 break;
@@ -129,10 +159,12 @@ public class SearchActivity extends BaseActivity implements RxViewDispatch {
     public void onRxError(@NonNull RxError error) {
         switch (error.getAction().getType()) {
             case ActionType.QUERY_GANK:
-
+                mAdapter.clearData();
+                vEmptyView.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;
         }
     }
+
 }
