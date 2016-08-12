@@ -1,4 +1,4 @@
-package com.johnny.gank.action;
+package com.johnny.gank.di.component;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,16 +15,20 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
+import com.johnny.gank.di.PerActivity;
+import com.johnny.gank.di.module.ActivityModule;
+import com.johnny.gank.ui.activity.SearchActivity;
+
+import dagger.Component;
+
 /**
  * description
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public interface Key {
-
-    String PAGE = "page";
-    String GANK_LIST = "gank_list";
-    String DAY_GANK = "day_gank";
-    String QUERY_RESULT = "query_result";
+@PerActivity
+@Component(dependencies = {AppComponent.class}, modules = {ActivityModule.class})
+public interface SearchActivityComponent extends ActivityComponent{
+    void inject(SearchActivity searchActivity);
 }

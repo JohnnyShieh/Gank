@@ -1,4 +1,5 @@
-package com.johnny.gank.action;
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -14,17 +15,14 @@ package com.johnny.gank.action;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * description
- *
- * @author Johnny Shieh (JohnnyShieh17@gmail.com)
- * @version 1.0
- */
-public interface Key {
-
-    String PAGE = "page";
-    String GANK_LIST = "gank_list";
-    String DAY_GANK = "day_gank";
-    String QUERY_RESULT = "query_result";
-}
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:title="@android:string/search_go"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        />
+</menu>

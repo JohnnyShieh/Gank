@@ -46,6 +46,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.activity.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateVisible"
+            android:launchMode="singleTop"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"
+                />
+        </activity>
+        <activity
             android:name=".ui.activity.WebviewActivity"
             android:theme="@style/AppTheme.NoActionBar"
             >

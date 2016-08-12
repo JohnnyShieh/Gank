@@ -1,4 +1,5 @@
-package com.johnny.gank.action;
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -13,18 +14,16 @@ package com.johnny.gank.action;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */-->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-/**
- * description
- *
- * @author Johnny Shieh (JohnnyShieh17@gmail.com)
- * @version 1.0
- */
-public interface Key {
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
-    String PAGE = "page";
-    String GANK_LIST = "gank_list";
-    String DAY_GANK = "day_gank";
-    String QUERY_RESULT = "query_result";
-}
+</FrameLayout>

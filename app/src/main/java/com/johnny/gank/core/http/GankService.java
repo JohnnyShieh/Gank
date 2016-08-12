@@ -59,11 +59,17 @@ public interface GankService {
     @GET("day/{year}/{month}/{day}")
     Observable<DayData> getDayGank(@Path("year") int year, @Path("month") int month, @Path("day") int day);
 
+    @GET("search/query/{queryText}/category/all/count/{count}/page/{page}")
+    Observable<GankData> queryGank(@Path("queryText") String queryText, @Path("count") int count, @Path("page") int page);
+
     class Factory {
 
         private static OkHttpClient sOkHttpClient;
 
         private static final int CACHE_MAX_AGE = 12 * 60 * 60;
+
+        private static final String DATE_PATTERN1 = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS";
+        private static final String DATE_PATTERN2 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
         static {
             Interceptor interceptor = new Interceptor() {
@@ -96,8 +102,12 @@ public interface GankService {
                 .build();
         }
 
-        private static final Gson dateGson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            .serializeNulls().create();
+//        private static final Gson dateGson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+//            .serializeNulls().create();
+        private static final Gson dateGson = new GsonBuilder()
+            .registerTypeAdapter(Date.class, new DateDeserializer(DATE_PATTERN1, DATE_PATTERN2))
+            .serializeNulls()
+            .create();
 
         private static final GankService sGankService = new Retrofit.Builder()
             .client(sOkHttpClient)
