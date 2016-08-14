@@ -66,6 +66,10 @@ Web API获取数据是使用RxJava + Retrofit + okhttp, 使用Glide完成图片�
 
 * [RxFlux](https://github.com/skimarxall/RxFlux)
 
+* [gson](https://github.com/google/gson)
+
+* [logger](https://github.com/tianzhijiexian/logger)
+
 
 # License
 

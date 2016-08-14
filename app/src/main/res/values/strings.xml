@@ -50,6 +50,6 @@
     <string name="developer_github">https://github.com/JohnnyShieh</string>
     <string name="developer_blog">http://johnnyshieh.github.io/</string>
     <string name="open_source_library">Open Source Library</string>
-    <string name="open_source_library_content">RxJava: https://github.com/ReactiveX/RxJava\n\nRxAndroid: https://github.com/ReactiveX/RxAndroid\n\nRetrofit: https://github.com/square/retrofit\n\nOkhttp: https://github.com/square/okhttp\n\nGlide: https://github.com/bumptech/glide\n\nDagger2: https://github.com/google/dagger\n\nLeakcanary: https://github.com/square/leakcanary\n\nButterknife: https://github.com/JakeWharton/butterknife\n\nRxFlux: https://github.com/skimarxall/RxFlux</string>
+    <string name="open_source_library_content">RxJava: https://github.com/ReactiveX/RxJava\n\nRxAndroid: https://github.com/ReactiveX/RxAndroid\n\nRetrofit: https://github.com/square/retrofit\n\nOkhttp: https://github.com/square/okhttp\n\nGlide: https://github.com/bumptech/glide\n\nDagger2: https://github.com/google/dagger\n\nLeakcanary: https://github.com/square/leakcanary\n\nButterknife: https://github.com/JakeWharton/butterknife\n\nRxFlux: https://github.com/skimarxall/RxFlux\n\nGson: https://github.com/google/gson\n\nLogger: https://github.com/tianzhijiexian/logger</string>
 
 </resources>
