@@ -1,5 +1,9 @@
 # Gank
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/JohnnyShieh/Gank/blob/master/LICENSE)
+![SDK](https://img.shields.io/badge/SDK-19%2B-orange.svg)
+![Release](https://img.shields.io/badge/release-v1.0-blue.svg)
+
 简洁美观的干货集中营(gank.io)的非官方安卓客户端, 数据来源于[干货集中营](http://gank.io/)
 
 **Description**
