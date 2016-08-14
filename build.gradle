@@ -23,8 +23,8 @@ allprojects {
 
     ext {
         androidApplicationId = 'com.johnny.gank'
-        androidVersionCode = 1
-        androidVersionName = "1.0"
+        androidVersionCode = 2
+        androidVersionName = "1.1"
         testApplicationId = 'com.johnny.gank'
     }
 }
