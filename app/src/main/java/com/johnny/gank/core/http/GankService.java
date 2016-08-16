@@ -66,7 +66,7 @@ public interface GankService {
 
         private static OkHttpClient sOkHttpClient;
 
-        private static final int CACHE_MAX_AGE = 12 * 60 * 60;
+        private static final int CACHE_MAX_AGE = 60 * 60;   // one hour
 
         private static final String DATE_PATTERN1 = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS";
         private static final String DATE_PATTERN2 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
@@ -77,19 +77,9 @@ public interface GankService {
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request();
                     Response response = chain.proceed(request);
-                    if(request.url().toString().startsWith(GankApi.BASE_URL)) {
-                        int maxAge = CACHE_MAX_AGE;
-                        Date receiveDate = response.headers().getDate("Date");
-                        if(null != receiveDate) {
-                            // set expire time to tomorrow.
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.setTime(receiveDate);
-                            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                            int min = calendar.get(Calendar.MINUTE);
-                            maxAge = 24 * 3600 - hour * 3600 - min * 60;
-                        }
+                    if(request.url().toString().startsWith(GankApi.BASE_URL) && !request.url().toString().startsWith(GankApi.Query_BASE_URL)) {
                         return response.newBuilder()
-                            .header("Cache-Control", "max-age=" + maxAge)
+                            .header("Cache-Control", "max-age=" + CACHE_MAX_AGE)
                             .build();
                     }
                     return response;
