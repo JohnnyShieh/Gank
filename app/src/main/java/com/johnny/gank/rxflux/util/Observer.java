@@ -1,6 +1,6 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.rxflux.util;
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2017 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +15,15 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.module.AppModule;
-
-import android.content.Context;
-
-import javax.inject.Singleton;
-
-import dagger.Component;
-
 /**
- * description
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-@Singleton
-@Component(modules = {AppModule.class})
-public interface AppComponent {
+public interface Observer<T> {
 
-    Context getAppContext();
+    void onChange(T t);
+
+    void onError(T t);
 
 }

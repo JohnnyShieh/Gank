@@ -15,11 +15,10 @@ package com.johnny.gank.store;
  * limitations under the License.
  */
 
-import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.Key;
-import com.johnny.gank.action.RxAction;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.rxflux.Action;
+import com.johnny.gank.rxflux.Store;
 
 import java.util.List;
 
@@ -31,30 +30,25 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class SearchStore extends RxStore {
-
-    public static final String ID = "SearchStore";
+public class SearchStore extends Store<StoreChange.SearchStore> {
 
     private List<GankNormalItem> mGankList;
 
     @Inject
-    public SearchStore(Dispatcher dispatcher) {
-        super(dispatcher);
-    }
-
-    @Override
-    public void onRxAction(RxAction action) {
-        switch (action.getType()) {
-            case ActionType.QUERY_GANK:
-                mGankList = action.get(Key.QUERY_RESULT);
-                break;
-            default:
-                return;
-        }
-        postChange(new RxStoreChange(ID, action));
-    }
+    public SearchStore() {}
 
     public List<GankNormalItem> getGankList() {
         return mGankList;
+    }
+
+    @Override
+    public void onAction(Action action) {
+        mGankList = action.get(Key.QUERY_RESULT);
+        postChange(new StoreChange.SearchStore());
+    }
+
+    @Override
+    public void onError(Action action, Throwable throwable) {
+        postError(new StoreChange.SearchStore());
     }
 }

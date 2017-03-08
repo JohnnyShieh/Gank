@@ -23,8 +23,8 @@ import com.johnny.gank.data.ui.GankGirlImageItem;
 import com.johnny.gank.data.ui.GankHeaderItem;
 import com.johnny.gank.data.ui.GankItem;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.dispatcher.Dispatcher;
-import com.johnny.gank.util.SubscriptionManager;
+import com.johnny.gank.rxflux.Action;
+import com.johnny.gank.rxflux.Dispatcher;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,11 +35,13 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * description
@@ -47,33 +49,33 @@ import rx.schedulers.Schedulers;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class TodayGankActionCreator extends RxActionCreator {
+public class TodayGankActionCreator {
 
     private static SimpleDateFormat sDataFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 
+    private boolean hasAction = false;
+
     @Inject
-    public TodayGankActionCreator(Dispatcher dispatcher,
-        SubscriptionManager manager) {
-        super(dispatcher, manager);
-    }
+    public TodayGankActionCreator() {}
 
     public void getTodayGank() {
-        final RxAction rxAction = newRxAction(ActionType.GET_TODAY_GANK);
-        if(hasRxAction(rxAction)) {
+        final Action action = Action.type(ActionType.GET_TODAY_GANK).build();
+        if(hasAction) {
             return;
         }
 
-        addRxAction(rxAction, GankService.Factory.getGankService()
+        hasAction = true;
+        GankService.Factory.getGankService()
             .getDateHistory()
-            .filter(new Func1<DateData, Boolean>() {
+            .filter(new Predicate<DateData>() {
                 @Override
-                public Boolean call(DateData dateData) {
+                public boolean test(@NonNull DateData dateData) throws Exception {
                     return (null != dateData && null != dateData.results && dateData.results.size() > 0);
                 }
             })
-            .map(new Func1<DateData, Calendar>() {
+            .map(new Function<DateData, Calendar>() {
                 @Override
-                public Calendar call(DateData dateData) {
+                public Calendar apply(@NonNull DateData dateData) throws Exception {
                     Calendar calendar = Calendar.getInstance(Locale.CHINA);
                     try {
                         calendar.setTime(sDataFormat.parse(dateData.results.get(0)));
@@ -83,40 +85,41 @@ public class TodayGankActionCreator extends RxActionCreator {
                     }
                     return calendar;
                 }
-            })
-            .filter(new Func1<Calendar, Boolean>() {
+            }).filter(new Predicate<Calendar>() {
                 @Override
-                public Boolean call(Calendar calendar) {
+                public boolean test(@NonNull Calendar calendar) throws Exception {
                     return null != calendar;
                 }
             })
-            .flatMap(new Func1<Calendar, Observable<DayData>>() {
+            .flatMap(new Function<Calendar, ObservableSource<DayData>>() {
                 @Override
-                public Observable<DayData> call(Calendar calendar) {
+                public ObservableSource<DayData> apply(@NonNull Calendar calendar) throws Exception {
                     return GankService.Factory.getGankService()
                         .getDayGank(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
                 }
             })
-            .map(new Func1<DayData, List<GankItem>>() {
+            .map(new Function<DayData, List<GankItem>>() {
                 @Override
-                public List<GankItem> call(DayData dayData) {
+                public List<GankItem> apply(@NonNull DayData dayData) throws Exception {
                     return getGankList(dayData);
                 }
             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Action1<List<GankItem>>() {
+            .subscribe(new Consumer<List<GankItem>>() {
                 @Override
-                public void call(List<GankItem> gankList) {
-                    rxAction.getData().put(Key.DAY_GANK, gankList);
-                    postRxAction(rxAction);
+                public void accept(@NonNull List<GankItem> gankList) throws Exception {
+                    hasAction = false;
+                    action.getData().put(Key.DAY_GANK, gankList);
+                    Dispatcher.get().postAction(action);
                 }
-            }, new Action1<Throwable>() {
+            }, new Consumer<Throwable>() {
                 @Override
-                public void call(Throwable throwable) {
-                    postError(rxAction, throwable);
+                public void accept(@NonNull Throwable throwable) throws Exception {
+                    hasAction = false;
+                    Dispatcher.get().postError(action, throwable);
                 }
-            }));
+            });
     }
 
     private List<GankItem> getGankList(DayData dayData) {

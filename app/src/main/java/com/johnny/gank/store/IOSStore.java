@@ -15,11 +15,10 @@ package com.johnny.gank.store;
  * limitations under the License.
  */
 
-import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.Key;
-import com.johnny.gank.action.RxAction;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.rxflux.Action;
+import com.johnny.gank.rxflux.Store;
 
 import java.util.List;
 
@@ -31,30 +30,13 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class IOSStore extends RxStore {
-
-    public static final String ID = "IOSStore";
+public class IOSStore extends Store<StoreChange.IOSStore> {
 
     private int mPage;
     private List<GankNormalItem> mGankList;
 
     @Inject
-    public IOSStore(Dispatcher dispatcher) {
-        super(dispatcher);
-    }
-
-    @Override
-    public void onRxAction(RxAction action) {
-        switch (action.getType()) {
-            case ActionType.GET_IOS_LIST:
-                mPage = action.get(Key.PAGE);
-                mGankList = action.get(Key.GANK_LIST);
-                break;
-            default:
-                return;
-        }
-        postChange(new RxStoreChange(ID, action));
-    }
+    public IOSStore() {}
 
     public int getPage() {
         return mPage;
@@ -62,5 +44,17 @@ public class IOSStore extends RxStore {
 
     public List<GankNormalItem> getGankList() {
         return mGankList;
+    }
+
+    @Override
+    public void onAction(Action action) {
+        mPage = action.get(Key.PAGE);
+        mGankList = action.get(Key.GANK_LIST);
+        postChange(new StoreChange.IOSStore());
+    }
+
+    @Override
+    public void onError(Action action, Throwable throwable) {
+        postError(new StoreChange.IOSStore());
     }
 }

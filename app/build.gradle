@@ -40,6 +40,10 @@ android {
         disable 'MissingTranslation'
     }
 
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
     signingConfigs {
         release {
             storeFile keyStore

@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.johnny.gank.data.GankApi;
-import com.johnny.gank.data.entity.Gank;
 import com.johnny.gank.data.response.DateData;
 import com.johnny.gank.data.response.DayData;
 import com.johnny.gank.data.response.GankData;
@@ -27,20 +26,19 @@ import com.johnny.gank.util.AppUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Date;
 
+import io.reactivex.Observable;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * The Http Api of Gank
@@ -103,7 +101,7 @@ public interface GankService {
             .client(sOkHttpClient)
             .baseUrl(GankApi.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(dateGson))
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
             .create(GankService.class);
 

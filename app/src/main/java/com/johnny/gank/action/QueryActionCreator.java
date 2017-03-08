@@ -18,17 +18,18 @@ package com.johnny.gank.action;
 import com.johnny.gank.core.http.GankService;
 import com.johnny.gank.data.response.GankData;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.dispatcher.Dispatcher;
-import com.johnny.gank.util.SubscriptionManager;
+import com.johnny.gank.rxflux.Action;
+import com.johnny.gank.rxflux.Dispatcher;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * description
@@ -36,28 +37,28 @@ import rx.schedulers.Schedulers;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class QueryActionCreator extends RxActionCreator {
+public class QueryActionCreator {
 
     private static final int DEFAULT_COUNT = 27;
     private static final int DEFAULT_PAGE = 1;
 
+    private boolean hasAction = false;
+
     @Inject
-    public QueryActionCreator(Dispatcher dispatcher,
-        SubscriptionManager manager) {
-        super(dispatcher, manager);
-    }
+    public QueryActionCreator() {}
 
     public void query(String queryText) {
-        final RxAction rxAction = newRxAction(ActionType.QUERY_GANK);
-        if(hasRxAction(rxAction)) {
+        final Action action = Action.type(ActionType.QUERY_GANK).build();
+        if(hasAction) {
             return;
         }
 
-        addRxAction(rxAction, GankService.Factory.getGankService()
+        hasAction = true;
+        GankService.Factory.getGankService()
             .queryGank(queryText, DEFAULT_COUNT, DEFAULT_PAGE)
-            .map(new Func1<GankData, List<GankNormalItem>>() {
+            .map(new Function<GankData, List<GankNormalItem>>() {
                 @Override
-                public List<GankNormalItem> call(GankData gankData) {
+                public List<GankNormalItem> apply(@NonNull GankData gankData) throws Exception {
                     if(null == gankData || null == gankData.results || 0 == gankData.results.size()) {
                         return null;
                     }
@@ -66,18 +67,19 @@ public class QueryActionCreator extends RxActionCreator {
             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Action1<List<GankNormalItem>>() {
+            .subscribe(new Consumer<List<GankNormalItem>>() {
                 @Override
-                public void call(List<GankNormalItem> items) {
-                    rxAction.getData().put(Key.QUERY_RESULT, items);
-                    postRxAction(rxAction);
+                public void accept(@NonNull List<GankNormalItem> gankNormalItems) throws Exception {
+                    hasAction = false;
+                    action.getData().put(Key.QUERY_RESULT, gankNormalItems);
+                    Dispatcher.get().postAction(action);
                 }
-            }, new Action1<Throwable>() {
+            }, new Consumer<Throwable>() {
                 @Override
-                public void call(Throwable throwable) {
-                    postError(rxAction, throwable);
+                public void accept(@NonNull Throwable throwable) throws Exception {
+                    hasAction = false;
+                    Dispatcher.get().postError(action, throwable);
                 }
-            })
-        );
+            });
     }
 }

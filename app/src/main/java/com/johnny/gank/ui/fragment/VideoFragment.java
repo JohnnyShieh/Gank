@@ -16,13 +16,13 @@ package com.johnny.gank.ui.fragment;
  */
 
 import com.johnny.gank.action.ActionType;
-import com.johnny.gank.action.RxError;
 import com.johnny.gank.action.VideoActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.VideoFramentComponent;
-import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.rxflux.Dispatcher;
+import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
-import com.johnny.gank.store.RxStoreChange;
+import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.store.VideoStore;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
@@ -30,9 +30,7 @@ import com.johnny.gank.ui.adapter.CategoryGankAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,13 +43,12 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class VideoFragment extends CategoryGankFragment {
+public class VideoFragment extends CategoryGankFragment implements StoreObserver<StoreChange.VideoStore> {
 
     public static final String TAG = VideoFragment.class.getSimpleName();
 
     @Inject VideoStore mStore;
     @Inject VideoActionCreator mActionCreator;
-    @Inject Dispatcher mDispatcher;
 
     private VideoFramentComponent mComponent;
 
@@ -82,15 +79,14 @@ public class VideoFragment extends CategoryGankFragment {
         });
 
         initInjector();
-        mDispatcher.subscribeRxStore(mStore);
-        mDispatcher.subscribeRxView(this);
+        Dispatcher.get().register(mStore, ActionType.GET_VIDEO_LIST);
+        mStore.addObserver(this);
         return contentView;
     }
 
     @Override
     public void onDestroyView() {
-        mDispatcher.unsubscribeRxStore(mStore);
-        mDispatcher.unsubscribeRxView(this);
+        mStore.unRegister();
         super.onDestroyView();
     }
 
@@ -106,36 +102,24 @@ public class VideoFragment extends CategoryGankFragment {
     }
 
     @Override
-    public void onRxStoreChanged(@NonNull RxStoreChange change) {
-        switch (change.getStoreId()) {
-            case VideoStore.ID:
-                if(1 == mStore.getPage()) {
-                    vRefreshLayout.setRefreshing(false);
-                }
-                vLoadMore.setStatus(LoadMoreView.STATUS_INIT);
-                mAdapter.updateData(mStore.getPage(), mStore.getGankList());
-                mLoadingMore = false;
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onRxError(@NonNull RxError error) {
-        switch (error.getAction().getType()) {
-            case ActionType.GET_VIDEO_LIST:
-                vRefreshLayout.setRefreshing(false);
-                mLoadingMore = false;
-                vLoadMore.setStatus(LoadMoreView.STATUS_FAIL);
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
     protected String getStatPageName() {
         return StatName.PAGE_VIDEO;
+    }
+
+    @Override
+    public void onChange(StoreChange.VideoStore videoStore) {
+        if(1 == mStore.getPage()) {
+            vRefreshLayout.setRefreshing(false);
+        }
+        vLoadMore.setStatus(LoadMoreView.STATUS_INIT);
+        mAdapter.updateData(mStore.getPage(), mStore.getGankList());
+        mLoadingMore = false;
+    }
+
+    @Override
+    public void onError(StoreChange.VideoStore videoStore) {
+        vRefreshLayout.setRefreshing(false);
+        mLoadingMore = false;
+        vLoadMore.setStatus(LoadMoreView.STATUS_FAIL);
     }
 }

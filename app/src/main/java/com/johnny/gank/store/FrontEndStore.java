@@ -15,11 +15,10 @@ package com.johnny.gank.store;
  * limitations under the License.
  */
 
-import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.Key;
-import com.johnny.gank.action.RxAction;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.rxflux.Action;
+import com.johnny.gank.rxflux.Store;
 
 import java.util.List;
 
@@ -31,30 +30,13 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class FrontEndStore extends RxStore {
-
-    public static final String ID = "FrontEndStore";
+public class FrontEndStore extends Store<StoreChange.FrontEndStore> {
 
     private int mPage;
     private List<GankNormalItem> mGankList;
 
     @Inject
-    public FrontEndStore(Dispatcher dispatcher) {
-        super(dispatcher);
-    }
-
-    @Override
-    public void onRxAction(RxAction action) {
-        switch (action.getType()) {
-            case ActionType.GET_FRONT_END_LIST:
-                mPage = action.get(Key.PAGE);
-                mGankList = action.get(Key.GANK_LIST);
-                break;
-            default:
-                return;
-        }
-        postChange(new RxStoreChange(ID, action));
-    }
+    public FrontEndStore() {}
 
     public int getPage() {
         return mPage;
@@ -62,5 +44,17 @@ public class FrontEndStore extends RxStore {
 
     public List<GankNormalItem> getGankList() {
         return mGankList;
+    }
+
+    @Override
+    public void onAction(Action action) {
+        mPage = action.get(Key.PAGE);
+        mGankList = action.get(Key.GANK_LIST);
+        postChange(new StoreChange.FrontEndStore());
+    }
+
+    @Override
+    public void onError(Action action, Throwable throwable) {
+        postError(new StoreChange.FrontEndStore());
     }
 }

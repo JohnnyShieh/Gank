@@ -16,8 +16,6 @@ package com.johnny.gank.action;
  */
 
 import com.johnny.gank.data.GankType;
-import com.johnny.gank.dispatcher.Dispatcher;
-import com.johnny.gank.util.SubscriptionManager;
 
 import javax.inject.Inject;
 
@@ -30,10 +28,7 @@ import javax.inject.Inject;
 public class WelfareActionCreator extends CategoryGankActionCreator {
 
     @Inject
-    public WelfareActionCreator(Dispatcher dispatcher,
-        SubscriptionManager manager) {
-        super(dispatcher, manager);
-    }
+    public WelfareActionCreator() {}
 
     @Override
     protected String getActionId() {

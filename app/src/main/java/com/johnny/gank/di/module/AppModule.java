@@ -16,9 +16,6 @@ package com.johnny.gank.di.module;
  */
 
 import com.johnny.gank.GankApplication;
-import com.johnny.gank.RxFlux;
-import com.johnny.gank.dispatcher.Dispatcher;
-import com.johnny.gank.util.SubscriptionManager;
 
 import android.content.Context;
 
@@ -37,29 +34,15 @@ import dagger.Provides;
 public class AppModule {
 
     private final GankApplication mApplication;
-    private final RxFlux mRxFlux;
 
     public AppModule(GankApplication application) {
         mApplication = application;
-        mRxFlux = RxFlux.init(mApplication);
     }
 
     @Provides
     @Singleton
     Context provideAppContext() {
         return mApplication;
-    }
-
-    @Provides
-    @Singleton
-    Dispatcher provideDispatcher() {
-        return mRxFlux.getDispatcher();
-    }
-
-    @Provides
-    @Singleton
-    SubscriptionManager provideSubscriptManager() {
-        return mRxFlux.getSubscriptionManager();
     }
 
 }

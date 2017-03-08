@@ -17,24 +17,21 @@ package com.johnny.gank.ui.fragment;
 
 import com.johnny.gank.R;
 import com.johnny.gank.action.ActionType;
-import com.johnny.gank.action.RxError;
 import com.johnny.gank.action.TodayGankActionCreator;
 import com.johnny.gank.data.ui.GankGirlImageItem;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.TodayGankFragmentComponent;
-import com.johnny.gank.dispatcher.Dispatcher;
-import com.johnny.gank.dispatcher.RxViewDispatch;
+import com.johnny.gank.rxflux.Dispatcher;
+import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
-import com.johnny.gank.store.RxStoreChange;
+import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.store.TodayGankStore;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.PictureActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.GankListAdapter;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,7 +50,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class TodayGankFragment extends BaseFragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener, GankListAdapter.OnItemClickListener{
+public class TodayGankFragment extends BaseFragment implements StoreObserver<StoreChange.TodayDankStore>, SwipeRefreshLayout.OnRefreshListener, GankListAdapter.OnItemClickListener{
 
     public static final String TAG = TodayGankFragment.class.getSimpleName();
 
@@ -64,7 +61,6 @@ public class TodayGankFragment extends BaseFragment implements RxViewDispatch, S
 
     @Inject TodayGankStore mStore;
     @Inject TodayGankActionCreator mActionCreator;
-    @Inject Dispatcher mDispatcher;
 
     private GankListAdapter mAdapter;
 
@@ -100,8 +96,8 @@ public class TodayGankFragment extends BaseFragment implements RxViewDispatch, S
         mAdapter.setOnItemClickListener(this);
         vWelfareRecycler.setAdapter(mAdapter);
 
-        mDispatcher.subscribeRxStore(mStore);
-        mDispatcher.subscribeRxView(this);
+        Dispatcher.get().register(mStore, ActionType.GET_TODAY_GANK);
+        mStore.addObserver(this);
         return contentView;
     }
 
@@ -119,36 +115,12 @@ public class TodayGankFragment extends BaseFragment implements RxViewDispatch, S
 
     @Override
     public void onDestroyView() {
-        mDispatcher.unsubscribeRxStore(mStore);
-        mDispatcher.unsubscribeRxView(this);
+        mStore.unRegister();
         super.onDestroyView();
     }
 
     private void refreshData() {
         mActionCreator.getTodayGank();
-    }
-
-    @Override
-    public void onRxStoreChanged(@NonNull RxStoreChange change) {
-        switch (change.getStoreId()) {
-            case TodayGankStore.ID:
-                vRefreshLayout.setRefreshing(false);
-                mAdapter.swapData(mStore.getItems());
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onRxError(@NonNull RxError error) {
-        switch (error.getAction().getType()) {
-            case ActionType.GET_TODAY_GANK:
-                vRefreshLayout.setRefreshing(false);
-                break;
-            default:
-                break;
-        }
     }
 
     @Override
@@ -175,4 +147,14 @@ public class TodayGankFragment extends BaseFragment implements RxViewDispatch, S
         }
     }
 
+    @Override
+    public void onChange(StoreChange.TodayDankStore todayDankStore) {
+        vRefreshLayout.setRefreshing(false);
+        mAdapter.swapData(mStore.getItems());
+    }
+
+    @Override
+    public void onError(StoreChange.TodayDankStore todayDankStore) {
+        vRefreshLayout.setRefreshing(false);
+    }
 }

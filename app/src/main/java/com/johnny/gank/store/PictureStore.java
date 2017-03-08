@@ -15,11 +15,10 @@ package com.johnny.gank.store;
  * limitations under the License.
  */
 
-import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.Key;
-import com.johnny.gank.action.RxAction;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.rxflux.Action;
+import com.johnny.gank.rxflux.Store;
 
 import java.util.List;
 
@@ -31,30 +30,13 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class PictureStore extends RxStore {
-
-    public static final String ID = "PictureStore";
+public class PictureStore extends Store<StoreChange.PictureStore> {
 
     private int mPage;
     private List<GankNormalItem> mPictureList;
 
     @Inject
-    public PictureStore(Dispatcher dispatcher) {
-        super(dispatcher);
-    }
-
-    @Override
-    public void onRxAction(RxAction action) {
-        switch (action.getType()) {
-            case ActionType.GET_PICTURE_LIST:
-                mPage = action.get(Key.PAGE);
-                mPictureList = action.get(Key.GANK_LIST);
-                break;
-            default:
-                return;
-        }
-        postChange(new RxStoreChange(ID, action));
-    }
+    public PictureStore() {}
 
     public int getPage() {
         return mPage;
@@ -62,5 +44,17 @@ public class PictureStore extends RxStore {
 
     public List<GankNormalItem> getPictureList() {
         return mPictureList;
+    }
+
+    @Override
+    public void onAction(Action action) {
+        mPage = action.get(Key.PAGE);
+        mPictureList = action.get(Key.GANK_LIST);
+        postChange(new StoreChange.PictureStore());
+    }
+
+    @Override
+    public void onError(Action action, Throwable throwable) {
+        postError(new StoreChange.PictureStore());
     }
 }

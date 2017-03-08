@@ -18,24 +18,20 @@ package com.johnny.gank.ui.activity;
 import com.johnny.gank.R;
 import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.PictureActionCreator;
-import com.johnny.gank.action.RxError;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.DaggerPictureActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
-import com.johnny.gank.dispatcher.Dispatcher;
-import com.johnny.gank.dispatcher.RxViewDispatch;
+import com.johnny.gank.rxflux.Dispatcher;
+import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.PictureStore;
-import com.johnny.gank.store.RxStoreChange;
-import com.johnny.gank.store.WelfareStore;
+import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.ui.adapter.PicturePagerAdapter;
 import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -58,7 +54,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class PictureActivity extends BaseActivity implements RxViewDispatch{
+public class PictureActivity extends BaseActivity implements StoreObserver<StoreChange.PictureStore>{
 
     private static final String EXTRA_URL_SINGLE_PIC = "url_single_pic";
     private static final String EXTRA_PUBLISH_SINGLE_PIC = "publish_single_pic";
@@ -76,7 +72,6 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
     @Inject PicturePagerAdapter mPagerAdapter;
     @Inject PictureStore mStore;
     @Inject PictureActionCreator mActionCreator;
-    @Inject Dispatcher mDispatcher;
 
     public static Intent newIntent(Context context, String url, Date publishAt) {
         Intent intent = new Intent(context, PictureActivity.class);
@@ -132,8 +127,8 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
         vViewPager.setAdapter(mPagerAdapter);
         vViewPager.addOnPageChangeListener(mPageChangeListener);
 
-        mDispatcher.subscribeRxStore(mStore);
-        mDispatcher.subscribeRxView(this);
+        Dispatcher.get().register(mStore, ActionType.GET_PICTURE_LIST);
+        mStore.addObserver(this);
     }
 
     private void initInjector() {
@@ -153,8 +148,7 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
     @Override
     protected void onResume() {
         super.onResume();
-        mDispatcher.subscribeRxStore(mStore);
-        mDispatcher.subscribeRxView(this);
+        Dispatcher.get().register(mStore, ActionType.GET_PICTURE_LIST);
         MobclickAgent.onPageStart(StatName.PAGE_PICTURE);
         MobclickAgent.onResume(this);
     }
@@ -164,8 +158,7 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
         super.onPause();
         // if unsubscribe is in onDestroy, this activity's onDestroy may delay to new activity's onCreate
         // it will cause that storeChange event can't receive in new activity
-        mDispatcher.unsubscribeRxStore(mStore);
-        mDispatcher.unsubscribeRxView(this);
+        mStore.unRegister();
         MobclickAgent.onPageEnd(StatName.PAGE_PICTURE);
         MobclickAgent.onPause(this);
     }
@@ -182,44 +175,6 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
             }
         }
         return 0;
-    }
-
-    @Override
-    public void onRxStoreChanged(@NonNull RxStoreChange change) {
-        switch (change.getStoreId()) {
-            case PictureStore.ID:
-                if(0 == mPagerAdapter.getCount()) {
-                    mPagerAdapter.initList(mStore.getPictureList());
-                    mPagerAdapter.notifyDataSetChanged();
-                    int initPos = getInitPicPos(mStore.getPictureList());
-                    vViewPager.setCurrentItem(initPos, false);
-                    // when use setCurrentItem(0), onPageSelected would not be called.
-                    // so just call it manually.
-                    if(0 == initPos) {
-                        mPageChangeListener.onPageSelected(0);
-                    }
-                }else {
-                    int addStatus = mPagerAdapter.appendList(mStore.getPage(), mStore.getPictureList());
-                    mPagerAdapter.notifyDataSetChanged();
-                    if(addStatus == PicturePagerAdapter.ADD_FRONT) {
-                        vViewPager.setCurrentItem(vViewPager.getCurrentItem() + mStore.getPictureList().size(), false);
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onRxError(@NonNull RxError error) {
-        switch (error.getAction().getType()) {
-            case ActionType.GET_PICTURE_LIST:
-                // TODO
-                break;
-            default:
-                break;
-        }
     }
 
     private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -251,4 +206,30 @@ public class PictureActivity extends BaseActivity implements RxViewDispatch{
 
         }
     };
+
+    @Override
+    public void onChange(StoreChange.PictureStore pictureStore) {
+        if(0 == mPagerAdapter.getCount()) {
+            mPagerAdapter.initList(mStore.getPictureList());
+            mPagerAdapter.notifyDataSetChanged();
+            int initPos = getInitPicPos(mStore.getPictureList());
+            vViewPager.setCurrentItem(initPos, false);
+            // when use setCurrentItem(0), onPageSelected would not be called.
+            // so just call it manually.
+            if(0 == initPos) {
+                mPageChangeListener.onPageSelected(0);
+            }
+        }else {
+            int addStatus = mPagerAdapter.appendList(mStore.getPage(), mStore.getPictureList());
+            mPagerAdapter.notifyDataSetChanged();
+            if(addStatus == PicturePagerAdapter.ADD_FRONT) {
+                vViewPager.setCurrentItem(vViewPager.getCurrentItem() + mStore.getPictureList().size(), false);
+            }
+        }
+    }
+
+    @Override
+    public void onError(StoreChange.PictureStore pictureStore) {
+
+    }
 }

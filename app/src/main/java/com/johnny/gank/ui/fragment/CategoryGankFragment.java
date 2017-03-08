@@ -16,12 +16,10 @@ package com.johnny.gank.ui.fragment;
  */
 
 import com.johnny.gank.R;
-import com.johnny.gank.dispatcher.RxViewDispatch;
 import com.johnny.gank.ui.adapter.CategoryGankAdapter;
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,7 +37,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public abstract class CategoryGankFragment extends BaseFragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener{
+public abstract class CategoryGankFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     @Bind(R.id.refresh_layout) SwipeRefreshLayout vRefreshLayout;
     @Bind(R.id.recycler_view) RecyclerView vWelfareRecycler;

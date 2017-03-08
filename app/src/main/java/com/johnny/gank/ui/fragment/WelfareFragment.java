@@ -17,14 +17,13 @@ package com.johnny.gank.ui.fragment;
 
 import com.johnny.gank.R;
 import com.johnny.gank.action.ActionType;
-import com.johnny.gank.action.RxError;
 import com.johnny.gank.action.WelfareActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.WelfareFragmentComponent;
-import com.johnny.gank.dispatcher.Dispatcher;
-import com.johnny.gank.dispatcher.RxViewDispatch;
+import com.johnny.gank.rxflux.Dispatcher;
+import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
-import com.johnny.gank.store.RxStoreChange;
+import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.store.WelfareStore;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.PictureActivity;
@@ -32,11 +31,8 @@ import com.johnny.gank.ui.adapter.WelfareAdapter;
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +51,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class WelfareFragment extends BaseFragment implements RxViewDispatch, SwipeRefreshLayout.OnRefreshListener{
+public class WelfareFragment extends BaseFragment implements StoreObserver<StoreChange.WelfareStore>, SwipeRefreshLayout.OnRefreshListener{
 
     public static final String TAG = WelfareFragment.class.getSimpleName();
 
@@ -71,7 +67,6 @@ public class WelfareFragment extends BaseFragment implements RxViewDispatch, Swi
 
     @Inject WelfareStore mStore;
     @Inject WelfareActionCreator mActionCreator;
-    @Inject Dispatcher mDispatcher;
 
     private boolean mLoadingMore = false;
 
@@ -111,8 +106,8 @@ public class WelfareFragment extends BaseFragment implements RxViewDispatch, Swi
         adapter.setLoadingView(vLoadMore);
         vWelfareRecycler.setAdapter(adapter);
 
-        mDispatcher.subscribeRxStore(mStore);
-        mDispatcher.subscribeRxView(this);
+        Dispatcher.get().register(mStore, ActionType.GET_WELFARE_LIST);
+        mStore.addObserver(this);
         return contentView;
     }
 
@@ -130,8 +125,7 @@ public class WelfareFragment extends BaseFragment implements RxViewDispatch, Swi
 
     @Override
     public void onDestroyView() {
-        mDispatcher.unsubscribeRxStore(mStore);
-        mDispatcher.unsubscribeRxView(this);
+        mStore.unRegister();
         super.onDestroyView();
     }
 
@@ -143,35 +137,6 @@ public class WelfareFragment extends BaseFragment implements RxViewDispatch, Swi
         mLoadingMore = true;
         vLoadMore.setStatus(LoadMoreView.STATUS_LOADING);
         mActionCreator.getWelfareList(mAdapter.getCurPage() + 1);
-    }
-
-    @Override
-    public void onRxStoreChanged(@NonNull RxStoreChange change) {
-        switch (change.getStoreId()) {
-            case WelfareStore.ID:
-                if(1 == mStore.getPage()) {
-                    vRefreshLayout.setRefreshing(false);
-                }
-                mAdapter.updateData(mStore.getPage(), mStore.getGankList());
-                mLoadingMore = false;
-                vLoadMore.setStatus(LoadMoreView.STATUS_INIT);
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onRxError(@NonNull RxError error) {
-        switch (error.getAction().getType()) {
-            case ActionType.GET_WELFARE_LIST:
-                vRefreshLayout.setRefreshing(false);
-                mLoadingMore = false;
-                vLoadMore.setStatus(LoadMoreView.STATUS_FAIL);
-                break;
-            default:
-                break;
-        }
     }
 
     @Override
@@ -216,4 +181,21 @@ public class WelfareFragment extends BaseFragment implements RxViewDispatch, Swi
             }
         }
     };
+
+    @Override
+    public void onChange(StoreChange.WelfareStore welfareStore) {
+        if(1 == mStore.getPage()) {
+            vRefreshLayout.setRefreshing(false);
+        }
+        mAdapter.updateData(mStore.getPage(), mStore.getGankList());
+        mLoadingMore = false;
+        vLoadMore.setStatus(LoadMoreView.STATUS_INIT);
+    }
+
+    @Override
+    public void onError(StoreChange.WelfareStore welfareStore) {
+        vRefreshLayout.setRefreshing(false);
+        mLoadingMore = false;
+        vLoadMore.setStatus(LoadMoreView.STATUS_FAIL);
+    }
 }

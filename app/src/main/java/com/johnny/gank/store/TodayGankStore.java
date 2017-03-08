@@ -15,11 +15,10 @@ package com.johnny.gank.store;
  * limitations under the License.
  */
 
-import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.Key;
-import com.johnny.gank.action.RxAction;
 import com.johnny.gank.data.ui.GankItem;
-import com.johnny.gank.dispatcher.Dispatcher;
+import com.johnny.gank.rxflux.Action;
+import com.johnny.gank.rxflux.Store;
 
 import java.util.List;
 
@@ -31,30 +30,25 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class TodayGankStore extends RxStore {
-
-    public static final String ID = "TodayGankStore";
+public class TodayGankStore extends Store<StoreChange.TodayDankStore> {
 
     private List<GankItem> mItems;
 
     @Inject
-    public TodayGankStore(Dispatcher dispatcher) {
-        super(dispatcher);
-    }
-
-    @Override
-    public void onRxAction(RxAction action) {
-        switch (action.getType()) {
-            case ActionType.GET_TODAY_GANK:
-                mItems = action.get(Key.DAY_GANK);
-                break;
-            default:
-                return;
-        }
-        postChange(new RxStoreChange(ID, action));
-    }
+    public TodayGankStore() {}
 
     public List<GankItem> getItems() {
         return mItems;
+    }
+
+    @Override
+    public void onAction(Action action) {
+        mItems = action.get(Key.DAY_GANK);
+        postChange(new StoreChange.TodayDankStore());
+    }
+
+    @Override
+    public void onError(Action action, Throwable throwable) {
+        postError(new StoreChange.TodayDankStore());
     }
 }
