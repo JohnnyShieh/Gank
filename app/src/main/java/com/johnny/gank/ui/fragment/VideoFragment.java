@@ -19,8 +19,6 @@ import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.VideoActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.VideoFramentComponent;
-import com.johnny.gank.rxflux.Dispatcher;
-import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.store.VideoStore;
@@ -28,6 +26,7 @@ import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.CategoryGankAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
+import com.johnny.rxflux.StoreObserver;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,7 +42,8 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class VideoFragment extends CategoryGankFragment implements StoreObserver<StoreChange.VideoStore> {
+public class VideoFragment extends CategoryGankFragment implements
+    StoreObserver<StoreChange.VideoStore> {
 
     public static final String TAG = VideoFragment.class.getSimpleName();
 
@@ -79,8 +79,8 @@ public class VideoFragment extends CategoryGankFragment implements StoreObserver
         });
 
         initInjector();
-        Dispatcher.get().register(mStore, ActionType.GET_VIDEO_LIST);
-        mStore.addObserver(this);
+        mStore.register(ActionType.GET_VIDEO_LIST);
+        mStore.setObserver(this);
         return contentView;
     }
 

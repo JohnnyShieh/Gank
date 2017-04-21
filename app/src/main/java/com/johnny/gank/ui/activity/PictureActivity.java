@@ -21,12 +21,11 @@ import com.johnny.gank.action.PictureActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.DaggerPictureActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
-import com.johnny.gank.rxflux.Dispatcher;
-import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.PictureStore;
 import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.ui.adapter.PicturePagerAdapter;
+import com.johnny.rxflux.StoreObserver;
 import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
@@ -54,7 +53,8 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class PictureActivity extends BaseActivity implements StoreObserver<StoreChange.PictureStore>{
+public class PictureActivity extends BaseActivity implements
+    StoreObserver<StoreChange.PictureStore> {
 
     private static final String EXTRA_URL_SINGLE_PIC = "url_single_pic";
     private static final String EXTRA_PUBLISH_SINGLE_PIC = "publish_single_pic";
@@ -126,9 +126,6 @@ public class PictureActivity extends BaseActivity implements StoreObserver<Store
         parseIntentAndInitAdapter();
         vViewPager.setAdapter(mPagerAdapter);
         vViewPager.addOnPageChangeListener(mPageChangeListener);
-
-        Dispatcher.get().register(mStore, ActionType.GET_PICTURE_LIST);
-        mStore.addObserver(this);
     }
 
     private void initInjector() {
@@ -148,7 +145,8 @@ public class PictureActivity extends BaseActivity implements StoreObserver<Store
     @Override
     protected void onResume() {
         super.onResume();
-        Dispatcher.get().register(mStore, ActionType.GET_PICTURE_LIST);
+        mStore.setObserver(this);
+        mStore.register(ActionType.GET_PICTURE_LIST);
         MobclickAgent.onPageStart(StatName.PAGE_PICTURE);
         MobclickAgent.onResume(this);
     }

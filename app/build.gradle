@@ -103,6 +103,7 @@ dependencies {
     compile dependency['butterKnife']
     compile dependency['rxJava']
     compile dependency['rxAndroid']
+    compile dependency['rxflux']
     compile dependency['retrofit']
     compile dependency['converterGson']
     compile dependency['adapterRxjava']

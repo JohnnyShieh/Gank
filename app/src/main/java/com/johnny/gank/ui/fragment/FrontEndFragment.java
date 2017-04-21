@@ -19,8 +19,6 @@ import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.FrontEndActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.FrontEndFragmentComponent;
-import com.johnny.gank.rxflux.Dispatcher;
-import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.FrontEndStore;
 import com.johnny.gank.store.StoreChange;
@@ -28,6 +26,7 @@ import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.CategoryGankAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
+import com.johnny.rxflux.StoreObserver;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,7 +42,8 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class FrontEndFragment extends CategoryGankFragment implements StoreObserver<StoreChange.FrontEndStore> {
+public class FrontEndFragment extends CategoryGankFragment implements
+    StoreObserver<StoreChange.FrontEndStore> {
 
     public static final String TAG = FrontEndFragment.class.getSimpleName();
 
@@ -79,8 +79,8 @@ public class FrontEndFragment extends CategoryGankFragment implements StoreObser
         });
 
         initInjector();
-        Dispatcher.get().register(mStore, ActionType.GET_FRONT_END_LIST);
-        mStore.addObserver(this);
+        mStore.setObserver(this);
+        mStore.register(ActionType.GET_FRONT_END_LIST);
         return contentView;
     }
 

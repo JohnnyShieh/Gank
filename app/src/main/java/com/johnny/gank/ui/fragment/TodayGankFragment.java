@@ -21,8 +21,6 @@ import com.johnny.gank.action.TodayGankActionCreator;
 import com.johnny.gank.data.ui.GankGirlImageItem;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.TodayGankFragmentComponent;
-import com.johnny.gank.rxflux.Dispatcher;
-import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.store.TodayGankStore;
@@ -30,6 +28,7 @@ import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.PictureActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.GankListAdapter;
+import com.johnny.rxflux.StoreObserver;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -50,7 +49,8 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class TodayGankFragment extends BaseFragment implements StoreObserver<StoreChange.TodayDankStore>, SwipeRefreshLayout.OnRefreshListener, GankListAdapter.OnItemClickListener{
+public class TodayGankFragment extends BaseFragment implements
+    StoreObserver<StoreChange.TodayDankStore>, SwipeRefreshLayout.OnRefreshListener, GankListAdapter.OnItemClickListener{
 
     public static final String TAG = TodayGankFragment.class.getSimpleName();
 
@@ -96,8 +96,8 @@ public class TodayGankFragment extends BaseFragment implements StoreObserver<Sto
         mAdapter.setOnItemClickListener(this);
         vWelfareRecycler.setAdapter(mAdapter);
 
-        Dispatcher.get().register(mStore, ActionType.GET_TODAY_GANK);
-        mStore.addObserver(this);
+        mStore.register(ActionType.GET_TODAY_GANK);
+        mStore.setObserver(this);
         return contentView;
     }
 

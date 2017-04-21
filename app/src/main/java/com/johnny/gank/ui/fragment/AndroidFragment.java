@@ -19,14 +19,13 @@ import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.AndroidActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.AndroidFragmentComponent;
-import com.johnny.gank.rxflux.Dispatcher;
-import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.CategoryGankAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
+import com.johnny.rxflux.StoreObserver;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -42,7 +41,8 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class AndroidFragment extends CategoryGankFragment implements StoreObserver<StoreChange.AndroidStore>{
+public class AndroidFragment extends CategoryGankFragment implements
+    StoreObserver<StoreChange.AndroidStore> {
 
     public static final String TAG = AndroidFragment.class.getSimpleName();
 
@@ -79,8 +79,8 @@ public class AndroidFragment extends CategoryGankFragment implements StoreObserv
         });
 
         initInjector();
-        Dispatcher.get().register(mStore, ActionType.GET_ANDROID_LIST);
-        mStore.addObserver(this);
+        mStore.setObserver(this);
+        mStore.register(ActionType.GET_ANDROID_LIST);
         return contentView;
     }
 

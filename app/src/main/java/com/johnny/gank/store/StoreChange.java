@@ -15,7 +15,8 @@ package com.johnny.gank.store;
  * limitations under the License.
  */
 
-import com.johnny.gank.rxflux.Store;
+
+import com.johnny.rxflux.Store;
 
 /**
  * description

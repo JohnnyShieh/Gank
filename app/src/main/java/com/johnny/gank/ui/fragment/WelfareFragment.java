@@ -20,8 +20,6 @@ import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.WelfareActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.WelfareFragmentComponent;
-import com.johnny.gank.rxflux.Dispatcher;
-import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.store.WelfareStore;
@@ -30,6 +28,7 @@ import com.johnny.gank.ui.activity.PictureActivity;
 import com.johnny.gank.ui.adapter.WelfareAdapter;
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
+import com.johnny.rxflux.StoreObserver;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -51,7 +50,8 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class WelfareFragment extends BaseFragment implements StoreObserver<StoreChange.WelfareStore>, SwipeRefreshLayout.OnRefreshListener{
+public class WelfareFragment extends BaseFragment implements
+    StoreObserver<StoreChange.WelfareStore>, SwipeRefreshLayout.OnRefreshListener{
 
     public static final String TAG = WelfareFragment.class.getSimpleName();
 
@@ -106,8 +106,8 @@ public class WelfareFragment extends BaseFragment implements StoreObserver<Store
         adapter.setLoadingView(vLoadMore);
         vWelfareRecycler.setAdapter(adapter);
 
-        Dispatcher.get().register(mStore, ActionType.GET_WELFARE_LIST);
-        mStore.addObserver(this);
+        mStore.register(ActionType.GET_WELFARE_LIST);
+        mStore.setObserver(this);
         return contentView;
     }
 

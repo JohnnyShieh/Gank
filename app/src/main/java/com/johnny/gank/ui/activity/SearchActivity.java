@@ -21,11 +21,10 @@ import com.johnny.gank.action.QueryActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.DaggerSearchActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
-import com.johnny.gank.rxflux.Dispatcher;
-import com.johnny.gank.rxflux.StoreObserver;
 import com.johnny.gank.store.SearchStore;
 import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.ui.adapter.QueryGankAdapter;
+import com.johnny.rxflux.StoreObserver;
 
 import android.content.Context;
 import android.content.Intent;
@@ -78,8 +77,8 @@ public class SearchActivity extends BaseActivity implements StoreObserver<StoreC
         initRecyclerView();
         handleIntent(getIntent());
         initInjector();
-        Dispatcher.get().register(mStore, ActionType.QUERY_GANK);
-        mStore.addObserver(this);
+        mStore.setObserver(this);
+        mStore.register(ActionType.QUERY_GANK);
     }
 
     private void initInjector() {

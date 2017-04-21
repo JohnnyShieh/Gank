@@ -18,8 +18,8 @@ package com.johnny.gank.action;
 import com.johnny.gank.core.http.GankService;
 import com.johnny.gank.data.response.GankData;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.rxflux.Action;
-import com.johnny.gank.rxflux.Dispatcher;
+import com.johnny.rxflux.Action;
+import com.johnny.rxflux.Dispatcher;
 
 import java.util.List;
 

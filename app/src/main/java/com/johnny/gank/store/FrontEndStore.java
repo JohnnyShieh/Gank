@@ -17,8 +17,8 @@ package com.johnny.gank.store;
 
 import com.johnny.gank.action.Key;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.rxflux.Action;
-import com.johnny.gank.rxflux.Store;
+import com.johnny.rxflux.Action;
+import com.johnny.rxflux.Store;
 
 import java.util.List;
 

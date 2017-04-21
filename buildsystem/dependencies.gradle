@@ -1,7 +1,7 @@
 
 ext {
     //Android
-    androidBuildToolsVersion = "23.0.2"
+    androidBuildToolsVersion = "25.0.0"
     androidMinSdkVersion = 19
     androidTargetSdkVersion = 23
     androidCompileSdkVersion = 23
@@ -28,6 +28,7 @@ ext {
     junitVersion = '4.12'
     timberVersion = '4.1.2'
     loggerVersion = '1.1.8'
+    rxfluxVersion = '1.0.0'
 
     dependencies = [
             recyclerView:       "com.android.support:recyclerview-v7:${recyclerViewVersion}",
@@ -53,6 +54,7 @@ ext {
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
             timber:             "com.jakewharton.timber:timber:${timberVersion}",
             logger:             "com.github.tianzhijiexian:logger:${loggerVersion}",
-            junit:              "junit:junit:${junitVersion}"
+            junit:              "junit:junit:${junitVersion}",
+            rxflux:             "com.johnny.rxflux:rxflux:${rxfluxVersion}"
     ]
 }
