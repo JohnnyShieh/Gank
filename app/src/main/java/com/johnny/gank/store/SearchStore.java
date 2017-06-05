@@ -30,7 +30,7 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class SearchStore extends Store<StoreChange.SearchStore> {
+public class SearchStore extends Store {
 
     private List<GankNormalItem> mGankList;
 
@@ -42,13 +42,13 @@ public class SearchStore extends Store<StoreChange.SearchStore> {
     }
 
     @Override
-    public void onAction(Action action) {
+    protected boolean onAction(Action action) {
         mGankList = action.get(Key.QUERY_RESULT);
-        postChange(new StoreChange.SearchStore());
+        return true;
     }
 
     @Override
-    public void onError(Action action, Throwable throwable) {
-        postError(new StoreChange.SearchStore());
+    protected boolean onError(Action action, Throwable throwable) {
+        return true;
     }
 }

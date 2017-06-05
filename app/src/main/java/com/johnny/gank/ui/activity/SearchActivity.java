@@ -22,8 +22,8 @@ import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.DaggerSearchActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
 import com.johnny.gank.store.SearchStore;
-import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.ui.adapter.QueryGankAdapter;
+import com.johnny.rxflux.Store;
 import com.johnny.rxflux.StoreObserver;
 
 import android.content.Context;
@@ -47,7 +47,7 @@ import butterknife.ButterKnife;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class SearchActivity extends BaseActivity implements StoreObserver<StoreChange.SearchStore> {
+public class SearchActivity extends BaseActivity implements StoreObserver {
 
     @Bind(R.id.toolbar) Toolbar vToolbar;
     @Bind(R.id.search_view) SearchView vSearchView;
@@ -139,13 +139,13 @@ public class SearchActivity extends BaseActivity implements StoreObserver<StoreC
     }
 
     @Override
-    public void onChange(StoreChange.SearchStore searchStore) {
+    public void onChange(Store store, String actionType) {
         mAdapter.updateData(mStore.getGankList());
         vEmptyView.setVisibility(null == mStore.getGankList() ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
-    public void onError(StoreChange.SearchStore searchStore) {
+    public void onError(Store store, String actionType) {
         mAdapter.clearData();
         vEmptyView.setVisibility(View.VISIBLE);
     }

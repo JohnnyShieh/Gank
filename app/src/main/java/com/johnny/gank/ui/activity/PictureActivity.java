@@ -22,9 +22,9 @@ import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.DaggerPictureActivityComponent;
 import com.johnny.gank.di.module.ActivityModule;
 import com.johnny.gank.stat.StatName;
-import com.johnny.gank.store.PictureStore;
-import com.johnny.gank.store.StoreChange;
+import com.johnny.gank.store.NormalGankStore;
 import com.johnny.gank.ui.adapter.PicturePagerAdapter;
+import com.johnny.rxflux.Store;
 import com.johnny.rxflux.StoreObserver;
 import com.umeng.analytics.MobclickAgent;
 
@@ -54,7 +54,7 @@ import butterknife.ButterKnife;
  * @version 1.0
  */
 public class PictureActivity extends BaseActivity implements
-    StoreObserver<StoreChange.PictureStore> {
+    StoreObserver {
 
     private static final String EXTRA_URL_SINGLE_PIC = "url_single_pic";
     private static final String EXTRA_PUBLISH_SINGLE_PIC = "publish_single_pic";
@@ -69,9 +69,14 @@ public class PictureActivity extends BaseActivity implements
 
     private String mInitPicId;      // the pic id of the first picture when enter activity.
 
-    @Inject PicturePagerAdapter mPagerAdapter;
-    @Inject PictureStore mStore;
-    @Inject PictureActionCreator mActionCreator;
+    @Inject
+    PicturePagerAdapter mPagerAdapter;
+
+    @Inject
+    NormalGankStore mStore;
+
+    @Inject
+    PictureActionCreator mActionCreator;
 
     public static Intent newIntent(Context context, String url, Date publishAt) {
         Intent intent = new Intent(context, PictureActivity.class);
@@ -206,11 +211,11 @@ public class PictureActivity extends BaseActivity implements
     };
 
     @Override
-    public void onChange(StoreChange.PictureStore pictureStore) {
+    public void onChange(Store store, String actionType) {
         if(0 == mPagerAdapter.getCount()) {
-            mPagerAdapter.initList(mStore.getPictureList());
+            mPagerAdapter.initList(mStore.getGankList());
             mPagerAdapter.notifyDataSetChanged();
-            int initPos = getInitPicPos(mStore.getPictureList());
+            int initPos = getInitPicPos(mStore.getGankList());
             vViewPager.setCurrentItem(initPos, false);
             // when use setCurrentItem(0), onPageSelected would not be called.
             // so just call it manually.
@@ -218,16 +223,14 @@ public class PictureActivity extends BaseActivity implements
                 mPageChangeListener.onPageSelected(0);
             }
         }else {
-            int addStatus = mPagerAdapter.appendList(mStore.getPage(), mStore.getPictureList());
+            int addStatus = mPagerAdapter.appendList(mStore.getPage(), mStore.getGankList());
             mPagerAdapter.notifyDataSetChanged();
             if(addStatus == PicturePagerAdapter.ADD_FRONT) {
-                vViewPager.setCurrentItem(vViewPager.getCurrentItem() + mStore.getPictureList().size(), false);
+                vViewPager.setCurrentItem(vViewPager.getCurrentItem() + mStore.getGankList().size(), false);
             }
         }
     }
 
     @Override
-    public void onError(StoreChange.PictureStore pictureStore) {
-
-    }
+    public void onError(Store store, String actionType) {}
 }

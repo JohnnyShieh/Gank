@@ -20,12 +20,12 @@ import com.johnny.gank.action.IOSActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.IOSFragmentComponent;
 import com.johnny.gank.stat.StatName;
-import com.johnny.gank.store.IOSStore;
-import com.johnny.gank.store.StoreChange;
+import com.johnny.gank.store.NormalGankStore;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.CategoryGankAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
+import com.johnny.rxflux.Store;
 import com.johnny.rxflux.StoreObserver;
 
 import android.os.Bundle;
@@ -43,12 +43,15 @@ import javax.inject.Inject;
  * @version 1.0
  */
 public class IOSFragment extends CategoryGankFragment implements
-    StoreObserver<StoreChange.IOSStore> {
+    StoreObserver {
 
     public static final String TAG = IOSFragment.class.getSimpleName();
 
-    @Inject IOSStore mStore;
-    @Inject IOSActionCreator mActionCreator;
+    @Inject
+    NormalGankStore mStore;
+
+    @Inject
+    IOSActionCreator mActionCreator;
 
     protected IOSFragmentComponent mComponent;
 
@@ -107,7 +110,7 @@ public class IOSFragment extends CategoryGankFragment implements
     }
 
     @Override
-    public void onChange(StoreChange.IOSStore iosStore) {
+    public void onChange(Store store, String actionType) {
         if(1 == mStore.getPage()) {
             vRefreshLayout.setRefreshing(false);
         }
@@ -117,7 +120,7 @@ public class IOSFragment extends CategoryGankFragment implements
     }
 
     @Override
-    public void onError(StoreChange.IOSStore iosStore) {
+    public void onError(Store store, String actionType) {
         vRefreshLayout.setRefreshing(false);
         mLoadingMore = false;
         vLoadMore.setStatus(LoadMoreView.STATUS_FAIL);

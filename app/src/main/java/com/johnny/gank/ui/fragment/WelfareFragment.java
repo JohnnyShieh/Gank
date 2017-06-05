@@ -21,13 +21,13 @@ import com.johnny.gank.action.WelfareActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.WelfareFragmentComponent;
 import com.johnny.gank.stat.StatName;
-import com.johnny.gank.store.StoreChange;
-import com.johnny.gank.store.WelfareStore;
+import com.johnny.gank.store.NormalGankStore;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.PictureActivity;
 import com.johnny.gank.ui.adapter.WelfareAdapter;
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter;
 import com.johnny.gank.ui.widget.LoadMoreView;
+import com.johnny.rxflux.Store;
 import com.johnny.rxflux.StoreObserver;
 
 import android.os.Bundle;
@@ -51,7 +51,7 @@ import butterknife.ButterKnife;
  * @version 1.0
  */
 public class WelfareFragment extends BaseFragment implements
-    StoreObserver<StoreChange.WelfareStore>, SwipeRefreshLayout.OnRefreshListener{
+    StoreObserver, SwipeRefreshLayout.OnRefreshListener{
 
     public static final String TAG = WelfareFragment.class.getSimpleName();
 
@@ -65,8 +65,11 @@ public class WelfareFragment extends BaseFragment implements
 
     private WelfareAdapter mAdapter;
 
-    @Inject WelfareStore mStore;
-    @Inject WelfareActionCreator mActionCreator;
+    @Inject
+    NormalGankStore mStore;
+
+    @Inject
+    WelfareActionCreator mActionCreator;
 
     private boolean mLoadingMore = false;
 
@@ -183,7 +186,7 @@ public class WelfareFragment extends BaseFragment implements
     };
 
     @Override
-    public void onChange(StoreChange.WelfareStore welfareStore) {
+    public void onChange(Store store, String actionType) {
         if(1 == mStore.getPage()) {
             vRefreshLayout.setRefreshing(false);
         }
@@ -193,7 +196,7 @@ public class WelfareFragment extends BaseFragment implements
     }
 
     @Override
-    public void onError(StoreChange.WelfareStore welfareStore) {
+    public void onError(Store store, String actionType) {
         vRefreshLayout.setRefreshing(false);
         mLoadingMore = false;
         vLoadMore.setStatus(LoadMoreView.STATUS_FAIL);

@@ -22,12 +22,12 @@ import com.johnny.gank.data.ui.GankGirlImageItem;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.di.component.TodayGankFragmentComponent;
 import com.johnny.gank.stat.StatName;
-import com.johnny.gank.store.StoreChange;
 import com.johnny.gank.store.TodayGankStore;
 import com.johnny.gank.ui.activity.MainActivity;
 import com.johnny.gank.ui.activity.PictureActivity;
 import com.johnny.gank.ui.activity.WebviewActivity;
 import com.johnny.gank.ui.adapter.GankListAdapter;
+import com.johnny.rxflux.Store;
 import com.johnny.rxflux.StoreObserver;
 
 import android.os.Bundle;
@@ -50,7 +50,7 @@ import butterknife.ButterKnife;
  * @version 1.0
  */
 public class TodayGankFragment extends BaseFragment implements
-    StoreObserver<StoreChange.TodayDankStore>, SwipeRefreshLayout.OnRefreshListener, GankListAdapter.OnItemClickListener{
+    StoreObserver, SwipeRefreshLayout.OnRefreshListener, GankListAdapter.OnItemClickListener{
 
     public static final String TAG = TodayGankFragment.class.getSimpleName();
 
@@ -148,13 +148,13 @@ public class TodayGankFragment extends BaseFragment implements
     }
 
     @Override
-    public void onChange(StoreChange.TodayDankStore todayDankStore) {
+    public void onChange(Store store, String actionType) {
         vRefreshLayout.setRefreshing(false);
         mAdapter.swapData(mStore.getItems());
     }
 
     @Override
-    public void onError(StoreChange.TodayDankStore todayDankStore) {
+    public void onError(Store store, String actionType) {
         vRefreshLayout.setRefreshing(false);
     }
 }

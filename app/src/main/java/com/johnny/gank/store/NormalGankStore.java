@@ -1,6 +1,6 @@
 package com.johnny.gank.store;
 /*
- * Copyright (C) 2015 Johnny Shieh Open Source Project
+ * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,13 +30,25 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class FrontEndStore extends Store<StoreChange.FrontEndStore> {
+public class NormalGankStore extends Store {
 
     private int mPage;
     private List<GankNormalItem> mGankList;
 
     @Inject
-    public FrontEndStore() {}
+    public NormalGankStore() {}
+
+    @Override
+    protected boolean onAction(Action action) {
+        mPage = action.get(Key.PAGE);
+        mGankList = action.get(Key.GANK_LIST);
+        return true;
+    }
+
+    @Override
+    protected boolean onError(Action action, Throwable throwable) {
+        return true;
+    }
 
     public int getPage() {
         return mPage;
@@ -46,15 +58,4 @@ public class FrontEndStore extends Store<StoreChange.FrontEndStore> {
         return mGankList;
     }
 
-    @Override
-    public void onAction(Action action) {
-        mPage = action.get(Key.PAGE);
-        mGankList = action.get(Key.GANK_LIST);
-        postChange(new StoreChange.FrontEndStore());
-    }
-
-    @Override
-    public void onError(Action action, Throwable throwable) {
-        postError(new StoreChange.FrontEndStore());
-    }
 }

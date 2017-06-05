@@ -30,7 +30,7 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class TodayGankStore extends Store<StoreChange.TodayDankStore> {
+public class TodayGankStore extends Store {
 
     private List<GankItem> mItems;
 
@@ -42,13 +42,13 @@ public class TodayGankStore extends Store<StoreChange.TodayDankStore> {
     }
 
     @Override
-    public void onAction(Action action) {
+    protected boolean onAction(Action action) {
         mItems = action.get(Key.DAY_GANK);
-        postChange(new StoreChange.TodayDankStore());
+        return true;
     }
 
     @Override
-    public void onError(Action action, Throwable throwable) {
-        postError(new StoreChange.TodayDankStore());
+    protected boolean onError(Action action, Throwable throwable) {
+        return true;
     }
 }

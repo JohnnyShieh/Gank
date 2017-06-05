@@ -15,7 +15,6 @@ ext {
     daggerVersion = '2.11-rc2'
     rxJavaVersion = '2.0.6'
     rxAndroidVersion = '2.0.1'
-    rxFluxVersion = '0.3.1'
     javaxAnnotationVersion = '1.0'
     androidAnnotationsVersion = '20.0.0'
     gsonVersion = '2.3'
@@ -28,7 +27,7 @@ ext {
     junitVersion = '4.12'
     timberVersion = '4.1.2'
     loggerVersion = '1.1.8'
-    rxfluxVersion = '1.0.0'
+    rxfluxVersion = '1.0.2'
 
     dependencies = [
             recyclerView:       "com.android.support:recyclerview-v7:${recyclerViewVersion}",
@@ -40,7 +39,6 @@ ext {
             butterKnife:        "com.jakewharton:butterknife:${butterKnifeVersion}",
             rxJava:             "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             rxAndroid:          "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            rxFlux:             "com.hardsoftstudio:rxflux:${rxFluxVersion}",
             okHttp:             "com.squareup.okhttp3:okhttp:${okHttpVersion}",
             retrofit:           "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             converterGson:      "com.squareup.retrofit2:converter-gson:${converterGsonVersion}",
