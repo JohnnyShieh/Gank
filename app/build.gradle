@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
@@ -92,7 +91,7 @@ def dependency = rootProject.ext.dependencies
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    apt dependency['daggerCompiler']
+    annotationProcessor dependency['daggerCompiler']
     testCompile dependency['junit']
     compile(name:'feedbacksdk', ext:'aar')
     compile dependency['appcompat']
