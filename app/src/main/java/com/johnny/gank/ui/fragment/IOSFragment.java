@@ -62,10 +62,13 @@ public class IOSFragment extends CategoryGankFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initInjector();
     }
 
     private void initInjector() {
-        mComponent = ((MainActivity)getActivity()).getMainActivityComponent().iosFragmentComponent();
+        mComponent = ((MainActivity)getActivity()).getMainActivityComponent()
+            .iosFragmentComponent()
+            .build();
         mComponent.inject(this);
     }
 
@@ -81,7 +84,6 @@ public class IOSFragment extends CategoryGankFragment implements
             }
         });
 
-        initInjector();
         mStore.register(ActionType.GET_IOS_LIST);
         mStore.setObserver(this);
         return contentView;

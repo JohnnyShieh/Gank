@@ -62,10 +62,13 @@ public class AndroidFragment extends CategoryGankFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initInjector();
     }
 
     private void initInjector() {
-        mComponent = ((MainActivity)getActivity()).getMainActivityComponent().androidFragmentComponent();
+        mComponent = ((MainActivity)getActivity()).getMainActivityComponent()
+            .androidFragmentComponent()
+            .build();
         mComponent.inject(this);
     }
 
@@ -81,7 +84,6 @@ public class AndroidFragment extends CategoryGankFragment implements
             }
         });
 
-        initInjector();
         mStore.setObserver(this);
         mStore.register(ActionType.GET_ANDROID_LIST);
         return contentView;

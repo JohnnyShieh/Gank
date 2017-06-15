@@ -1,6 +1,7 @@
-package com.johnny.gank.di;
+package com.johnny.gank.di.module;
+
 /*
- * Copyright (C) 2015 Johnny Shieh Open Source Project
+ * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +16,18 @@ package com.johnny.gank.di;
  * limitations under the License.
  */
 
-import java.lang.annotation.Retention;
+import com.johnny.gank.di.component.MainActivityComponent;
+import com.johnny.gank.di.component.PictureActivityComponent;
+import com.johnny.gank.di.component.SearchActivityComponent;
 
-import javax.inject.Scope;
-
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import dagger.Module;
 
 /**
- * A scoping annotation to permit objects whose lifetime should
- * conform to the life of the activity to be memorized in the
- * correct component.
+ * description
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
- * @version 1.0 2015-10-24
- *
+ * @version 1.0
  */
-@Scope
-@Retention(RUNTIME)
-public @interface PerActivity {}
+@Module(subcomponents = {MainActivityComponent.class, PictureActivityComponent.class,
+    SearchActivityComponent.class})
+public final class ActivityBindModule {}

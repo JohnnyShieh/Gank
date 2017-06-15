@@ -15,6 +15,7 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
+import com.johnny.gank.di.module.ActivityBindModule;
 import com.johnny.gank.di.module.AppModule;
 
 import android.content.Context;
@@ -30,9 +31,14 @@ import dagger.Component;
  * @version 1.0
  */
 @Singleton
-@Component(modules = {AppModule.class})
+@Component(modules = {AppModule.class, ActivityBindModule.class})
 public interface AppComponent {
 
     Context getAppContext();
 
+    MainActivityComponent.Builder mainActivityComponent();
+
+    PictureActivityComponent.Builder pictureActivityComponent();
+
+    SearchActivityComponent.Builder searchActivityComponent();
 }

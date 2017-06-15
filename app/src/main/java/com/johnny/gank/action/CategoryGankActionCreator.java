@@ -23,6 +23,8 @@ import com.johnny.rxflux.Dispatcher;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -41,6 +43,9 @@ abstract class CategoryGankActionCreator{
 
     private boolean hasAction = false;
 
+    @Inject
+    GankService mGankService;
+
     protected abstract String getActionId();
 
     protected int getPageCount() {
@@ -54,8 +59,7 @@ abstract class CategoryGankActionCreator{
         }
 
         hasAction = true;
-        GankService.Factory.getGankService()
-            .getGank(category, getPageCount(), page)
+        mGankService.getGank(category, getPageCount(), page)
             .map(new Function<GankData, List<GankNormalItem>>() {
                 @Override
                 public List<GankNormalItem> apply(@NonNull GankData gankData) throws Exception {

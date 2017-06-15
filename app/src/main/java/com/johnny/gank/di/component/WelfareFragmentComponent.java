@@ -15,14 +15,11 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.PerFragment;
-import com.johnny.gank.di.module.ActivityModule;
-import com.johnny.gank.di.module.AppModule;
+import com.johnny.gank.di.FragmentScope;
 import com.johnny.gank.ui.fragment.WelfareFragment;
 
 import android.app.Activity;
 
-import dagger.Component;
 import dagger.Subcomponent;
 
 /**
@@ -31,11 +28,16 @@ import dagger.Subcomponent;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-@PerFragment
+@FragmentScope
 @Subcomponent
 public interface WelfareFragmentComponent {
 
     void inject(WelfareFragment welfareFragment);
 
     Activity getActivity();
+
+    @Subcomponent.Builder
+    interface Builder {
+        WelfareFragmentComponent build();
+    }
 }

@@ -56,6 +56,9 @@ public class TodayGankActionCreator {
     private boolean hasAction = false;
 
     @Inject
+    GankService mGankService;
+
+    @Inject
     public TodayGankActionCreator() {}
 
     public void getTodayGank() {
@@ -65,8 +68,7 @@ public class TodayGankActionCreator {
         }
 
         hasAction = true;
-        GankService.Factory.getGankService()
-            .getDateHistory()
+        mGankService.getDateHistory()
             .filter(new Predicate<DateData>() {
                 @Override
                 public boolean test(@NonNull DateData dateData) throws Exception {
@@ -94,7 +96,7 @@ public class TodayGankActionCreator {
             .flatMap(new Function<Calendar, ObservableSource<DayData>>() {
                 @Override
                 public ObservableSource<DayData> apply(@NonNull Calendar calendar) throws Exception {
-                    return GankService.Factory.getGankService()
+                    return mGankService
                         .getDayGank(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
                 }
             })

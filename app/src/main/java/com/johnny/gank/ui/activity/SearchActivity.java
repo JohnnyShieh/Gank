@@ -19,8 +19,6 @@ import com.johnny.gank.R;
 import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.QueryActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.di.component.DaggerSearchActivityComponent;
-import com.johnny.gank.di.module.ActivityModule;
 import com.johnny.gank.store.SearchStore;
 import com.johnny.gank.ui.adapter.QueryGankAdapter;
 import com.johnny.rxflux.Store;
@@ -82,9 +80,9 @@ public class SearchActivity extends BaseActivity implements StoreObserver {
     }
 
     private void initInjector() {
-        DaggerSearchActivityComponent.builder()
-            .appComponent(getAppComponent())
-            .activityModule(new ActivityModule(this))
+        getAppComponent()
+            .searchActivityComponent()
+            .activity(this)
             .build()
             .inject(this);
     }

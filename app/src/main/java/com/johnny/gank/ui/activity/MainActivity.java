@@ -17,9 +17,7 @@ package com.johnny.gank.ui.activity;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.johnny.gank.R;
-import com.johnny.gank.di.component.DaggerMainActivityComponent;
 import com.johnny.gank.di.component.MainActivityComponent;
-import com.johnny.gank.di.module.ActivityModule;
 import com.johnny.gank.ui.fragment.AndroidFragment;
 import com.johnny.gank.ui.fragment.FrontEndFragment;
 import com.johnny.gank.ui.fragment.IOSFragment;
@@ -71,9 +69,9 @@ public class MainActivity extends BaseActivity
     }
 
     private void initInjector() {
-        mComponent = DaggerMainActivityComponent.builder()
-            .appComponent(getAppComponent())
-            .activityModule(new ActivityModule(this))
+        mComponent = getAppComponent()
+            .mainActivityComponent()
+            .activity(this)
             .build();
     }
 

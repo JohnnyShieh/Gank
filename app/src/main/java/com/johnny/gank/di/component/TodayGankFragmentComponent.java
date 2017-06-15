@@ -15,7 +15,7 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.PerFragment;
+import com.johnny.gank.di.FragmentScope;
 import com.johnny.gank.ui.fragment.TodayGankFragment;
 
 import android.app.Activity;
@@ -28,11 +28,16 @@ import dagger.Subcomponent;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-@PerFragment
+@FragmentScope
 @Subcomponent
 public interface TodayGankFragmentComponent {
 
     void inject(TodayGankFragment todayGankFragment);
 
     Activity getActivity();
+
+    @Subcomponent.Builder
+    interface Builder {
+        TodayGankFragmentComponent build();
+    }
 }
