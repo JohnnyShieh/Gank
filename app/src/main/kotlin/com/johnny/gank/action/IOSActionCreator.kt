@@ -1,6 +1,7 @@
-package com.johnny.gank.action;
+package com.johnny.gank.action
+
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +16,24 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
+import com.johnny.gank.data.GankType
+
+import javax.inject.Inject
+
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-public interface ActionType {
-    String GET_WELFARE_LIST = "get_welfare_list";
-    String GET_ANDROID_LIST = "get_android_list";
-    String GET_IOS_LIST = "get_ios_list";
-    String GET_FRONT_END_LIST = "get_front_end_list";
-    String GET_VIDEO_LIST = "get_video_list";
-    String GET_TODAY_GANK = "get_today_gank";
-    String GET_PICTURE_LIST = "get_picture_list";
-    String QUERY_GANK = "query_gank";
+class IOSActionCreator
+    @Inject constructor() : CategoryGankActionCreator() {
+
+    override val actionId: String
+        get() = ActionType.GET_IOS_LIST
+
+    fun getIOSList(page: Int) {
+        getGankList(GankType.IOS, page)
+    }
 }

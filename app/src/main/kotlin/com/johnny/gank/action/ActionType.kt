@@ -1,6 +1,7 @@
-package com.johnny.gank.action;
+package com.johnny.gank.action
+
 /*
- * Copyright (C) 2015 Johnny Shieh Open Source Project
+ * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,27 +16,20 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
-import com.johnny.gank.data.GankType;
-
-import javax.inject.Inject;
-
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-public class FrontEndActionCreator extends CategoryGankActionCreator {
-
-    @Inject
-    public FrontEndActionCreator() {}
-
-    @Override
-    protected String getActionId() {
-        return ActionType.GET_FRONT_END_LIST;
-    }
-
-    public void getFrontEndList(final int page) {
-        getGankList(GankType.FRONTEND, page);
-    }
+object ActionType {
+    const val GET_WELFARE_LIST = "get_welfare_list"
+    const val GET_ANDROID_LIST = "get_android_list"
+    const val GET_IOS_LIST = "get_ios_list"
+    const val GET_FRONT_END_LIST = "get_front_end_list"
+    const val GET_VIDEO_LIST = "get_video_list"
+    const val GET_TODAY_GANK = "get_today_gank"
+    const val GET_PICTURE_LIST = "get_picture_list"
+    const val QUERY_GANK = "query_gank"
 }

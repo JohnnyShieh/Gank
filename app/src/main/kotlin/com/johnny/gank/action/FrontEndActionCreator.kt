@@ -1,4 +1,5 @@
-package com.johnny.gank.action;
+package com.johnny.gank.action
+
 /*
  * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
@@ -15,27 +16,24 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
-import com.johnny.gank.data.GankType;
+import com.johnny.gank.data.GankType
 
-import javax.inject.Inject;
+import javax.inject.Inject
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-public class IOSActionCreator extends CategoryGankActionCreator {
+class FrontEndActionCreator
+    @Inject constructor() : CategoryGankActionCreator() {
 
-    @Inject
-    public IOSActionCreator() {}
+    override val actionId: String
+        get() = ActionType.GET_FRONT_END_LIST
 
-    @Override
-    protected String getActionId() {
-        return ActionType.GET_IOS_LIST;
-    }
-
-    public void getIOSList(final int page) {
-        getGankList(GankType.IOS, page);
+    fun getFrontEndList(page: Int) {
+        getGankList(GankType.FRONTEND, page)
     }
 }

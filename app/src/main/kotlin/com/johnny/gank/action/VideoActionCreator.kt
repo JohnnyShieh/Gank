@@ -1,4 +1,5 @@
-package com.johnny.gank.action;
+package com.johnny.gank.action
+
 /*
  * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
@@ -15,27 +16,24 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
-import com.johnny.gank.data.GankType;
+import com.johnny.gank.data.GankType
 
-import javax.inject.Inject;
+import javax.inject.Inject
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-public class VideoActionCreator extends CategoryGankActionCreator {
+class VideoActionCreator
+    @Inject constructor() : CategoryGankActionCreator() {
 
-    @Inject
-    public VideoActionCreator() {}
+    override val actionId: String
+        get() = ActionType.GET_VIDEO_LIST
 
-    @Override
-    protected String getActionId() {
-        return ActionType.GET_VIDEO_LIST;
-    }
-
-    public void getVideoList(final int page) {
-        getGankList(GankType.VIDEO, page);
+    fun getVideoList(page: Int) {
+        getGankList(GankType.VIDEO, page)
     }
 }

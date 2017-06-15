@@ -1,4 +1,5 @@
-package com.johnny.gank.action;
+package com.johnny.gank.action
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,27 +16,25 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
-import com.johnny.gank.data.GankType;
+import com.johnny.gank.data.GankType
 
-import javax.inject.Inject;
+import javax.inject.Inject
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-public class PictureActionCreator extends CategoryGankActionCreator {
+class AndroidActionCreator
+    @Inject constructor() : CategoryGankActionCreator() {
 
-    @Inject
-    public PictureActionCreator() {}
+    override val actionId
+        get() = ActionType.GET_ANDROID_LIST
 
-    @Override
-    protected String getActionId() {
-        return ActionType.GET_PICTURE_LIST;
-    }
 
-    public void getPictureList(final int page) {
-        getGankList(GankType.WELFARE, page);
+    fun getAndroidList(page: Int) {
+        getGankList(GankType.ANDROID, page)
     }
 }

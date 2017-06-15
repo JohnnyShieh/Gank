@@ -1,4 +1,5 @@
-package com.johnny.gank.action;
+package com.johnny.gank.action
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,16 +16,24 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
+import com.johnny.gank.data.GankType
+
+import javax.inject.Inject
+
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-public interface Key {
+class PictureActionCreator
+    @Inject constructor() : CategoryGankActionCreator() {
 
-    String PAGE = "page";
-    String GANK_LIST = "gank_list";
-    String DAY_GANK = "day_gank";
-    String QUERY_RESULT = "query_result";
+    override val actionId: String
+        get() = ActionType.GET_PICTURE_LIST
+
+    fun getPictureList(page: Int) {
+        getGankList(GankType.WELFARE, page)
+    }
 }

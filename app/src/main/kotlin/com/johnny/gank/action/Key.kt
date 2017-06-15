@@ -1,4 +1,4 @@
-package com.johnny.gank.action;
+package com.johnny.gank.action
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,27 +15,15 @@ package com.johnny.gank.action;
  * limitations under the License.
  */
 
-import com.johnny.gank.data.GankType;
-
-import javax.inject.Inject;
-
 /**
  * description
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class AndroidActionCreator extends CategoryGankActionCreator {
-
-    @Inject
-    public AndroidActionCreator() {}
-
-    @Override
-    protected String getActionId() {
-        return ActionType.GET_ANDROID_LIST;
-    }
-
-    public void getAndroidList(final int page) {
-        getGankList(GankType.ANDROID, page);
-    }
+object Key {
+    const val PAGE = "page"
+    const val GANK_LIST = "gank_list"
+    const val DAY_GANK = "day_gank"
+    const val QUERY_RESULT = "query_result"
 }
