@@ -1,4 +1,5 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.di.component
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,42 +16,43 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.ActivityScope;
-import com.johnny.gank.di.module.FragmentBindModule;
+import com.johnny.gank.di.ActivityScope
+import com.johnny.gank.di.module.FragmentBindModule
 
-import android.app.Activity;
+import android.app.Activity
 
-import dagger.BindsInstance;
-import dagger.Subcomponent;
+import dagger.BindsInstance
+import dagger.Subcomponent
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
 @ActivityScope
-@Subcomponent(modules = FragmentBindModule.class)
-public interface MainActivityComponent {
+@Subcomponent(modules = arrayOf(FragmentBindModule::class))
+interface MainActivityComponent {
 
     @Subcomponent.Builder
     interface Builder {
 
         @BindsInstance
-        Builder activity(Activity activity);
+        fun activity(activity: Activity): Builder
 
-        MainActivityComponent build();
+        fun build(): MainActivityComponent
     }
 
-    WelfareFragmentComponent.Builder welfareFragmentComponent();
+    fun welfareFragmentComponent(): WelfareFragmentComponent.Builder
 
-    TodayGankFragmentComponent.Builder todayGankFragmentComponent();
+    fun todayGankFragmentComponent(): TodayGankFragmentComponent.Builder
 
-    AndroidFragmentComponent.Builder androidFragmentComponent();
+    fun androidFragmentComponent(): AndroidFragmentComponent.Builder
 
-    IOSFragmentComponent.Builder iosFragmentComponent();
+    fun iosFragmentComponent(): IOSFragmentComponent.Builder
 
-    FrontEndFragmentComponent.Builder frontEndFragmentComponent();
+    fun frontEndFragmentComponent(): FrontEndFragmentComponent.Builder
 
-    VideoFramentComponent.Builder videoFragmentComponent();
+    fun videoFragmentComponent(): VideoFramentComponent.Builder
 }

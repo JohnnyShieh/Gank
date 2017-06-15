@@ -1,4 +1,5 @@
-package com.johnny.gank.di.module;
+package com.johnny.gank.di.module
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,22 +16,21 @@ package com.johnny.gank.di.module;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.component.AndroidFragmentComponent;
-import com.johnny.gank.di.component.FrontEndFragmentComponent;
-import com.johnny.gank.di.component.IOSFragmentComponent;
-import com.johnny.gank.di.component.TodayGankFragmentComponent;
-import com.johnny.gank.di.component.VideoFramentComponent;
-import com.johnny.gank.di.component.WelfareFragmentComponent;
+import com.johnny.gank.di.component.AndroidFragmentComponent
+import com.johnny.gank.di.component.FrontEndFragmentComponent
+import com.johnny.gank.di.component.IOSFragmentComponent
+import com.johnny.gank.di.component.TodayGankFragmentComponent
+import com.johnny.gank.di.component.VideoFramentComponent
+import com.johnny.gank.di.component.WelfareFragmentComponent
 
-import dagger.Module;
+import dagger.Module
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-@Module(subcomponents = {TodayGankFragmentComponent.class, AndroidFragmentComponent.class,
-    IOSFragmentComponent.class, FrontEndFragmentComponent.class, WelfareFragmentComponent.class,
-    VideoFramentComponent.class})
-public final class FragmentBindModule {}
+@Module(subcomponents = arrayOf(TodayGankFragmentComponent::class, AndroidFragmentComponent::class, IOSFragmentComponent::class, FrontEndFragmentComponent::class, WelfareFragmentComponent::class, VideoFramentComponent::class))
+class FragmentBindModule

@@ -1,4 +1,5 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.di.component
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,32 +16,30 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.ActivityScope;
-import com.johnny.gank.ui.activity.SearchActivity;
+import com.johnny.gank.di.FragmentScope
+import com.johnny.gank.ui.fragment.WelfareFragment
 
-import android.app.Activity;
+import android.app.Activity
 
-import dagger.BindsInstance;
-import dagger.Subcomponent;
+import dagger.Subcomponent
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-@ActivityScope
+@FragmentScope
 @Subcomponent
-public interface SearchActivityComponent {
+interface WelfareFragmentComponent {
 
-    void inject(SearchActivity searchActivity);
+    fun inject(welfareFragment: WelfareFragment)
+
+    val activity: Activity
 
     @Subcomponent.Builder
     interface Builder {
-
-        @BindsInstance
-        Builder activity(Activity activity);
-
-        SearchActivityComponent build();
+        fun build(): WelfareFragmentComponent
     }
 }

@@ -1,6 +1,7 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.di.component
+
 /*
- * Copyright (C) 2015 Johnny Shieh Open Source Project
+ * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +16,31 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.FragmentScope;
-import com.johnny.gank.ui.fragment.VideoFragment;
+import com.johnny.gank.di.module.ActivityBindModule
+import com.johnny.gank.di.module.AppModule
 
-import dagger.Subcomponent;
+import android.content.Context
+
+import javax.inject.Singleton
+
+import dagger.Component
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-@FragmentScope
-@Subcomponent
-public interface VideoFramentComponent {
+@Singleton
+@Component(modules = arrayOf(AppModule::class, ActivityBindModule::class))
+interface AppComponent {
 
-    void inject(VideoFragment videoFragment);
+    val appContext: Context
 
-    @Subcomponent.Builder
-    interface Builder {
-        VideoFramentComponent build();
-    }
+    fun mainActivityComponent(): MainActivityComponent.Builder
+
+    fun pictureActivityComponent(): PictureActivityComponent.Builder
+
+    fun searchActivityComponent(): SearchActivityComponent.Builder
 }

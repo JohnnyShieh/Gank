@@ -1,4 +1,5 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.di.module
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,33 +16,18 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.ActivityScope;
-import com.johnny.gank.ui.activity.PictureActivity;
+import com.johnny.gank.di.component.MainActivityComponent
+import com.johnny.gank.di.component.PictureActivityComponent
+import com.johnny.gank.di.component.SearchActivityComponent
 
-import android.app.Activity;
-
-import dagger.BindsInstance;
-import dagger.Subcomponent;
+import dagger.Module
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-@ActivityScope
-@Subcomponent
-public interface PictureActivityComponent{
-
-    void inject(PictureActivity pictureActivity);
-
-    @Subcomponent.Builder
-    interface Builder {
-
-        @BindsInstance
-        Builder activity(Activity activity);
-
-        PictureActivityComponent build();
-    }
-
-}
+@Module(subcomponents = arrayOf(MainActivityComponent::class, PictureActivityComponent::class, SearchActivityComponent::class))
+class ActivityBindModule

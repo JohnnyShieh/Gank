@@ -1,4 +1,5 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.di.component
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,30 +16,26 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.module.ActivityBindModule;
-import com.johnny.gank.di.module.AppModule;
+import com.johnny.gank.di.FragmentScope
+import com.johnny.gank.ui.fragment.AndroidFragment
 
-import android.content.Context;
-
-import javax.inject.Singleton;
-
-import dagger.Component;
+import dagger.Subcomponent
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-@Singleton
-@Component(modules = {AppModule.class, ActivityBindModule.class})
-public interface AppComponent {
+@FragmentScope
+@Subcomponent
+interface AndroidFragmentComponent {
 
-    Context getAppContext();
+    fun inject(androidFragment: AndroidFragment)
 
-    MainActivityComponent.Builder mainActivityComponent();
-
-    PictureActivityComponent.Builder pictureActivityComponent();
-
-    SearchActivityComponent.Builder searchActivityComponent();
+    @Subcomponent.Builder
+    interface Builder {
+        fun build(): AndroidFragmentComponent
+    }
 }

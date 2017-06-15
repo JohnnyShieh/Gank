@@ -1,4 +1,5 @@
-package com.johnny.gank.di;
+package com.johnny.gank.di.component
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,21 +16,33 @@ package com.johnny.gank.di;
  * limitations under the License.
  */
 
-import java.lang.annotation.Retention;
+import com.johnny.gank.di.ActivityScope
+import com.johnny.gank.ui.activity.SearchActivity
 
-import javax.inject.Scope;
+import android.app.Activity
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import dagger.BindsInstance
+import dagger.Subcomponent
 
 /**
- * A scoping annotation to permit objects whose lifetime should
- * conform to the life of the fragment to be memorized in the
- * correct component.
- *
+ * description
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
- * @version 1.0 2015-10-24
- *
+ * *
+ * @version 1.0
  */
-@Scope
-@Retention(RUNTIME)
-public @interface FragmentScope {}
+@ActivityScope
+@Subcomponent
+interface SearchActivityComponent {
+
+    fun inject(searchActivity: SearchActivity)
+
+    @Subcomponent.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun activity(activity: Activity): Builder
+
+        fun build(): SearchActivityComponent
+    }
+}

@@ -1,7 +1,7 @@
-package com.johnny.gank.di.module;
+package com.johnny.gank.di
 
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,19 @@ package com.johnny.gank.di.module;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.component.MainActivityComponent;
-import com.johnny.gank.di.component.PictureActivityComponent;
-import com.johnny.gank.di.component.SearchActivityComponent;
+import javax.inject.Scope
 
-import dagger.Module;
 
 /**
- * description
- *
+ * A scoping annotation to permit objects whose lifetime should
+ * conform to the life of the activity to be memorized in the
+ * correct component.
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
- * @version 1.0
+ * *
+ * @version 1.0 2015-10-24
  */
-@Module(subcomponents = {MainActivityComponent.class, PictureActivityComponent.class,
-    SearchActivityComponent.class})
-public final class ActivityBindModule {}
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+@MustBeDocumented
+annotation class ActivityScope

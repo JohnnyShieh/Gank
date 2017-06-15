@@ -1,4 +1,5 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.di.component
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,29 +16,34 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.FragmentScope;
-import com.johnny.gank.ui.fragment.TodayGankFragment;
+import com.johnny.gank.di.ActivityScope
+import com.johnny.gank.ui.activity.PictureActivity
 
-import android.app.Activity;
+import android.app.Activity
 
-import dagger.Subcomponent;
+import dagger.BindsInstance
+import dagger.Subcomponent
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-@FragmentScope
+@ActivityScope
 @Subcomponent
-public interface TodayGankFragmentComponent {
+interface PictureActivityComponent {
 
-    void inject(TodayGankFragment todayGankFragment);
-
-    Activity getActivity();
+    fun inject(pictureActivity: PictureActivity)
 
     @Subcomponent.Builder
     interface Builder {
-        TodayGankFragmentComponent build();
+
+        @BindsInstance
+        fun activity(activity: Activity): Builder
+
+        fun build(): PictureActivityComponent
     }
+
 }

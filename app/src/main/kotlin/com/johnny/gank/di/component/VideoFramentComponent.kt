@@ -1,6 +1,7 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.di.component
+
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +16,26 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.FragmentScope;
-import com.johnny.gank.ui.fragment.AndroidFragment;
+import com.johnny.gank.di.FragmentScope
+import com.johnny.gank.ui.fragment.VideoFragment
 
-import dagger.Subcomponent;
+import dagger.Subcomponent
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
 @FragmentScope
 @Subcomponent
-public interface AndroidFragmentComponent {
+interface VideoFramentComponent {
 
-    void inject(AndroidFragment androidFragment);
+    fun inject(videoFragment: VideoFragment)
 
     @Subcomponent.Builder
     interface Builder {
-        AndroidFragmentComponent build();
+        fun build(): VideoFramentComponent
     }
 }

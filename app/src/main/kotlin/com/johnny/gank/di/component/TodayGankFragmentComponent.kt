@@ -1,4 +1,5 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.di.component
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,29 +16,30 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.FragmentScope;
-import com.johnny.gank.ui.fragment.WelfareFragment;
+import com.johnny.gank.di.FragmentScope
+import com.johnny.gank.ui.fragment.TodayGankFragment
 
-import android.app.Activity;
+import android.app.Activity
 
-import dagger.Subcomponent;
+import dagger.Subcomponent
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
 @FragmentScope
 @Subcomponent
-public interface WelfareFragmentComponent {
+interface TodayGankFragmentComponent {
 
-    void inject(WelfareFragment welfareFragment);
+    fun inject(todayGankFragment: TodayGankFragment)
 
-    Activity getActivity();
+    val activity: Activity
 
     @Subcomponent.Builder
     interface Builder {
-        WelfareFragmentComponent build();
+        fun build(): TodayGankFragmentComponent
     }
 }
