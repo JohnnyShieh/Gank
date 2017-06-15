@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
@@ -14,20 +17,24 @@ repositories {
 
 android {
 
-    compileSdkVersion rootProject.ext.androidCompileSdkVersion
-    buildToolsVersion rootProject.ext.androidBuildToolsVersion
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId rootProject.ext.androidApplicationId
-        minSdkVersion rootProject.ext.androidMinSdkVersion
-        targetSdkVersion rootProject.ext.androidTargetSdkVersion
-        versionCode rootProject.ext.androidVersionCode
-        versionName rootProject.ext.androidVersionName
+        applicationId 'com.johnny.gank'
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 2
+        versionName '1.1'
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     lintOptions {
@@ -87,31 +94,43 @@ android {
     }
 }
 
-def dependency = rootProject.ext.dependencies
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    annotationProcessor dependency['daggerCompiler']
-    testCompile dependency['junit']
+    testCompile "junit:junit:$junit_version"
     compile(name:'feedbacksdk', ext:'aar')
-    compile dependency['appcompat']
-    compile dependency['design']
-    compile dependency['recyclerView']
-    compile dependency['cardView']
-    compile dependency['dagger']
-    compile dependency['butterKnife']
-    compile dependency['rxJava']
-    compile dependency['rxAndroid']
-    compile dependency['rxflux']
-    compile dependency['retrofit']
-    compile dependency['converterGson']
-    compile dependency['adapterRxjava']
-    compile dependency['gson']
-    compile dependency['glide']
-    compile dependency['umengAnalytics']
-    compile dependency['timber']
-    compile dependency['logger']
-    debugCompile dependency['leakcanary']
-    releaseCompile dependency['leakcanaryNoOp']
-    provided dependency['javaxAnnotation']
+
+    // Support
+    compile "com.android.support:appcompat-v7:$appcompat_version"
+    compile "com.android.support:design:$design_version"
+    compile "com.android.support:recyclerview-v7:$recycler_view_version"
+    compile "com.android.support:cardview-v7:$card_view_version"
+
+    // Dagger 2
+    compile "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    compile "com.johnny.rxflux:rxflux:$rxflux_version"
+
+    // Retrofit
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    compile "com.google.code.gson:gson:$gson_version"
+    compile "com.github.bumptech.glide:glide:$glide_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    // Anko
+    compile "org.jetbrains.anko:anko-commons:$anko_version"
+
+    compile "com.umeng.analytics:analytics:latest.integration"
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
+//    provided "javax.annotation:jsr250-api:$javax_annotation_version"
+
+    compile "com.jakewharton.timber:timber:$timber_version"
+    compile "com.github.tianzhijiexian:logger:$logger_version"
+    compile "com.jakewharton:butterknife:$butterKnifeVersion"
 }

@@ -15,7 +15,7 @@ package com.johnny.gank.di.module;
  * limitations under the License.
  */
 
-import com.johnny.gank.GankApplication;
+import com.johnny.gank.GankApp;
 
 import android.content.Context;
 
@@ -33,9 +33,9 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-    private final GankApplication mApplication;
+    private final GankApp mApplication;
 
-    public AppModule(GankApplication application) {
+    public AppModule(GankApp application) {
         mApplication = application;
     }
 

@@ -29,7 +29,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        android:name=".GankApplication"
+        android:name=".GankApp"
         android:allowBackup="true"
         tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher"
