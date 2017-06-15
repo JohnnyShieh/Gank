@@ -15,7 +15,7 @@ package com.johnny.gank.ui.activity;
  * limitations under the License.
  */
 
-import com.johnny.gank.GankApplication;
+import com.johnny.gank.GankApp;
 import com.johnny.gank.di.component.AppComponent;
 
 import android.app.Fragment;
@@ -37,7 +37,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public AppComponent getAppComponent() {
-        return ((GankApplication)getApplication()).getAppComponent();
+        return ((GankApp)getApplication()).getAppComponent();
     }
 
     public void replaceFragment(int containerViewId, Fragment fragment, String tag) {

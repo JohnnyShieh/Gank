@@ -71,12 +71,15 @@ public class TodayGankFragment extends BaseFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initInjector();
     }
 
     // the method can not be call in onCreate
     // because getMainActivityComponent will be null when MainActivity is restore from last save status.
     private void initInjector() {
-        mComponent = ((MainActivity)getActivity()).getMainActivityComponent().todayGankFragmentComponent();
+        mComponent = ((MainActivity)getActivity()).getMainActivityComponent()
+            .todayGankFragmentComponent()
+            .build();
         mComponent.inject(this);
     }
 
@@ -86,7 +89,6 @@ public class TodayGankFragment extends BaseFragment implements
         Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false);
         ButterKnife.bind(this, contentView);
-        initInjector();
 
         vRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
         vRefreshLayout.setOnRefreshListener(this);

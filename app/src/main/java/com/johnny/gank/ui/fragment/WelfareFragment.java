@@ -80,10 +80,13 @@ public class WelfareFragment extends BaseFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initInjector();
     }
 
     private void initInjector() {
-        mComponent = ((MainActivity)getActivity()).getMainActivityComponent().welfareFragmentComponent();
+        mComponent = ((MainActivity)getActivity()).getMainActivityComponent()
+            .welfareFragmentComponent()
+            .build();
         mComponent.inject(this);
     }
 
@@ -93,7 +96,6 @@ public class WelfareFragment extends BaseFragment implements
         Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false);
         ButterKnife.bind(this, contentView);
-        initInjector();
 
         vRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent);
         vRefreshLayout.setOnRefreshListener(this);

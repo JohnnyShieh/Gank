@@ -62,10 +62,13 @@ public class FrontEndFragment extends CategoryGankFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initInjector();
     }
 
     private void initInjector() {
-        mComponent = ((MainActivity)getActivity()).getMainActivityComponent().frontEndFragmentComponent();
+        mComponent = ((MainActivity)getActivity()).getMainActivityComponent()
+            .frontEndFragmentComponent()
+            .build();
         mComponent.inject(this);
     }
 
@@ -81,7 +84,6 @@ public class FrontEndFragment extends CategoryGankFragment implements
             }
         });
 
-        initInjector();
         mStore.setObserver(this);
         mStore.register(ActionType.GET_FRONT_END_LIST);
         return contentView;

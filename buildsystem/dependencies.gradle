@@ -12,7 +12,7 @@ ext {
     appcompatVersion = '23.2.1'
     designVersion = '23.2.1'
     butterKnifeVersion = '7.0.1'
-    daggerVersion = '2.11-rc2'
+    daggerVersion = '2.11'
     rxJavaVersion = '2.0.6'
     rxAndroidVersion = '2.0.1'
     javaxAnnotationVersion = '1.0'

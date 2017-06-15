@@ -1,6 +1,6 @@
-package com.johnny.gank.di.module;
+package com.johnny.gank.di;
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,31 +15,21 @@ package com.johnny.gank.di.module;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.PerActivity;
+import java.lang.annotation.Retention;
 
-import android.app.Activity;
+import javax.inject.Scope;
 
-import dagger.Module;
-import dagger.Provides;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * description
+ * A scoping annotation to permit objects whose lifetime should
+ * conform to the life of the activity to be memorized in the
+ * correct component.
  *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
- * @version 1.0
+ * @version 1.0 2015-10-24
+ *
  */
-@Module
-public class ActivityModule {
-
-    private final Activity mActivity;
-
-    public ActivityModule(Activity activity) {
-        mActivity = activity;
-    }
-
-    @Provides
-    @PerActivity
-    Activity provideActivity() {
-        return mActivity;
-    }
-}
+@Scope
+@Retention(RUNTIME)
+public @interface ActivityScope {}

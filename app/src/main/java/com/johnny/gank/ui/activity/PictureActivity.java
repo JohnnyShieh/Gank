@@ -19,8 +19,6 @@ import com.johnny.gank.R;
 import com.johnny.gank.action.ActionType;
 import com.johnny.gank.action.PictureActionCreator;
 import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.di.component.DaggerPictureActivityComponent;
-import com.johnny.gank.di.module.ActivityModule;
 import com.johnny.gank.stat.StatName;
 import com.johnny.gank.store.NormalGankStore;
 import com.johnny.gank.ui.adapter.PicturePagerAdapter;
@@ -134,9 +132,9 @@ public class PictureActivity extends BaseActivity implements
     }
 
     private void initInjector() {
-        DaggerPictureActivityComponent.builder()
-            .appComponent(getAppComponent())
-            .activityModule(new ActivityModule(this))
+        getAppComponent()
+            .pictureActivityComponent()
+            .activity(this)
             .build()
             .inject(this);
     }

@@ -45,6 +45,9 @@ public class QueryActionCreator {
     private boolean hasAction = false;
 
     @Inject
+    GankService mGankService;
+
+    @Inject
     public QueryActionCreator() {}
 
     public void query(String queryText) {
@@ -54,8 +57,7 @@ public class QueryActionCreator {
         }
 
         hasAction = true;
-        GankService.Factory.getGankService()
-            .queryGank(queryText, DEFAULT_COUNT, DEFAULT_PAGE)
+        mGankService.queryGank(queryText, DEFAULT_COUNT, DEFAULT_PAGE)
             .map(new Function<GankData, List<GankNormalItem>>() {
                 @Override
                 public List<GankNormalItem> apply(@NonNull GankData gankData) throws Exception {

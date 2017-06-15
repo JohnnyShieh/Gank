@@ -62,10 +62,13 @@ public class VideoFragment extends CategoryGankFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initInjector();
     }
 
     private void initInjector() {
-        mComponent = ((MainActivity)getActivity()).getMainActivityComponent().videoFragmentComponent();
+        mComponent = ((MainActivity)getActivity()).getMainActivityComponent()
+            .videoFragmentComponent()
+            .build();
         mComponent.inject(this);
     }
 
@@ -81,7 +84,6 @@ public class VideoFragment extends CategoryGankFragment implements
             }
         });
 
-        initInjector();
         mStore.register(ActionType.GET_VIDEO_LIST);
         mStore.setObserver(this);
         return contentView;

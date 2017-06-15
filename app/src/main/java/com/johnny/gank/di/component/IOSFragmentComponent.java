@@ -15,7 +15,7 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.PerFragment;
+import com.johnny.gank.di.FragmentScope;
 import com.johnny.gank.ui.fragment.IOSFragment;
 
 import dagger.Subcomponent;
@@ -26,9 +26,14 @@ import dagger.Subcomponent;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-@PerFragment
+@FragmentScope
 @Subcomponent
 public interface IOSFragmentComponent {
 
     void inject(IOSFragment iosFragment);
+
+    @Subcomponent.Builder
+    interface Builder {
+        IOSFragmentComponent build();
+    }
 }

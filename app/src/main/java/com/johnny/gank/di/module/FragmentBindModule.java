@@ -1,4 +1,4 @@
-package com.johnny.gank.di.component;
+package com.johnny.gank.di.module;
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,12 +15,14 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.PerActivity;
-import com.johnny.gank.di.module.ActivityModule;
+import com.johnny.gank.di.component.AndroidFragmentComponent;
+import com.johnny.gank.di.component.FrontEndFragmentComponent;
+import com.johnny.gank.di.component.IOSFragmentComponent;
+import com.johnny.gank.di.component.TodayGankFragmentComponent;
+import com.johnny.gank.di.component.VideoFramentComponent;
+import com.johnny.gank.di.component.WelfareFragmentComponent;
 
-import android.app.Activity;
-
-import dagger.Component;
+import dagger.Module;
 
 /**
  * description
@@ -28,9 +30,7 @@ import dagger.Component;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-@PerActivity
-@Component(modules = {ActivityModule.class})
-public interface ActivityComponent {
-
-    Activity getActivity();
-}
+@Module(subcomponents = {TodayGankFragmentComponent.class, AndroidFragmentComponent.class,
+    IOSFragmentComponent.class, FrontEndFragmentComponent.class, WelfareFragmentComponent.class,
+    VideoFramentComponent.class})
+public final class FragmentBindModule {}

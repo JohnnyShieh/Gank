@@ -19,7 +19,6 @@ import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.johnny.gank.di.component.AppComponent;
 import com.johnny.gank.di.component.DaggerAppComponent;
 import com.johnny.gank.di.module.AppModule;
-import com.johnny.gank.util.AppUtil;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.Settings;
 import com.squareup.leakcanary.LeakCanary;
@@ -32,7 +31,7 @@ import android.util.Log;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class GankApplication extends Application{
+public class GankApp extends Application{
 
     private AppComponent mAppComponent;
 
@@ -43,7 +42,6 @@ public class GankApplication extends Application{
         MobclickAgent.openActivityDurationTrack(false);
         MobclickAgent.enableEncrypt(true);
         FeedbackAPI.initAnnoy(this, getString(R.string.ali_app_key));
-        AppUtil.init(this);
         Logger.initialize(
             new Settings()
                 .isShowMethodLink(true)

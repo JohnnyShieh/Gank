@@ -15,11 +15,13 @@ package com.johnny.gank.di.component;
  * limitations under the License.
  */
 
-import com.johnny.gank.di.PerActivity;
-import com.johnny.gank.di.module.ActivityModule;
+import com.johnny.gank.di.ActivityScope;
 import com.johnny.gank.ui.activity.SearchActivity;
 
-import dagger.Component;
+import android.app.Activity;
+
+import dagger.BindsInstance;
+import dagger.Subcomponent;
 
 /**
  * description
@@ -27,8 +29,18 @@ import dagger.Component;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-@PerActivity
-@Component(dependencies = {AppComponent.class}, modules = {ActivityModule.class})
-public interface SearchActivityComponent extends ActivityComponent{
+@ActivityScope
+@Subcomponent
+public interface SearchActivityComponent {
+
     void inject(SearchActivity searchActivity);
+
+    @Subcomponent.Builder
+    interface Builder {
+
+        @BindsInstance
+        Builder activity(Activity activity);
+
+        SearchActivityComponent build();
+    }
 }
