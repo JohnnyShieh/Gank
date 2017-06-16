@@ -38,7 +38,7 @@ class NormalGankStore
 
     override fun onAction(action: Action): Boolean {
         page = action.get(Key.PAGE)
-        page = action.get(Key.GANK_LIST)
+        gankList = action.get(Key.GANK_LIST)
         return true
     }
 
