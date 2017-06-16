@@ -30,18 +30,18 @@ import retrofit2.http.Path;
  * @author Johnny Shieh
  * @version 1.0
  */
-public interface GankService {
+interface GankService {
 
     @GET(GankApi.DATE_HISTORY)
-    Observable<DateData> getDateHistory();
+    fun getDateHistory(): Observable<DateData>
 
     @GET("data/{category}/{pageCount}/{page}")
-    Observable<GankData> getGank(@Path("category") String category, @Path("pageCount") int pageCount, @Path("page") int page);
+    fun getGank(@Path("category") category: String, @Path("pageCount") pageCount: Int, @Path("page") page: Int): Observable<GankData>
 
     @GET("day/{year}/{month}/{day}")
-    Observable<DayData> getDayGank(@Path("year") int year, @Path("month") int month, @Path("day") int day);
+    fun getDayGank(@Path("year") year: Int, @Path("month") month: Int, @Path("day") day: Int): Observable<DayData>
 
     @GET("search/query/{queryText}/category/all/count/{count}/page/{page}")
-    Observable<GankData> queryGank(@Path("queryText") String queryText, @Path("count") int count, @Path("page") int page);
+    fun queryGank(@Path("queryText") queryText: String, @Path("count") count: Int, @Path("page") page: Int): Observable<GankData>
 
 }

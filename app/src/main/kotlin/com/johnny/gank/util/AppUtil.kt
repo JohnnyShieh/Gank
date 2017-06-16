@@ -1,4 +1,4 @@
-package com.johnny.gank.util;
+package com.johnny.gank.util
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,11 +15,9 @@ package com.johnny.gank.util;
  * limitations under the License.
  */
 
-import android.content.Context;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-
-import java.io.File;
+import android.content.Context
+import android.os.Environment
+import android.support.annotation.NonNull
 
 /**
  *
@@ -27,28 +25,28 @@ import java.io.File;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class AppUtil {
+object AppUtil {
 
-    private static Context mAppContext;
+    var appContext: Context? = null
+        @JvmStatic get
+        private set
 
     /**
      * The method should be call when app create.
      */
-    public static void init(@NonNull Context context) {
-        mAppContext = context;
+    @JvmStatic
+    fun init(@NonNull context: Context) {
+        appContext = context
     }
 
-    public static Context getAppContext() {
-        return mAppContext;
-    }
-
-    public static String getCacheDir() {
-        if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) || !Environment.isExternalStorageRemovable()) {
-            File cacheFile = mAppContext.getExternalCacheDir();
+    @JvmStatic
+    fun getCacheDir(): String {
+        if(Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() || !Environment.isExternalStorageRemovable()) {
+            val cacheFile = appContext!!.externalCacheDir
             if(null != cacheFile) {
-                return cacheFile.getPath();
+                return cacheFile.path
             }
         }
-        return mAppContext.getCacheDir().getPath();
+        return appContext!!.cacheDir.path
     }
 }

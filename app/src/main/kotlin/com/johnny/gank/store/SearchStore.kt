@@ -1,4 +1,4 @@
-package com.johnny.gank.store;
+package com.johnny.gank.store
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,14 +15,11 @@ package com.johnny.gank.store;
  * limitations under the License.
  */
 
-import com.johnny.gank.action.Key;
-import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.rxflux.Action;
-import com.johnny.rxflux.Store;
-
-import java.util.List;
-
-import javax.inject.Inject;
+import com.johnny.gank.action.Key
+import com.johnny.gank.data.ui.GankNormalItem
+import com.johnny.rxflux.Action
+import com.johnny.rxflux.Store
+import javax.inject.Inject
 
 /**
  * description
@@ -30,25 +27,18 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-public class SearchStore extends Store {
+class SearchStore
+    @Inject constructor() : Store() {
 
-    private List<GankNormalItem> mGankList;
+    var gankList = arrayListOf<GankNormalItem>()
+        private set
 
-    @Inject
-    public SearchStore() {}
-
-    public List<GankNormalItem> getGankList() {
-        return mGankList;
+    override fun onAction(action: Action): Boolean {
+        gankList = action.get(Key.QUERY_RESULT)
+        return true
     }
 
-    @Override
-    protected boolean onAction(Action action) {
-        mGankList = action.get(Key.QUERY_RESULT);
-        return true;
-    }
-
-    @Override
-    protected boolean onError(Action action, Throwable throwable) {
-        return true;
+    override fun onError(action: Action, throwable: Throwable?): Boolean {
+        return true
     }
 }

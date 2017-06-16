@@ -59,7 +59,7 @@ class TodayGankActionCreator
         }
 
         hasAction = true
-        mGankService!!.dateHistory
+        mGankService!!.getDateHistory()
                 .filter { null != it && it.results.isNotEmpty() }
                 .map { (results) ->
                     var calendar: Calendar? = Calendar.getInstance(Locale.CHINA)
