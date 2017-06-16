@@ -1,4 +1,5 @@
-package com.johnny.gank.data.response;
+package com.johnny.gank.stat
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,16 +16,21 @@ package com.johnny.gank.data.response;
  * limitations under the License.
  */
 
-import java.util.List;
-
 /**
- * The published date data
- *
- * @author Johnny Shieh
+ * description
+
+ * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-public class DateData extends BaseData {
-
-    public List<String> results;
-
+object StatName {
+    const val PAGE_TODAY = "today_page"
+    const val PAGE_ANDROID = "android_page"
+    const val PAGE_IOS = "ios_page"
+    const val PAGE_FRONTEND = "frontend_page"
+    const val PAGE_WELFARE = "welfare_page"
+    const val PAGE_VIDEO = "video_page"
+    const val PAGE_ABOUT = "about_page"
+    const val PAGE_PICTURE = "picture_page"
+    const val PAGE_WEBVIEW = "webview_page"
 }

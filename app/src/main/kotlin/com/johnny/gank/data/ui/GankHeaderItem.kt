@@ -1,4 +1,4 @@
-package com.johnny.gank.data.ui;
+package com.johnny.gank.data.ui
 /*
  * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
@@ -21,11 +21,4 @@ package com.johnny.gank.data.ui;
  * @author Johnny Shieh
  * @version 1.0
  */
-public class GankHeaderItem implements GankItem {
-
-    public String name;
-
-    public GankHeaderItem(String name) {
-        this.name = name;
-    }
-}
+data class GankHeaderItem(var name: String = "") : GankItem

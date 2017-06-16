@@ -64,10 +64,10 @@ public class PicturePagerAdapter extends PagerAdapter {
         if(0 == getCount()) {
             return ADD_NONE;
         }
-        if(page == mItems.get(0).page - 1) {
+        if(page == mItems.get(0).getPage() - 1) {
             mItems.addAll(0, items);
             return ADD_FRONT;
-        }else if(page == mItems.get(mItems.size() - 1).page + 1) {
+        }else if(page == mItems.get(mItems.size() - 1).getPage() + 1) {
             mItems.addAll(mItems.size(), items);
             return ADD_END;
         }
@@ -97,7 +97,7 @@ public class PicturePagerAdapter extends PagerAdapter {
         ViewHolder holder = new ViewHolder(view);
         GankNormalItem item = mItems.get(position);
         Glide.with(container.getContext())
-            .load(item.url)
+            .load(item.getGank().getUrl())
             .dontAnimate()
             .centerCrop()
             .into(holder.vPic);

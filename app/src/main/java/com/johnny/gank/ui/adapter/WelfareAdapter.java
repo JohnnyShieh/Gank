@@ -16,9 +16,7 @@ package com.johnny.gank.ui.adapter;
  */
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.johnny.gank.R;
-import com.johnny.gank.data.entity.Gank;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.ui.widget.RatioImageView;
 
@@ -109,7 +107,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.itemView.setTag(position);
         GankNormalItem welfare = mWelfareList.get(position);
         Glide.with(mFragment)
-            .load(welfare.url)
+            .load(welfare.getGank().getUrl())
             .centerCrop()
             .placeholder(R.color.imageColorPlaceholder)
             .into(vh.vGirlImage);

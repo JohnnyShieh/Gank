@@ -1,4 +1,4 @@
-package com.johnny.gank.data.entity;
+package com.johnny.gank.data.entity
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -37,34 +37,14 @@ import java.util.Objects;
  * @author Johnny Shieh
  * @version 1.0
  */
-public class Gank {
-
-    public String _id;
-    public Date createdAt;
-    public String desc;
-    public Date publishedAt;
-    public String source;
-    public String type;
-    public String url;
-    public boolean used;
-    public String who;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Gank gank = (Gank) o;
-        return Objects.equals(_id, gank._id) &&
-            Objects.equals(type, gank.type);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(_id, type);
-    }
-
-}
+data class Gank(
+        var _id: String = "",
+        var createdAt: Date = Date(),
+        var desc: String = "",
+        var publishedAt: Date = Date(),
+        var source: String = "",
+        var type: String = "",
+        var url: String = "",
+        var used: Boolean = false,
+        var who: String = ""
+)

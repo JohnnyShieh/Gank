@@ -1,6 +1,6 @@
-package com.johnny.gank.data.ui;
+package com.johnny.gank.data
 /*
- * Copyright (C) 2015 Johnny Shieh Open Source Project
+ * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,19 @@ package com.johnny.gank.data.ui;
  */
 
 /**
- * Unified data model for all sorts of gank items
- *
  * @author Johnny Shieh
  * @version 1.0
  */
-public interface GankItem {
+object GankApi {
+
+    const val BASE_URL = "http://gank.io/api/"
+
+    // The published date history
+    const val DATE_HISTORY = "day/history"
+
+    const val Query_BASE_URL = "http://gank.io/api/search/query"
+
+    // The category gank data, such as, http://gank.io/api/data/Android/10/1
+    // The gank data of one day, such as, http://gank.io/api/day/年/月/日
 
 }

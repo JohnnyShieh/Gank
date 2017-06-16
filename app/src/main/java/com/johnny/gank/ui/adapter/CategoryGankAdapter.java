@@ -16,7 +16,6 @@ package com.johnny.gank.ui.adapter;
  */
 
 import com.johnny.gank.R;
-import com.johnny.gank.data.ui.GankItem;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.gank.util.AppUtil;
 
@@ -92,7 +91,7 @@ public class CategoryGankAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if(holder instanceof NormalViewHolder) {
             NormalViewHolder normalHolder = (NormalViewHolder) holder;
             final GankNormalItem normalItem = mItems.get(position);
-            normalHolder.title.setText(getGankTitleStr(normalItem.desc, normalItem.who));
+            normalHolder.title.setText(getGankTitleStr(normalItem.getGank().getDesc(), normalItem.getGank().getWho()));
             normalHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

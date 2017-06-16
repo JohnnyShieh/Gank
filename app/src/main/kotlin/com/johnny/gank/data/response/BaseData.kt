@@ -1,4 +1,4 @@
-package com.johnny.gank.stat;
+package com.johnny.gank.data.response
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -16,20 +16,9 @@ package com.johnny.gank.stat;
  */
 
 /**
- * description
- *
- * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * @author Johnny Shieh
  * @version 1.0
  */
-public interface StatName {
-
-    String PAGE_TODAY = "today_page";
-    String PAGE_ANDROID = "android_page";
-    String PAGE_IOS = "ios_page";
-    String PAGE_FRONTEND = "frontend_page";
-    String PAGE_WELFARE = "welfare_page";
-    String PAGE_VIDEO = "video_page";
-    String PAGE_ABOUT = "about_page";
-    String PAGE_PICTURE = "picture_page";
-    String PAGE_WEBVIEW = "webview_page";
+open class BaseData {
+    open var error: Boolean = false
 }

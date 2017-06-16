@@ -75,7 +75,7 @@ public class QueryGankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if(holder instanceof NormalViewHolder) {
             NormalViewHolder normalHolder = (NormalViewHolder) holder;
             final GankNormalItem normalItem = mItems.get(position);
-            normalHolder.title.setText(getGankTitleStr(normalItem.desc, normalItem.who, normalItem.type));
+            normalHolder.title.setText(getGankTitleStr(normalItem.getGank().getDesc(), normalItem.getGank().getWho(), normalItem.getGank().getType()));
             normalHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

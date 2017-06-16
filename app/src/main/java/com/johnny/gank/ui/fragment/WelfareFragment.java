@@ -182,7 +182,7 @@ public class WelfareFragment extends BaseFragment implements
         @Override
         public void onClickItem(View view, GankNormalItem item) {
             if(null != item) {
-                startActivity(PictureActivity.newIntent(mComponent.getActivity(), item.page, item._id));
+                startActivity(PictureActivity.newIntent(mComponent.getActivity(), item.getPage(), item.getGank().get_id()));
             }
         }
     };

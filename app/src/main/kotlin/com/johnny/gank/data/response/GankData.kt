@@ -1,4 +1,4 @@
-package com.johnny.gank.data;
+package com.johnny.gank.data.response
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,21 +15,12 @@ package com.johnny.gank.data;
  * limitations under the License.
  */
 
+import com.johnny.gank.data.entity.Gank
+
 /**
- * 干货类型: 福利 | Android | iOS | 休息视频 | 拓展资源 | 前端 | 瞎推荐 | App
+ * The gank data of one category like android or ios
  *
  * @author Johnny Shieh
  * @version 1.0
  */
-public class GankType {
-
-    public static final String WELFARE = "福利";
-    public static final String ANDROID = "Android";
-    public static final String IOS = "iOS";
-    public static final String VIDEO = "休息视频";
-    public static final String EXTRA = "拓展资源";
-    public static final String FRONTEND = "前端";
-    public static final String CASUAL = "瞎推荐";
-    public static final String APP = "App";
-
-}
+data class GankData(var results: MutableList<Gank> = mutableListOf()) : BaseData()

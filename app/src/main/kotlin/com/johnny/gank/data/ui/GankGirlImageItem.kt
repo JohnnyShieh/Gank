@@ -1,4 +1,5 @@
-package com.johnny.gank.data.response;
+package com.johnny.gank.data.ui
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,10 +16,22 @@ package com.johnny.gank.data.response;
  * limitations under the License.
  */
 
+import com.johnny.gank.data.entity.Gank
+
+import java.util.Date
+
 /**
- * @author Johnny Shieh
+ * description
+
+ * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-public class BaseData {
-    public boolean error;
+data class GankGirlImageItem(var imgUrl: String = "", var publishedAt: Date = Date()) : GankItem {
+
+    companion object {
+        @JvmStatic fun newImageItem(gank: Gank): GankGirlImageItem {
+            return GankGirlImageItem(gank.url, gank.publishedAt)
+        }
+    }
 }

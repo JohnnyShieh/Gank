@@ -113,7 +113,7 @@ public class SearchActivity extends BaseActivity implements StoreObserver {
         mAdapter.setOnItemClickListener(new QueryGankAdapter.OnItemClickListener() {
             @Override
             public void onClickNormalItem(View view, GankNormalItem normalItem) {
-                WebviewActivity.openUrl(SearchActivity.this, normalItem.url, normalItem.desc);
+                WebviewActivity.openUrl(SearchActivity.this, normalItem.getGank().getUrl(), normalItem.getGank().getDesc());
             }
         });
         vRecyclerView.setHasFixedSize(true);

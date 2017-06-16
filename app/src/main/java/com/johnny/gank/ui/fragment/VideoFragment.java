@@ -80,7 +80,7 @@ public class VideoFragment extends CategoryGankFragment implements
         mAdapter.setOnItemClickListener(new CategoryGankAdapter.OnItemClickListener() {
             @Override
             public void onClickNormalItem(View view, GankNormalItem normalItem) {
-                WebviewActivity.openUrl(getActivity(), normalItem.url, normalItem.desc);
+                WebviewActivity.openUrl(getActivity(), normalItem.getGank().getUrl(), normalItem.getGank().getDesc());
             }
         });
 

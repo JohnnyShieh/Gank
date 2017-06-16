@@ -16,19 +16,13 @@ package com.johnny.gank.action
  */
 
 import com.johnny.gank.core.http.GankService;
-import com.johnny.gank.data.response.GankData;
 import com.johnny.gank.data.ui.GankNormalItem;
 import com.johnny.rxflux.Action;
 import com.johnny.rxflux.Dispatcher;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -53,13 +47,13 @@ class QueryActionCreator
 
         hasAction = true
         mGankService!!.queryGank(queryText, DEFAULT_COUNT, DEFAULT_PAGE)
-                .filter { null != it && null != it.results && 0 != it.results.size }
+                .filter { null != it && it.results.isNotEmpty() }
                 .map { GankNormalItem.newGankList(it.results) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ items ->
                     hasAction = false
-                    action.getData().put(Key.QUERY_RESULT, items)
+                    action.data.put(Key.QUERY_RESULT, items)
                     Dispatcher.get().postAction(action)
                 }, { throwable ->
                     hasAction = false

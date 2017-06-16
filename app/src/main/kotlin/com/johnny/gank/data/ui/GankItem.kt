@@ -1,6 +1,7 @@
-package com.johnny.gank.data.ui;
+package com.johnny.gank.data.ui
+
 /*
- * Copyright (C) 2016 Johnny Shieh Open Source Project
+ * Copyright (C) 2015 Johnny Shieh Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +16,11 @@ package com.johnny.gank.data.ui;
  * limitations under the License.
  */
 
-import com.johnny.gank.data.entity.Gank;
-
-import java.util.Date;
-
 /**
- * description
- *
- * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * Unified data model for all sorts of gank items
+
+ * @author Johnny Shieh
+ * *
  * @version 1.0
  */
-public class GankGirlImageItem implements GankItem {
-
-    public String imgUrl;
-    public Date publishedAt;
-
-    public static GankGirlImageItem newImageItem(Gank gank) {
-        GankGirlImageItem imageItem = new GankGirlImageItem();
-        imageItem.imgUrl = gank.url;
-        imageItem.publishedAt = gank.publishedAt;
-        return imageItem;
-    }
-}
+interface GankItem

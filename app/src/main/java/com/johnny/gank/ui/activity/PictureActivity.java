@@ -98,8 +98,8 @@ public class PictureActivity extends BaseActivity implements
             Date publishAt = (Date) intent.getSerializableExtra(EXTRA_PUBLISH_SINGLE_PIC);
             List<GankNormalItem> itemList = new ArrayList<>(1);
             GankNormalItem item = new GankNormalItem();
-            item.url = singlePicUrl;
-            item.publishedAt = publishAt;
+            item.getGank().setUrl(singlePicUrl);
+            item.getGank().setPublishedAt(publishAt);
             itemList.add(item);
 
             mPagerAdapter.initList(itemList);
@@ -171,7 +171,7 @@ public class PictureActivity extends BaseActivity implements
     private int getInitPicPos(List<GankNormalItem> list) {
         int size = list.size();
         for(int i = 0; i < size; i ++) {
-            if(TextUtils.equals(list.get(i)._id, mInitPicId)) {
+            if(TextUtils.equals(list.get(i).getGank().get_id(), mInitPicId)) {
                 return i;
             }
         }
@@ -187,18 +187,16 @@ public class PictureActivity extends BaseActivity implements
         @Override
         public void onPageSelected(int position) {
             GankNormalItem curItem = mPagerAdapter.getItem(position);
-            if(null != curItem.publishedAt) {
-                setTitle(sDateFormatter.format(curItem.publishedAt));
-            }
+            setTitle(sDateFormatter.format(curItem.getGank().getPublishedAt()));
             // when scroll to the first position.
             if(position == 0) {
-                if(curItem.page > 1) {
-                    loadPictureList(curItem.page - 1);
+                if(curItem.getPage() > 1) {
+                    loadPictureList(curItem.getPage() - 1);
                 }
                 return;
             }
             if(position == mPagerAdapter.getCount() - 1) {
-                loadPictureList(curItem.page + 1);
+                loadPictureList(curItem.getPage() + 1);
             }
         }
 

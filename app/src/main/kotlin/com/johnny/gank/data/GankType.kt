@@ -1,4 +1,4 @@
-package com.johnny.gank.data;
+package com.johnny.gank.data
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -16,19 +16,20 @@ package com.johnny.gank.data;
  */
 
 /**
+ * 干货类型: 福利 | Android | iOS | 休息视频 | 拓展资源 | 前端 | 瞎推荐 | App
+ *
  * @author Johnny Shieh
  * @version 1.0
  */
-public interface GankApi {
+object GankType {
 
-    String BASE_URL = "http://gank.io/api/";
-
-    // The published date history
-    String DATE_HISTORY = "day/history";
-
-    String Query_BASE_URL = "http://gank.io/api/search/query";
-
-    // The category gank data, such as, http://gank.io/api/data/Android/10/1
-    // The gank data of one day, such as, http://gank.io/api/day/年/月/日
+    const val WELFARE = "福利"
+    const val ANDROID = "Android"
+    const val IOS = "iOS"
+    const val VIDEO = "休息视频"
+    const val EXTRA = "拓展资源"
+    const val FRONTEND = "前端"
+    const val CASUAL = "瞎推荐"
+    const val APP = "App"
 
 }

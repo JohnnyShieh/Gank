@@ -137,15 +137,16 @@ public class TodayGankFragment extends BaseFragment implements
 
     @Override
     public void onClickNormalItem(View view, GankNormalItem normalItem) {
-        if(null != normalItem && !TextUtils.isEmpty(normalItem.url)) {
-            WebviewActivity.openUrl(mComponent.getActivity(), normalItem.url, normalItem.desc);
+        if(null != normalItem && !TextUtils.isEmpty(normalItem.getGank().getUrl())) {
+            WebviewActivity.openUrl(mComponent.getActivity(), normalItem.getGank().getUrl(), normalItem.getGank().getDesc());
         }
     }
 
     @Override
     public void onClickGirlItem(View view, GankGirlImageItem girlItem) {
-        if(null != girlItem && !TextUtils.isEmpty(girlItem.imgUrl)) {
-            startActivity(PictureActivity.newIntent(mComponent.getActivity(), girlItem.imgUrl, girlItem.publishedAt));
+        if(null != girlItem && !TextUtils.isEmpty(girlItem.getImgUrl())) {
+            startActivity(PictureActivity.newIntent(mComponent.getActivity(), girlItem.getImgUrl(),
+                girlItem.getPublishedAt()));
         }
     }
 

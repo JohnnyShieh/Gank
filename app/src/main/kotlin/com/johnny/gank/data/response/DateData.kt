@@ -1,4 +1,4 @@
-package com.johnny.gank.data.response;
+package com.johnny.gank.data.response
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,18 +15,10 @@ package com.johnny.gank.data.response;
  * limitations under the License.
  */
 
-import com.johnny.gank.data.entity.Gank;
-
-import java.util.List;
-
 /**
- * The gank data of one category like android or ios
+ * The published date data
  *
  * @author Johnny Shieh
  * @version 1.0
  */
-public class GankData extends BaseData {
-
-    public List<Gank> results;
-
-}
+data class DateData(var results: MutableList<String> = mutableListOf()) : BaseData()

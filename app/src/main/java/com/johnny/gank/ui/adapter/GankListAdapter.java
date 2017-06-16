@@ -92,13 +92,13 @@ public class GankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof CategoryHeaderViewHolder) {
             CategoryHeaderViewHolder headerHolder = (CategoryHeaderViewHolder) holder;
-            headerHolder.title.setText(((GankHeaderItem)mItems.get(position)).name);
+            headerHolder.title.setText(((GankHeaderItem)mItems.get(position)).getName());
             return;
         }
         if(holder instanceof NormalViewHolder) {
             NormalViewHolder normalHolder = (NormalViewHolder) holder;
             final GankNormalItem normalItem = (GankNormalItem) mItems.get(position);
-            normalHolder.title.setText(getGankTitleStr(normalItem.desc, normalItem.who));
+            normalHolder.title.setText(getGankTitleStr(normalItem.getGank().getDesc(), normalItem.getGank().getWho()));
             normalHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -113,7 +113,7 @@ public class GankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             GirlImageViewHolder girlHolder = (GirlImageViewHolder) holder;
             final GankGirlImageItem girlItem = (GankGirlImageItem) mItems.get(position);
             Glide.with(mFragment)
-                .load(girlItem.imgUrl)
+                .load(girlItem.getImgUrl())
                 .placeholder(R.color.imageColorPlaceholder)
                 .centerCrop()
                 .into(girlHolder.girl_image);
