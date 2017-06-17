@@ -219,7 +219,7 @@ public class PictureActivity extends BaseActivity implements
                 mPageChangeListener.onPageSelected(0);
             }
         }else {
-            int addStatus = mPagerAdapter.appendList(mStore.getPage(), mStore.getGankList());
+            long addStatus = mPagerAdapter.appendList(mStore.getPage(), mStore.getGankList());
             mPagerAdapter.notifyDataSetChanged();
             if(addStatus == PicturePagerAdapter.ADD_FRONT) {
                 vViewPager.setCurrentItem(vViewPager.getCurrentItem() + mStore.getGankList().size(), false);
