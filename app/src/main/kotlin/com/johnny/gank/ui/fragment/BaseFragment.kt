@@ -1,4 +1,5 @@
-package com.johnny.gank.ui.fragment;
+package com.johnny.gank.ui.fragment
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,29 +16,28 @@ package com.johnny.gank.ui.fragment;
  * limitations under the License.
  */
 
-import com.umeng.analytics.MobclickAgent;
+import com.umeng.analytics.MobclickAgent
 
-import android.app.Fragment;
+import android.app.Fragment
 
 /**
  * description
- *
+
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
+ * *
  * @version 1.0
  */
-public abstract class BaseFragment extends Fragment {
+abstract class BaseFragment : Fragment() {
 
-    protected abstract String getStatPageName();
+    protected abstract val statPageName: String
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(getStatPageName());
+    override fun onResume() {
+        super.onResume()
+        MobclickAgent.onPageStart(statPageName)
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(getStatPageName());
+    override fun onPause() {
+        super.onPause()
+        MobclickAgent.onPageEnd(statPageName)
     }
 }
