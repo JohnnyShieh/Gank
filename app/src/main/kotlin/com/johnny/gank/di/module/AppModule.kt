@@ -26,6 +26,7 @@ import com.johnny.gank.util.AppUtil
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
+import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -33,6 +34,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
@@ -59,7 +61,7 @@ class AppModule(private val mApp: GankApp) {
     @Singleton
     internal fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-                .addNetworkInterceptor(networkInterceptor)
+                .addInterceptor(interceptro)
                 .cache(Cache(File(AppUtil.getCacheDir(), "http_reponse"), (10 * 1024 * 1024).toLong()))
                 .build()
     }
@@ -80,13 +82,16 @@ class AppModule(private val mApp: GankApp) {
                 .create(GankService::class.java)
     }
 
-    private val networkInterceptor: Interceptor
+    private val interceptro: Interceptor
         get() = Interceptor { chain ->
             val request = chain.request()
+                    .newBuilder()
+                    .header("Cache-Control", "max-age=" + CACHE_MAX_AGE + ", max-stale=" + CACHE_MAX_AGE * 60)
+                    .build()
             val response = chain.proceed(request)
             if (request.url().toString().startsWith(GankApi.BASE_URL) && !request.url().toString().startsWith(GankApi.Query_BASE_URL)) {
                 return@Interceptor response.newBuilder()
-                        .header("Cache-Control", "max-age=" + CACHE_MAX_AGE)
+                        .header("Cache-Control", "max-stale=" + CACHE_MAX_AGE)
                         .build()
             }
             response
