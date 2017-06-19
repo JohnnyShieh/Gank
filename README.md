@@ -1,10 +1,21 @@
-# Gank
+# Gank - Android & Kotlin
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/JohnnyShieh/Gank/blob/master/LICENSE)
 ![SDK](https://img.shields.io/badge/SDK-19%2B-orange.svg)
 ![Release](https://img.shields.io/badge/release-v1.1-blue.svg)
 
 简洁美观的干货集中营(gank.io)的非官方安卓客户端, 数据来源于[干货集中营](http://gank.io/)
+
+本项目包含原生 android 版和 kotlin 版两种实现：
+
+| 分支    | 版本    |
+| ------ | ------ |
+| [master](https://github.com/JohnnyShieh/Gank/tree/master) | 原生 android 版 |
+| [kotlin](https://github.com/JohnnyShieh/Gank/tree/kotlin) | kotlin 版 |
+
+kotlin 版的改动如下：
+
+全面使用 kotlin 语言，还使用了 [Anko Commons](https://github.com/Kotlin/anko)，用 [kotlin Android Extensions](http://kotlinlang.org/docs/tutorials/android-plugin.html) 替换了 ButterKnife。
 
 **Description**
 
@@ -40,7 +51,7 @@ App基本包含下面几个页面:
 
 **Architecture**
 
-项目使用Facebook的Flux架构实现单向数据流, 因为app基本上只是展示网络获取的数据, 单向数据流可以保证数据获取清晰明了. 
+项目使用Facebook的Flux架构实现单向数据流, 因为app基本上只是展示网络获取的数据, 单向数据流可以保证数据获取清晰明了.
 
 ![](/pic/flux-arch.png)
 
@@ -50,7 +61,19 @@ App主要分为UI, Action, Store三层, UI请求数据的时候用ActionCreator�
 
 Web API获取数据是使用RxJava + Retrofit + okhttp, 使用Glide完成图片加载, 使用Dagger2完成依赖注入.
 
-**Library**
+# Dagger 完全解析
+
+个人分析 Dagger 2 使用与原理的文章
+
+[Dagger 2 完全解析（一），Dagger 2 的基本使用与原理](http://johnnyshieh.me/posts/dagger-basic/)
+
+[Dagger 2 完全解析（二），进阶使用 Lazy、Qualifier、Scope 等](http://johnnyshieh.me/posts/dagger-advance/)
+
+[Dagger 2 完全解析（三），Component 的组织关系与 SubComponent](http://johnnyshieh.me/posts/dagger-subcomponent/)
+
+[Dagger 2 完全解析（四），Android 中使用 Dagger 2](http://johnnyshieh.me/posts/dagger-use-in-android/)
+
+# Library
 
 * [RxJava](https://github.com/ReactiveX/RxJava)
 
@@ -64,8 +87,6 @@ Web API获取数据是使用RxJava + Retrofit + okhttp, 使用Glide完成图片�
 
 * [Leakcanary](https://github.com/square/leakcanary)
 
-* [Butterknife](https://github.com/JakeWharton/butterknife)
-
 * [RxFlux](https://github.com/JohnnyShieh/RxFlux)
 
 * [gson](https://github.com/google/gson)
@@ -76,7 +97,7 @@ Web API获取数据是使用RxJava + Retrofit + okhttp, 使用Glide完成图片�
 # License
 
 
-    Copyright 2016 Johnny Shieh Open Project
+    Copyright 2017 Johnny Shieh Open Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
