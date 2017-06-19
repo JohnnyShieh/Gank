@@ -1,4 +1,4 @@
-# Gank - kotlin
+# Gank - Android & Kotlin
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/JohnnyShieh/Gank/blob/master/LICENSE)
 ![SDK](https://img.shields.io/badge/SDK-19%2B-orange.svg)
