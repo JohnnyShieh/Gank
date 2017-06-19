@@ -109,8 +109,11 @@ dependencies {
     compile "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    // RxJava 2
     compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
     compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+    // RxFlux
     compile "com.johnny.rxflux:rxflux:$rxflux_version"
 
     // Retrofit
@@ -120,17 +123,19 @@ dependencies {
 
     compile "com.google.code.gson:gson:$gson_version"
     compile "com.github.bumptech.glide:glide:$glide_version"
+
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     // Anko
     compile "org.jetbrains.anko:anko-commons:$anko_version"
 
     compile "com.umeng.analytics:analytics:latest.integration"
+
+    // LeakCanary
     debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
-//    provided "javax.annotation:jsr250-api:$javax_annotation_version"
 
+    // log
     compile "com.jakewharton.timber:timber:$timber_version"
     compile "com.github.tianzhijiexian:logger:$logger_version"
-    compile "com.jakewharton:butterknife:$butterKnifeVersion"
 }

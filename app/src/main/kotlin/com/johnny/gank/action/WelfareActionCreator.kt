@@ -33,8 +33,6 @@ class WelfareActionCreator
     override val actionId: String
         get() = ActionType.GET_WELFARE_LIST
 
-    fun getWelfareList(page: Int) {
-        getGankList(GankType.WELFARE, page)
-    }
+    fun getWelfareList(page: Int) = getGankList(GankType.WELFARE, page)
 
 }

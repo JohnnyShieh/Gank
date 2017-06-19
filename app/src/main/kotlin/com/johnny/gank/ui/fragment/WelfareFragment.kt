@@ -50,6 +50,7 @@ class WelfareFragment : BaseFragment(),
         SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
+        const val TAG = "WelfareFragment"
         @JvmStatic
         fun newInstance() = WelfareFragment()
     }
@@ -78,7 +79,7 @@ class WelfareFragment : BaseFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).mainActivityComponent
+        mComponent = (activity as MainActivity).component!!
                 .welfareFragmentComponent()
                 .build()
         mComponent!!.inject(this)
@@ -86,7 +87,15 @@ class WelfareFragment : BaseFragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
+        vLoadMore = inflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView?
 
+        mStore!!.register(ActionType.GET_WELFARE_LIST)
+        mStore!!.setObserver(this)
+        return contentView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         refresh_layout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
         refresh_layout.setOnRefreshListener(this)
         mLayoutManager = GridLayoutManager(activity, 2)
@@ -112,24 +121,15 @@ class WelfareFragment : BaseFragment(),
             }
         })
 
-        vLoadMore = inflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView?
         mAdapter = WelfareAdapter(this)
         mAdapter!!.onItemClickListener = object : WelfareAdapter.OnItemClickListener {
-            override fun onClickItem(view: View, normalItem: GankNormalItem) {
-                startActivity(PictureActivity.newIntent(mComponent!!.activity, normalItem.page, normalItem.gank._id))
+            override fun onClickItem(view: View, item: GankNormalItem) {
+                startActivity(PictureActivity.newIntent(mComponent!!.activity, item.page, item.gank._id))
             }
         }
         val adapter = HeaderViewRecyclerAdapter(mAdapter!!)
         adapter.loadingView = vLoadMore
         recycler_view.adapter = adapter
-
-        mStore!!.register(ActionType.GET_WELFARE_LIST)
-        mStore!!.setObserver(this)
-        return contentView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         refresh_layout.post {
             refresh_layout.isRefreshing = true
             refreshList()

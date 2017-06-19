@@ -33,7 +33,5 @@ class FrontEndActionCreator
     override val actionId: String
         get() = ActionType.GET_FRONT_END_LIST
 
-    fun getFrontEndList(page: Int) {
-        getGankList(GankType.FRONTEND, page)
-    }
+    fun getFrontEndList(page: Int) = getGankList(GankType.FRONTEND, page)
 }

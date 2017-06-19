@@ -34,7 +34,5 @@ class AndroidActionCreator
         get() = ActionType.GET_ANDROID_LIST
 
 
-    fun getAndroidList(page: Int) {
-        getGankList(GankType.ANDROID, page)
-    }
+    fun getAndroidList(page: Int) = getGankList(GankType.ANDROID, page)
 }

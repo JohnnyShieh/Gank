@@ -33,7 +33,5 @@ class IOSActionCreator
     override val actionId: String
         get() = ActionType.GET_IOS_LIST
 
-    fun getIOSList(page: Int) {
-        getGankList(GankType.IOS, page)
-    }
+    fun getIOSList(page: Int) = getGankList(GankType.IOS, page)
 }

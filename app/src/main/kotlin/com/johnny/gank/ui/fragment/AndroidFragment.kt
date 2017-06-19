@@ -21,13 +21,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.johnny.gank.action.ActionType
 import com.johnny.gank.action.AndroidActionCreator
-import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.gank.di.component.AndroidFragmentComponent
 import com.johnny.gank.stat.StatName
 import com.johnny.gank.store.NormalGankStore
 import com.johnny.gank.ui.activity.MainActivity
-import com.johnny.gank.ui.activity.WebviewActivity
-import com.johnny.gank.ui.adapter.CategoryGankAdapter
 import com.johnny.gank.ui.widget.LoadMoreView
 import com.johnny.rxflux.Store
 import com.johnny.rxflux.StoreObserver
@@ -44,6 +41,7 @@ class AndroidFragment : CategoryGankFragment(),
     StoreObserver {
 
     companion object {
+        const val TAG = "AndroidFragment"
         @JvmStatic
         fun newInstance() = AndroidFragment()
     }
@@ -64,7 +62,7 @@ class AndroidFragment : CategoryGankFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).mainActivityComponent
+        mComponent = (activity as MainActivity).component!!
             .androidFragmentComponent()
             .build()
         mComponent!!.inject(this)

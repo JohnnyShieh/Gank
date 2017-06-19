@@ -41,6 +41,7 @@ class VideoFragment : CategoryGankFragment(),
         StoreObserver {
 
     companion object {
+        const val TAG = "VideoFragment"
         @JvmStatic
         fun newInstance() = VideoFragment()
     }
@@ -61,7 +62,7 @@ class VideoFragment : CategoryGankFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).mainActivityComponent
+        mComponent = (activity as MainActivity).component!!
                 .videoFragmentComponent()
                 .build()
         mComponent!!.inject(this)

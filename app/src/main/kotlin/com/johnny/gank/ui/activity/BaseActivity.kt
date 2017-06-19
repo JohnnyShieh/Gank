@@ -1,5 +1,4 @@
-package com.johnny.gank.action
-
+package com.johnny.gank.ui.activity
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -16,22 +15,28 @@ package com.johnny.gank.action
  * limitations under the License.
  */
 
-import com.johnny.gank.data.GankType
-
-import javax.inject.Inject
+import android.app.Fragment
+import android.support.v7.app.AppCompatActivity
+import com.johnny.gank.GankApp
+import com.johnny.gank.di.component.AppComponent
 
 /**
  * description
-
+ *
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
- * *
  * @version 1.0
  */
-class PictureActionCreator
-    @Inject constructor() : CategoryGankActionCreator() {
+abstract class BaseActivity : AppCompatActivity() {
 
-    override val actionId: String
-        get() = ActionType.GET_PICTURE_LIST
+    fun getAppComponent(): AppComponent {
+        return (application as GankApp).getAppComponent()
+    }
 
-    fun getPictureList(page: Int)  = getGankList(GankType.WELFARE, page)
+    fun replaceFragment(containerViewId: Int, fragment: Fragment, tag: String) {
+        if (null == fragmentManager.findFragmentByTag(tag)) {
+            fragmentManager.beginTransaction()
+                    .replace(containerViewId, fragment, tag)
+                    .commit()
+        }
+    }
 }

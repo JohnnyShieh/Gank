@@ -47,6 +47,7 @@ class TodayGankFragment : BaseFragment(),
         SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
+        const val TAG = "TodayGankFragment"
         @JvmStatic
         fun newInstance() = TodayGankFragment()
     }
@@ -69,7 +70,7 @@ class TodayGankFragment : BaseFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).mainActivityComponent
+        mComponent = (activity as MainActivity).component!!
                 .todayGankFragmentComponent()
                 .build()
         mComponent!!.inject(this)
@@ -77,6 +78,14 @@ class TodayGankFragment : BaseFragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
+
+        mStore!!.register(ActionType.GET_TODAY_GANK)
+        mStore!!.setObserver(this)
+        return contentView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         refresh_layout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
         refresh_layout.setOnRefreshListener(this)
         recycler_view.layoutManager = LinearLayoutManager(activity)
@@ -96,14 +105,6 @@ class TodayGankFragment : BaseFragment(),
             }
         }
         recycler_view.adapter = mAdapter
-
-        mStore!!.register(ActionType.GET_TODAY_GANK)
-        mStore!!.setObserver(this)
-        return contentView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         refresh_layout.post {
             refresh_layout.isRefreshing = true
             refreshData()

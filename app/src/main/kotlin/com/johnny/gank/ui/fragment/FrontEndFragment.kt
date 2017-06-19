@@ -47,6 +47,7 @@ class FrontEndFragment : CategoryGankFragment(),
     StoreObserver {
 
     companion object {
+        const val TAG = "FrontEndFragment"
         @JvmStatic
         fun newInstance() = FrontEndFragment()
     }
@@ -67,7 +68,7 @@ class FrontEndFragment : CategoryGankFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).mainActivityComponent
+        mComponent = (activity as MainActivity).component!!
             .frontEndFragmentComponent()
             .build()
         mComponent!!.inject(this)

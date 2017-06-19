@@ -50,11 +50,25 @@ abstract class CategoryGankFragment : BaseFragment(),
     protected fun createView(inflater: LayoutInflater, container: ViewGroup): View {
         val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
 
+        vLoadMore = inflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView
+        return contentView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         refresh_layout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
         refresh_layout.setOnRefreshListener(this)
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         recycler_view.layoutManager = layoutManager
         recycler_view.setHasFixedSize(true)
+        wrappedAdapter.onItemClickListener = object : CategoryGankAdapter.OnItemClickListener {
+            override fun onClickNormalItem(view: View, normalItem: GankNormalItem) {
+                WebviewActivity.openUrl(activity, normalItem.gank.url, normalItem.gank.desc)
+            }
+        }
+        val adapter = HeaderViewRecyclerAdapter(wrappedAdapter)
+        adapter.loadingView = vLoadMore
+        recycler_view.adapter = adapter
         recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -74,23 +88,6 @@ abstract class CategoryGankFragment : BaseFragment(),
                 }
             }
         })
-
-        vLoadMore = inflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView
-
-        wrappedAdapter.onItemClickListener = object : CategoryGankAdapter.OnItemClickListener {
-            override fun onClickNormalItem(view: View, normalItem: GankNormalItem) {
-                WebviewActivity.openUrl(activity, normalItem.gank.url, normalItem.gank.desc)
-            }
-        }
-        val adapter = HeaderViewRecyclerAdapter(wrappedAdapter)
-        adapter.loadingView = vLoadMore
-        recycler_view.adapter = adapter
-
-        return contentView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         refresh_layout.post {
             refresh_layout.isRefreshing = true
             refreshList()

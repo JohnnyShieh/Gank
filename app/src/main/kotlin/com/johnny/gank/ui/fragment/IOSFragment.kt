@@ -41,6 +41,7 @@ class IOSFragment : CategoryGankFragment(),
     StoreObserver {
 
     companion object {
+        const val TAG = "IOSFragment"
         @JvmStatic
         fun newInstance() = IOSFragment()
     }
@@ -61,7 +62,7 @@ class IOSFragment : CategoryGankFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).mainActivityComponent
+        mComponent = (activity as MainActivity).component!!
             .iosFragmentComponent()
             .build()
         mComponent!!.inject(this)

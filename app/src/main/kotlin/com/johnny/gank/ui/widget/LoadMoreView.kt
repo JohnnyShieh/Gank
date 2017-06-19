@@ -21,6 +21,7 @@ import android.support.annotation.IntDef
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.johnny.gank.R
 import kotlinx.android.synthetic.main.load_more_content.view.*
@@ -69,6 +70,7 @@ class LoadMoreView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.load_more_content, this)
+        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     companion object {

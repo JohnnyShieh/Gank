@@ -33,7 +33,5 @@ class VideoActionCreator
     override val actionId: String
         get() = ActionType.GET_VIDEO_LIST
 
-    fun getVideoList(page: Int) {
-        getGankList(GankType.VIDEO, page)
-    }
+    fun getVideoList(page: Int) = getGankList(GankType.VIDEO, page)
 }
