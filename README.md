@@ -73,6 +73,8 @@ Web API获取数据是使用RxJava + Retrofit + okhttp, 使用Glide完成图片�
 
 [Dagger 2 完全解析（四），Android 中使用 Dagger 2](http://johnnyshieh.me/posts/dagger-use-in-android/)
 
+[Dagger 2 完全解析（五），Kotlin 中使用 Dagger 2](http://johnnyshieh.me/posts/dagger-use-in-kotlin/)
+
 # Library
 
 * [RxJava](https://github.com/ReactiveX/RxJava)
