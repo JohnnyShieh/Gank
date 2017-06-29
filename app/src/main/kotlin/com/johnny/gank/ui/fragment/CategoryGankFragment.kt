@@ -39,9 +39,9 @@ import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
 abstract class CategoryGankFragment : BaseFragment(),
         SwipeRefreshLayout.OnRefreshListener {
 
-    protected var vLoadMore: LoadMoreView? = null
+    protected lateinit var vLoadMore: LoadMoreView
 
-    protected var layoutManager: LinearLayoutManager? = null
+    protected lateinit var layoutManager: LinearLayoutManager
 
     protected var wrappedAdapter = CategoryGankAdapter()
 
@@ -72,7 +72,7 @@ abstract class CategoryGankFragment : BaseFragment(),
         recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val reachBottom = layoutManager!!.findLastCompletelyVisibleItemPosition() >= (layoutManager!!.itemCount - 1)
+                val reachBottom = layoutManager.findLastCompletelyVisibleItemPosition() >= (layoutManager.itemCount - 1)
                 if(!loadingMore && reachBottom) {
                     loadingMore = true
                     loadMore()
@@ -81,7 +81,7 @@ abstract class CategoryGankFragment : BaseFragment(),
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                val reachBottom = layoutManager!!.findLastCompletelyVisibleItemPosition() >= (layoutManager!!.itemCount - 1)
+                val reachBottom = layoutManager.findLastCompletelyVisibleItemPosition() >= (layoutManager.itemCount - 1)
                 if(newState == RecyclerView.SCROLL_STATE_IDLE && !loadingMore && reachBottom) {
                     loadingMore = true
                     loadMore()

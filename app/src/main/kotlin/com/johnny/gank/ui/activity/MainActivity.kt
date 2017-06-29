@@ -15,29 +15,19 @@ package com.johnny.gank.ui.activity
  * limitations under the License.
  */
 
-import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
-import com.johnny.gank.R;
-import com.johnny.gank.di.component.MainActivityComponent;
-import com.johnny.gank.ui.fragment.AndroidFragment;
-import com.johnny.gank.ui.fragment.FrontEndFragment;
-import com.johnny.gank.ui.fragment.IOSFragment;
-import com.johnny.gank.ui.fragment.TodayGankFragment;
-import com.johnny.gank.ui.fragment.VideoFragment;
-import com.johnny.gank.ui.fragment.WelfareFragment;
-import com.umeng.analytics.MobclickAgent;
-
-import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Bundle
+import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
+import android.support.v7.app.ActionBarDrawerToggle
+import android.view.Menu
+import android.view.MenuItem
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
+import com.johnny.gank.R
+import com.johnny.gank.di.component.MainActivityComponent
+import com.johnny.gank.ui.fragment.*
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-
-import java.util.HashMap;
 
 /**
  * @author Johnny Shieh
@@ -46,7 +36,7 @@ import java.util.HashMap;
 class MainActivity : BaseActivity(),
         NavigationView.OnNavigationItemSelectedListener {
 
-    var component: MainActivityComponent? = null
+    lateinit var component: MainActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

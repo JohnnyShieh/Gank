@@ -49,7 +49,7 @@ class TodayGankActionCreator
 
     private var hasAction = false
 
-    internal var mGankService: GankService? = null
+    lateinit internal var mGankService: GankService
         @Inject set
 
     fun getTodayGank() {
@@ -59,7 +59,7 @@ class TodayGankActionCreator
         }
 
         hasAction = true
-        mGankService!!.getDateHistory()
+        mGankService.getDateHistory()
                 .filter { null != it && it.results.isNotEmpty() }
                 .map { (results) ->
                     var calendar: Calendar? = Calendar.getInstance(Locale.CHINA)
@@ -73,7 +73,7 @@ class TodayGankActionCreator
                     calendar
                 }.filter { null != it }
                 .flatMap { calendar ->
-                    mGankService!!
+                    mGankService
                             .getDayGank(calendar!!.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))
                 }
                 .map { getGankList(it) }

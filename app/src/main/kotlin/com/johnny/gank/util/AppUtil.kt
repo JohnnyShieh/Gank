@@ -27,7 +27,7 @@ import android.support.annotation.NonNull
  */
 object AppUtil {
 
-    var appContext: Context? = null
+    lateinit var appContext: Context
         @JvmStatic get
         private set
 
@@ -42,11 +42,11 @@ object AppUtil {
     @JvmStatic
     fun getCacheDir(): String {
         if(Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() || !Environment.isExternalStorageRemovable()) {
-            val cacheFile = appContext!!.externalCacheDir
+            val cacheFile = appContext.externalCacheDir
             if(null != cacheFile) {
                 return cacheFile.path
             }
         }
-        return appContext!!.cacheDir.path
+        return appContext.cacheDir.path
     }
 }

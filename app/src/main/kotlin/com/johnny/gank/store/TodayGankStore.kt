@@ -38,7 +38,5 @@ class TodayGankStore
         return true
     }
 
-    override fun onError(action: Action, throwable: Throwable?): Boolean {
-        return true
-    }
+    override fun onError(action: Action, throwable: Throwable?) = true
 }

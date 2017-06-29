@@ -36,7 +36,7 @@ class QueryActionCreator
 
     private var hasAction = false
 
-    var mGankService: GankService? = null
+    lateinit var mGankService: GankService
         @Inject set
 
     fun query(queryText: String) {
@@ -46,7 +46,7 @@ class QueryActionCreator
         }
 
         hasAction = true
-        mGankService!!.queryGank(queryText, DEFAULT_COUNT, DEFAULT_PAGE)
+        mGankService.queryGank(queryText, DEFAULT_COUNT, DEFAULT_PAGE)
                 .filter { null != it && it.results.isNotEmpty() }
                 .map { GankNormalItem.newGankList(it.results) }
                 .subscribeOn(Schedulers.io())

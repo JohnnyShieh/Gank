@@ -36,7 +36,7 @@ import android.util.Log
  */
 class GankApp : Application() {
 
-    private var appComponent: AppComponent? = null
+    private lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -63,7 +63,7 @@ class GankApp : Application() {
     }
 
     fun getAppComponent(): AppComponent {
-        return appComponent!!
+        return appComponent
     }
 
 }

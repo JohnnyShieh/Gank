@@ -46,13 +46,13 @@ class VideoFragment : CategoryGankFragment(),
         fun newInstance() = VideoFragment()
     }
 
-    var mStore: NormalGankStore? = null
+    lateinit var mStore: NormalGankStore
         @Inject set
 
-    var mActionCreator: VideoActionCreator? = null
+    lateinit var mActionCreator: VideoActionCreator
         @Inject set
 
-    private var mComponent: VideoFramentComponent? = null
+    private lateinit var mComponent: VideoFramentComponent
 
     override val statPageName = StatName.PAGE_VIDEO
 
@@ -62,46 +62,46 @@ class VideoFragment : CategoryGankFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).component!!
+        mComponent = (activity as MainActivity).component
                 .videoFragmentComponent()
                 .build()
-        mComponent!!.inject(this)
+        mComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = createView(inflater, container)
 
-        mStore!!.setObserver(this)
-        mStore!!.register(ActionType.GET_VIDEO_LIST)
+        mStore.setObserver(this)
+        mStore.register(ActionType.GET_VIDEO_LIST)
         return contentView
     }
 
     override fun onDestroyView() {
-        mStore!!.unRegister()
+        mStore.unRegister()
         super.onDestroyView()
     }
 
     override fun refreshList() {
-        mActionCreator!!.getVideoList(1)
+        mActionCreator.getVideoList(1)
     }
 
     override fun loadMore() {
-        vLoadMore!!.status = LoadMoreView.STATUS_LOADING
-        mActionCreator!!.getVideoList(wrappedAdapter.curPage + 1)
+        vLoadMore.status = LoadMoreView.STATUS_LOADING
+        mActionCreator.getVideoList(wrappedAdapter.curPage + 1)
     }
 
     override fun onChange(store: Store, actionType: String) {
-        if (1 == mStore!!.page) {
+        if (1 == mStore.page) {
             refresh_layout.isRefreshing = false
         }
-        wrappedAdapter.updateData(mStore!!.page, mStore!!.gankList)
+        wrappedAdapter.updateData(mStore.page, mStore.gankList)
         loadingMore = false
-        vLoadMore!!.status = LoadMoreView.STATUS_INIT
+        vLoadMore.status = LoadMoreView.STATUS_INIT
     }
 
     override fun onError(store: Store, actionType: String) {
         refresh_layout.isRefreshing = false
         loadingMore = false
-        vLoadMore!!.status = LoadMoreView.STATUS_FAIL
+        vLoadMore.status = LoadMoreView.STATUS_FAIL
     }
 }

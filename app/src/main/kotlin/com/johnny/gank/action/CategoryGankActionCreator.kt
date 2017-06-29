@@ -35,7 +35,7 @@ abstract class CategoryGankActionCreator {
 
     private var hasAction = false
 
-    var mGankService: GankService? = null
+    lateinit var mGankService: GankService
         @Inject set
 
     protected abstract val actionId: String
@@ -50,7 +50,7 @@ abstract class CategoryGankActionCreator {
         }
 
         hasAction = true
-        mGankService!!.getGank(category, pageCount, page)
+        mGankService.getGank(category, pageCount, page)
                 .filter { null != it && it.results.isNotEmpty() }
                 .map { GankNormalItem.newGankList(it.results, page) }
                 .subscribeOn(Schedulers.io())

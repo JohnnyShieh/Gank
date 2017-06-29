@@ -51,8 +51,8 @@ class WebviewActivity : BaseActivity(),
         }
     }
 
-    private var mUrl: String? = null
-    private var mTitle: String? = null
+    private lateinit var mUrl: String
+    private lateinit var mTitle: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +66,8 @@ class WebviewActivity : BaseActivity(),
         setUpWebView()
 
         if (null != intent) {
-            mUrl = intent!!.getStringExtra(EXTRA_URL)
-            mTitle = intent!!.getStringExtra(EXTRA_TITLE)
+            mUrl = intent.getStringExtra(EXTRA_URL)
+            mTitle = intent.getStringExtra(EXTRA_TITLE)
         }
 
         title = mTitle

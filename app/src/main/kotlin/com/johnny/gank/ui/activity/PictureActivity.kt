@@ -73,13 +73,13 @@ class PictureActivity : BaseActivity(),
 
     private var mInitPicId: String? = null
 
-    var mPagerAdapter: PicturePagerAdapter? = null
+    lateinit var mPagerAdapter: PicturePagerAdapter
         @Inject set
 
-    var mStore: NormalGankStore? = null
+    lateinit var mStore: NormalGankStore
         @Inject set
 
-    var mActionCreator: PictureActionCreator? = null
+    lateinit var mActionCreator: PictureActionCreator
         @Inject set
 
     val mPageChangeListener = object : ViewPager.OnPageChangeListener {
@@ -92,7 +92,7 @@ class PictureActivity : BaseActivity(),
         }
 
         override fun onPageSelected(position: Int) {
-            val curItem = mPagerAdapter!!.getItem(position)
+            val curItem = mPagerAdapter.getItem(position)
             title = sDateFormatter.format(curItem!!.gank.publishedAt)
             // when scroll to the first position.
             if (position == 0) {
@@ -101,7 +101,7 @@ class PictureActivity : BaseActivity(),
                 }
                 return
             }
-            if(position == mPagerAdapter!!.count - 1) {
+            if(position == mPagerAdapter.count - 1) {
                 loadPictureList(curItem.page + 1)
             }
         }
@@ -113,7 +113,7 @@ class PictureActivity : BaseActivity(),
         if (!singlePicUrl.isNullOrEmpty()) {
             val publishAt = intent.getSerializableExtra(EXTRA_PUBLISH_SINGLE_PIC) as Date
             val item = GankNormalItem(gank = Gank(url = singlePicUrl, publishedAt = publishAt))
-            mPagerAdapter!!.initList(arrayListOf(item))
+            mPagerAdapter.initList(arrayListOf(item))
 
             title = sDateFormatter.format(publishAt)
         } else {
@@ -150,23 +150,23 @@ class PictureActivity : BaseActivity(),
 
     override fun onResume() {
         super.onResume()
-        mStore!!.setObserver(this)
-        mStore!!.register(ActionType.GET_PICTURE_LIST)
+        mStore.setObserver(this)
+        mStore.register(ActionType.GET_PICTURE_LIST)
         MobclickAgent.onPageStart(StatName.PAGE_PICTURE)
         MobclickAgent.onResume(this)
     }
 
     override fun onPause() {
-        super.onPause();
+        super.onPause()
         // if unsubscribe is in onDestroy, this activity's onDestroy may delay to new activity's onCreate
         // it will cause that storeChange event can't receive in new activity
-        mStore!!.unRegister();
+        mStore.unRegister()
         MobclickAgent.onPageEnd(StatName.PAGE_PICTURE)
         MobclickAgent.onPause(this)
     }
 
     private fun loadPictureList(page: Int) {
-        mActionCreator!!.getPictureList(page)
+        mActionCreator.getPictureList(page)
     }
 
     private fun getInitPicPos(list: List<GankNormalItem>): Int {
@@ -180,10 +180,10 @@ class PictureActivity : BaseActivity(),
     }
 
     override fun onChange(store: Store?, actionType: String?) {
-        if (0 == mPagerAdapter!!.count) {
-            mPagerAdapter!!.initList(mStore!!.gankList)
-            mPagerAdapter!!.notifyDataSetChanged()
-            val initPos = getInitPicPos(mStore!!.gankList)
+        if (0 == mPagerAdapter.count) {
+            mPagerAdapter.initList(mStore.gankList)
+            mPagerAdapter.notifyDataSetChanged()
+            val initPos = getInitPicPos(mStore.gankList)
             view_pager.currentItem = initPos
             // when use setCurrentItem(0), onPageSelected would not be called.
             // so just call it manually.
@@ -191,9 +191,9 @@ class PictureActivity : BaseActivity(),
                 mPageChangeListener.onPageSelected(0)
             }
         } else {
-            val addStatus = mPagerAdapter!!.appendList(mStore!!.page, mStore!!.gankList)
-            mPagerAdapter!!.notifyDataSetChanged()
-            if (addStatus == PicturePagerAdapter.ADD_FRONT) view_pager.setCurrentItem(view_pager.currentItem + mStore!!.gankList.size, false)
+            val addStatus = mPagerAdapter.appendList(mStore.page, mStore.gankList)
+            mPagerAdapter.notifyDataSetChanged()
+            if (addStatus == PicturePagerAdapter.ADD_FRONT) view_pager.setCurrentItem(view_pager.currentItem + mStore.gankList.size, false)
         }
     }
 

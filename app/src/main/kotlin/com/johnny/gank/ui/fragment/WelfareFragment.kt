@@ -55,18 +55,18 @@ class WelfareFragment : BaseFragment(),
         fun newInstance() = WelfareFragment()
     }
 
-    private var vLoadMore: LoadMoreView? = null
+    private lateinit var vLoadMore: LoadMoreView
 
-    private var mLayoutManager: GridLayoutManager? = null
+    private lateinit var mLayoutManager: GridLayoutManager
 
-    private var mComponent: WelfareFragmentComponent? = null
+    private lateinit var mComponent: WelfareFragmentComponent
 
-    private var mAdapter: WelfareAdapter? = null
+    private lateinit var mAdapter: WelfareAdapter
 
-    var mStore: NormalGankStore? = null
+    lateinit var mStore: NormalGankStore
         @Inject set
 
-    var mActionCreator: WelfareActionCreator? = null
+    lateinit var mActionCreator: WelfareActionCreator
         @Inject set
 
     private var loadingMore = false
@@ -79,18 +79,18 @@ class WelfareFragment : BaseFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).component!!
+        mComponent = (activity as MainActivity).component
                 .welfareFragmentComponent()
                 .build()
-        mComponent!!.inject(this)
+        mComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
-        vLoadMore = inflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView?
+        vLoadMore = inflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView
 
-        mStore!!.register(ActionType.GET_WELFARE_LIST)
-        mStore!!.setObserver(this)
+        mStore.register(ActionType.GET_WELFARE_LIST)
+        mStore.setObserver(this)
         return contentView
     }
 
@@ -104,7 +104,7 @@ class WelfareFragment : BaseFragment(),
         recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val reachBottom = mLayoutManager!!.findLastCompletelyVisibleItemPosition() >= mLayoutManager!!.itemCount - 1
+                val reachBottom = mLayoutManager.findLastCompletelyVisibleItemPosition() >= mLayoutManager.itemCount - 1
                 if(!loadingMore && reachBottom) {
                     loadingMore = true
                     loadMore()
@@ -113,7 +113,7 @@ class WelfareFragment : BaseFragment(),
 
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                val reachBottom = mLayoutManager!!.findLastCompletelyVisibleItemPosition() >= mLayoutManager!!.itemCount - 1
+                val reachBottom = mLayoutManager.findLastCompletelyVisibleItemPosition() >= mLayoutManager.itemCount - 1
                 if(newState == RecyclerView.SCROLL_STATE_IDLE && !loadingMore && reachBottom) {
                     loadingMore = true
                     loadMore()
@@ -122,12 +122,12 @@ class WelfareFragment : BaseFragment(),
         })
 
         mAdapter = WelfareAdapter(this)
-        mAdapter!!.onItemClickListener = object : WelfareAdapter.OnItemClickListener {
+        mAdapter.onItemClickListener = object : WelfareAdapter.OnItemClickListener {
             override fun onClickItem(view: View, item: GankNormalItem) {
-                startActivity(PictureActivity.newIntent(mComponent!!.activity, item.page, item.gank._id))
+                startActivity(PictureActivity.newIntent(mComponent.activity, item.page, item.gank._id))
             }
         }
-        val adapter = HeaderViewRecyclerAdapter(mAdapter!!)
+        val adapter = HeaderViewRecyclerAdapter(mAdapter)
         adapter.loadingView = vLoadMore
         recycler_view.adapter = adapter
         refresh_layout.post {
@@ -137,17 +137,17 @@ class WelfareFragment : BaseFragment(),
     }
 
     override fun onDestroyView() {
-        mStore!!.unRegister()
+        mStore.unRegister()
         super.onDestroyView()
     }
 
     private fun refreshList() {
-        mActionCreator!!.getWelfareList(1)
+        mActionCreator.getWelfareList(1)
     }
 
     private fun loadMore() {
-        vLoadMore!!.status = LoadMoreView.STATUS_LOADING
-        mActionCreator!!.getWelfareList(mAdapter!!.curPage + 1)
+        vLoadMore.status = LoadMoreView.STATUS_LOADING
+        mActionCreator.getWelfareList(mAdapter.curPage + 1)
     }
 
     override fun onRefresh() {
@@ -155,17 +155,17 @@ class WelfareFragment : BaseFragment(),
     }
 
     override fun onChange(store: Store, actionType: String) {
-        if (1 == mStore!!.page) {
+        if (1 == mStore.page) {
             refresh_layout.isRefreshing = false
         }
-        mAdapter!!.updateData(mStore!!.page, mStore!!.gankList)
+        mAdapter.updateData(mStore.page, mStore.gankList)
         loadingMore = false
-        vLoadMore!!.status = LoadMoreView.STATUS_INIT
+        vLoadMore.status = LoadMoreView.STATUS_INIT
     }
 
     override fun onError(store: Store, actionType: String) {
         refresh_layout.isRefreshing = false
         loadingMore = false
-        vLoadMore!!.status = LoadMoreView.STATUS_FAIL
+        vLoadMore.status = LoadMoreView.STATUS_FAIL
     }
 }

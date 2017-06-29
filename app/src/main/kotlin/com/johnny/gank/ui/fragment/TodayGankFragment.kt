@@ -52,15 +52,15 @@ class TodayGankFragment : BaseFragment(),
         fun newInstance() = TodayGankFragment()
     }
 
-    private var mComponent: TodayGankFragmentComponent? = null
+    private lateinit var mComponent: TodayGankFragmentComponent
 
-    var mStore: TodayGankStore? = null
+    lateinit var mStore: TodayGankStore
         @Inject set
 
-    var mActionCreator: TodayGankActionCreator ?= null
+    lateinit var mActionCreator: TodayGankActionCreator
         @Inject set
 
-    private var mAdapter: GankListAdapter? = null
+    private lateinit var mAdapter: GankListAdapter
 
     override var statPageName = StatName.PAGE_TODAY
 
@@ -70,17 +70,17 @@ class TodayGankFragment : BaseFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).component!!
+        mComponent = (activity as MainActivity).component
                 .todayGankFragmentComponent()
                 .build()
-        mComponent!!.inject(this)
+        mComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
 
-        mStore!!.register(ActionType.GET_TODAY_GANK)
-        mStore!!.setObserver(this)
+        mStore.register(ActionType.GET_TODAY_GANK)
+        mStore.setObserver(this)
         return contentView
     }
 
@@ -91,16 +91,16 @@ class TodayGankFragment : BaseFragment(),
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recycler_view.setHasFixedSize(true)
         mAdapter = GankListAdapter(this)
-        mAdapter!!.onItemClickListener = object : GankListAdapter.OnItemClickListener {
+        mAdapter.onItemClickListener = object : GankListAdapter.OnItemClickListener {
             override fun onClickNormalItem(view: View, normalItem: GankNormalItem) {
                 if (!normalItem.gank.url.isNullOrEmpty()) {
-                    WebviewActivity.openUrl(mComponent!!.activity, normalItem.gank.url, normalItem.gank.desc)
+                    WebviewActivity.openUrl(mComponent.activity, normalItem.gank.url, normalItem.gank.desc)
                 }
             }
 
             override fun onClickGirlItem(view: View, girlImageItem: GankGirlImageItem) {
                 if (!girlImageItem.imgUrl.isNullOrEmpty()) {
-                    startActivity(PictureActivity.newIntent(mComponent!!.activity, girlImageItem.imgUrl, girlImageItem.publishedAt))
+                    startActivity(PictureActivity.newIntent(mComponent.activity, girlImageItem.imgUrl, girlImageItem.publishedAt))
                 }
             }
         }
@@ -112,12 +112,12 @@ class TodayGankFragment : BaseFragment(),
     }
 
     override fun onDestroyView() {
-        mStore!!.unRegister()
+        mStore.unRegister()
         super.onDestroyView()
     }
 
     private fun refreshData() {
-        mActionCreator!!.getTodayGank()
+        mActionCreator.getTodayGank()
     }
 
     override fun onRefresh() {
@@ -126,7 +126,7 @@ class TodayGankFragment : BaseFragment(),
 
     override fun onChange(store: Store, actionType: String) {
         refresh_layout.isRefreshing = false
-        mAdapter!!.swapData(mStore!!.items)
+        mAdapter.swapData(mStore.items)
     }
 
     override fun onError(store: Store, actionType: String) {

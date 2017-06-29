@@ -46,13 +46,13 @@ class AndroidFragment : CategoryGankFragment(),
         fun newInstance() = AndroidFragment()
     }
 
-    var mStore: NormalGankStore? = null
+    lateinit var mStore: NormalGankStore
         @Inject set
 
-    var mActionCreator: AndroidActionCreator? = null
+    lateinit var mActionCreator: AndroidActionCreator
         @Inject set
 
-    private var mComponent: AndroidFragmentComponent? = null
+    private lateinit var mComponent: AndroidFragmentComponent
 
     override val statPageName = StatName.PAGE_ANDROID
 
@@ -62,46 +62,46 @@ class AndroidFragment : CategoryGankFragment(),
     }
 
     private fun initInjector() {
-        mComponent = (activity as MainActivity).component!!
+        mComponent = (activity as MainActivity).component
             .androidFragmentComponent()
             .build()
-        mComponent!!.inject(this)
+        mComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = createView(inflater, container)
 
-        mStore!!.setObserver(this)
-        mStore!!.register(ActionType.GET_ANDROID_LIST)
+        mStore.setObserver(this)
+        mStore.register(ActionType.GET_ANDROID_LIST)
         return contentView
     }
 
     override fun onDestroyView() {
-        mStore!!.unRegister()
+        mStore.unRegister()
         super.onDestroyView()
     }
 
     override fun refreshList() {
-        mActionCreator!!.getAndroidList(1)
+        mActionCreator.getAndroidList(1)
     }
 
     override fun loadMore() {
-        vLoadMore!!.status = LoadMoreView.STATUS_LOADING
-        mActionCreator!!.getAndroidList(wrappedAdapter.curPage + 1)
+        vLoadMore.status = LoadMoreView.STATUS_LOADING
+        mActionCreator.getAndroidList(wrappedAdapter.curPage + 1)
     }
 
     override fun onChange(store: Store, actionType: String) {
-        if (1 == mStore!!.page) {
+        if (1 == mStore.page) {
             refresh_layout.isRefreshing = false
         }
-        wrappedAdapter.updateData(mStore!!.page, mStore!!.gankList)
+        wrappedAdapter.updateData(mStore.page, mStore.gankList)
         loadingMore = false
-        vLoadMore!!.status = LoadMoreView.STATUS_INIT
+        vLoadMore.status = LoadMoreView.STATUS_INIT
     }
 
     override fun onError(store: Store, actionType: String) {
         refresh_layout.isRefreshing = false
         loadingMore = false
-        vLoadMore!!.status = LoadMoreView.STATUS_FAIL
+        vLoadMore.status = LoadMoreView.STATUS_FAIL
     }
 }

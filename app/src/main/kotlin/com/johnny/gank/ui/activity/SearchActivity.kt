@@ -47,10 +47,10 @@ class SearchActivity : BaseActivity(),
         fun newIntent(context: Context) = Intent(context, SearchActivity::class.java)
     }
 
-    var mStore: SearchStore? = null
+    lateinit var mStore: SearchStore
         @Inject set
 
-    var mQueryActionCreator: QueryActionCreator? = null
+    lateinit var mQueryActionCreator: QueryActionCreator
         @Inject set
 
     private val mAdapter = QueryGankAdapter()
@@ -67,8 +67,8 @@ class SearchActivity : BaseActivity(),
         handleIntent(intent)
         initInjector()
 
-        mStore!!.setObserver(this)
-        mStore!!.register(ActionType.QUERY_GANK)
+        mStore.setObserver(this)
+        mStore.register(ActionType.QUERY_GANK)
     }
 
     private fun initInjector() {
@@ -114,16 +114,16 @@ class SearchActivity : BaseActivity(),
 
     override fun onDestroy() {
         super.onDestroy()
-        mStore!!.unRegister()
+        mStore.unRegister()
     }
 
     private fun queryGank(queryText: String) {
-        mQueryActionCreator!!.query(queryText)
+        mQueryActionCreator.query(queryText)
     }
 
     override fun onChange(store: Store?, actionType: String?) {
-        mAdapter.updateData(mStore!!.gankList)
-        empty_view.visibility = if (mStore!!.gankList.isEmpty()) View.VISIBLE else View.INVISIBLE
+        mAdapter.updateData(mStore.gankList)
+        empty_view.visibility = if (mStore.gankList.isEmpty()) View.VISIBLE else View.INVISIBLE
     }
 
     override fun onError(store: Store?, actionType: String?) {
