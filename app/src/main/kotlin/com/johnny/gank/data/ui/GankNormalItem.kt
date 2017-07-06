@@ -27,17 +27,17 @@ import com.johnny.gank.data.entity.Gank
 
     companion object {
         @JvmStatic
-        fun newGankList(gankList: List<Gank>?): List<GankNormalItem>? {
+        fun newGankList(gankList: List<Gank>?): List<GankNormalItem> {
             if(null == gankList || gankList.isEmpty()) {
-                return null
+                return arrayListOf()
             }
             return gankList.map { GankNormalItem(gank = it) }
         }
 
         @JvmStatic
-        fun newGankList(gankList: List<Gank>?, pageIndex: Int): List<GankNormalItem>? {
+        fun newGankList(gankList: List<Gank>?, pageIndex: Int): List<GankNormalItem> {
             if(null == gankList || gankList.isEmpty()) {
-                return null
+                return arrayListOf()
             }
             return gankList.map { GankNormalItem(page = pageIndex, gank = it) }
         }

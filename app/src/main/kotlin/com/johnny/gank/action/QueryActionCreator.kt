@@ -15,15 +15,13 @@ package com.johnny.gank.action
  * limitations under the License.
  */
 
-import com.johnny.gank.core.http.GankService;
-import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.rxflux.Action;
-import com.johnny.rxflux.Dispatcher;
-
-import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import com.johnny.gank.core.http.GankService
+import com.johnny.gank.data.ui.GankNormalItem
+import com.johnny.rxflux.Action
+import com.johnny.rxflux.RxFlux
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 /**
  * description
@@ -47,17 +45,17 @@ class QueryActionCreator
 
         hasAction = true
         mGankService.queryGank(queryText, DEFAULT_COUNT, DEFAULT_PAGE)
-                .filter { null != it && it.results.isNotEmpty() }
+                .filter { it.results.isNotEmpty() }
                 .map { GankNormalItem.newGankList(it.results) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ items ->
                     hasAction = false
                     action.data.put(Key.QUERY_RESULT, items)
-                    Dispatcher.get().postAction(action)
+                    RxFlux.postAction(action)
                 }, { throwable ->
                     hasAction = false
-                    Dispatcher.get().postError(action, throwable)
+                    RxFlux.postError(action, throwable)
                 })
     }
 

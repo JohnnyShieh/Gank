@@ -28,7 +28,6 @@ import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.gank.stat.StatName
 import com.johnny.gank.store.NormalGankStore
 import com.johnny.gank.ui.adapter.PicturePagerAdapter
-import com.johnny.rxflux.Store
 import com.johnny.rxflux.StoreObserver
 import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.activity_picture.*
@@ -42,8 +41,7 @@ import javax.inject.Inject
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-class PictureActivity : BaseActivity(),
-        StoreObserver {
+class PictureActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_URL_SINGLE_PIC = "url_single_pic"
@@ -150,7 +148,13 @@ class PictureActivity : BaseActivity(),
 
     override fun onResume() {
         super.onResume()
-        mStore.setObserver(this)
+        mStore.setObserver(object : StoreObserver {
+            override fun onChange(actionType: String) {
+                updateList()
+            }
+
+            override fun onError(actionType: String) {}
+        })
         mStore.register(ActionType.GET_PICTURE_LIST)
         MobclickAgent.onPageStart(StatName.PAGE_PICTURE)
         MobclickAgent.onResume(this)
@@ -179,7 +183,7 @@ class PictureActivity : BaseActivity(),
         return 0
     }
 
-    override fun onChange(store: Store?, actionType: String?) {
+    private fun updateList() {
         if (0 == mPagerAdapter.count) {
             mPagerAdapter.initList(mStore.gankList)
             mPagerAdapter.notifyDataSetChanged()
@@ -196,6 +200,4 @@ class PictureActivity : BaseActivity(),
             if (addStatus == PicturePagerAdapter.ADD_FRONT) view_pager.setCurrentItem(view_pager.currentItem + mStore.gankList.size, false)
         }
     }
-
-    override fun onError(store: Store?, actionType: String?) {}
 }

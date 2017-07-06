@@ -34,7 +34,6 @@ import com.johnny.gank.ui.activity.PictureActivity
 import com.johnny.gank.ui.adapter.WelfareAdapter
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter
 import com.johnny.gank.ui.widget.LoadMoreView
-import com.johnny.rxflux.Store
 import com.johnny.rxflux.StoreObserver
 import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
 import javax.inject.Inject
@@ -46,7 +45,6 @@ import javax.inject.Inject
  * @version 1.0
  */
 class WelfareFragment : BaseFragment(),
-        StoreObserver,
         SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
@@ -90,7 +88,16 @@ class WelfareFragment : BaseFragment(),
         vLoadMore = inflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView
 
         mStore.register(ActionType.GET_WELFARE_LIST)
-        mStore.setObserver(this)
+        mStore.setObserver(object : StoreObserver {
+            override fun onChange(actionType: String) {
+                loadDataSuccess()
+            }
+
+            override fun onError(actionType: String) {
+                loadDataFail()
+            }
+
+        })
         return contentView
     }
 
@@ -154,7 +161,7 @@ class WelfareFragment : BaseFragment(),
         refreshList()
     }
 
-    override fun onChange(store: Store, actionType: String) {
+    private fun loadDataSuccess() {
         if (1 == mStore.page) {
             refresh_layout.isRefreshing = false
         }
@@ -163,7 +170,7 @@ class WelfareFragment : BaseFragment(),
         vLoadMore.status = LoadMoreView.STATUS_INIT
     }
 
-    override fun onError(store: Store, actionType: String) {
+    private fun loadDataFail() {
         refresh_layout.isRefreshing = false
         loadingMore = false
         vLoadMore.status = LoadMoreView.STATUS_FAIL

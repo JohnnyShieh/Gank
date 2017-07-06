@@ -17,7 +17,7 @@ buildscript {
         dagger_version = '2.11'
         rxjava_version = '2.0.6'
         rxandroid_version = '2.0.1'
-        rxflux_version = '1.0.2'
+        rxflux_version = '1.1.1'
         retrofit_version = '2.2.0'
         gson_version = '2.3'
         glide_version = '3.7.0'

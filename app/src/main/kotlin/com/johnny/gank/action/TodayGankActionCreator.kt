@@ -24,18 +24,13 @@ import com.johnny.gank.data.ui.GankHeaderItem
 import com.johnny.gank.data.ui.GankItem
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.rxflux.Action
-import com.johnny.rxflux.Dispatcher
-
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.ArrayList
-import java.util.Calendar
-import java.util.Locale
-
-import javax.inject.Inject
-
+import com.johnny.rxflux.RxFlux
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import javax.inject.Inject
 
 /**
  * description
@@ -60,21 +55,19 @@ class TodayGankActionCreator
 
         hasAction = true
         mGankService.getDateHistory()
-                .filter { null != it && it.results.isNotEmpty() }
+                .filter { it.results.isNotEmpty() }
                 .map { (results) ->
-                    var calendar: Calendar? = Calendar.getInstance(Locale.CHINA)
+                    val calendar = Calendar.getInstance(Locale.CHINA)
                     try {
-                        calendar!!.time = sDataFormat.parse(results[0])
+                        calendar.time = sDataFormat.parse(results[0])
                     } catch (e: ParseException) {
                         e.printStackTrace()
-                        calendar = null
                     }
-
                     calendar
-                }.filter { null != it }
+                }
                 .flatMap { calendar ->
                     mGankService
-                            .getDayGank(calendar!!.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))
+                            .getDayGank(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))
                 }
                 .map { getGankList(it) }
                 .subscribeOn(Schedulers.io())
@@ -82,16 +75,16 @@ class TodayGankActionCreator
                 .subscribe({ gankList ->
                     hasAction = false
                     action.data.put(Key.DAY_GANK, gankList)
-                    Dispatcher.get().postAction(action)
+                    RxFlux.postAction(action)
                 }, { throwable ->
                     hasAction = false
-                    Dispatcher.get().postError(action, throwable)
+                    RxFlux.postError(action, throwable)
                 })
     }
 
-    private fun getGankList(dayData: DayData?): List<GankItem>? {
+    private fun getGankList(dayData: DayData?): List<GankItem> {
         if (null == dayData) {
-            return null
+            return arrayListOf()
         }
         val gankList = ArrayList<GankItem>(10)
         if (dayData.results.welfareList.size > 0) {
@@ -99,31 +92,32 @@ class TodayGankActionCreator
         }
         if (dayData.results.androidList.isNotEmpty()) {
             gankList.add(GankHeaderItem(GankType.ANDROID))
-            GankNormalItem.newGankList(dayData.results.androidList)?.let { gankList.addAll(it) }
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.androidList))
+
         }
         if (dayData.results.iosList.isNotEmpty()) {
             gankList.add(GankHeaderItem(GankType.IOS))
-            GankNormalItem.newGankList(dayData.results.iosList)?.let { gankList.addAll(it) }
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.iosList))
         }
         if (dayData.results.frontEndList.isNotEmpty()) {
             gankList.add(GankHeaderItem(GankType.FRONTEND))
-            GankNormalItem.newGankList(dayData.results.frontEndList)?.let { gankList.addAll(it) }
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.frontEndList))
         }
         if (dayData.results.extraList.isNotEmpty()) {
             gankList.add(GankHeaderItem(GankType.EXTRA))
-            GankNormalItem.newGankList(dayData.results.extraList)?.let { gankList.addAll(it) }
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.extraList))
         }
         if (dayData.results.casualList.isNotEmpty()) {
             gankList.add(GankHeaderItem(GankType.CASUAL))
-            GankNormalItem.newGankList(dayData.results.casualList)?.let { gankList.addAll(it) }
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.casualList))
         }
         if (dayData.results.appList.isNotEmpty()) {
             gankList.add(GankHeaderItem(GankType.APP))
-            GankNormalItem.newGankList(dayData.results.appList)?.let { gankList.addAll(it) }
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.appList))
         }
         if (dayData.results.videoList.isNotEmpty()) {
             gankList.add(GankHeaderItem(GankType.VIDEO))
-            GankNormalItem.newGankList(dayData.results.videoList)?.let { gankList.addAll(it) }
+            gankList.addAll(GankNormalItem.newGankList(dayData.results.videoList))
         }
         return gankList
     }

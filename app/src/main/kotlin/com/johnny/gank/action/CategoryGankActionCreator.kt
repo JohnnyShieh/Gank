@@ -19,7 +19,7 @@ package com.johnny.gank.action
 import com.johnny.gank.core.http.GankService
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.rxflux.Action
-import com.johnny.rxflux.Dispatcher
+import com.johnny.rxflux.RxFlux
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -51,7 +51,7 @@ abstract class CategoryGankActionCreator {
 
         hasAction = true
         mGankService.getGank(category, pageCount, page)
-                .filter { null != it && it.results.isNotEmpty() }
+                .filter { it.results.isNotEmpty() }
                 .map { GankNormalItem.newGankList(it.results, page) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,10 +59,10 @@ abstract class CategoryGankActionCreator {
                     hasAction = false
                     action.data.put(Key.GANK_LIST, gankNormalItems)
                     action.data.put(Key.PAGE, page)
-                    Dispatcher.get().postAction(action)
+                    RxFlux.postAction(action)
                 }) { throwable ->
                     hasAction = false
-                    Dispatcher.get().postError(action, throwable)
+                    RxFlux.postError(action, throwable)
                 }
     }
 

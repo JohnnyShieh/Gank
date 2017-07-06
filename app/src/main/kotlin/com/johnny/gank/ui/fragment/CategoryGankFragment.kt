@@ -98,6 +98,10 @@ abstract class CategoryGankFragment : BaseFragment(),
 
     protected abstract fun loadMore()
 
+    protected abstract fun loadDataSuccess()
+
+    protected abstract fun loadDataFail()
+
     override fun onRefresh() {
         refreshList()
     }

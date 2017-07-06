@@ -26,7 +26,6 @@ import com.johnny.gank.stat.StatName
 import com.johnny.gank.store.NormalGankStore
 import com.johnny.gank.ui.activity.MainActivity
 import com.johnny.gank.ui.widget.LoadMoreView
-import com.johnny.rxflux.Store
 import com.johnny.rxflux.StoreObserver
 import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
 import javax.inject.Inject
@@ -37,8 +36,7 @@ import javax.inject.Inject
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-class VideoFragment : CategoryGankFragment(),
-        StoreObserver {
+class VideoFragment : CategoryGankFragment() {
 
     companion object {
         const val TAG = "VideoFragment"
@@ -71,7 +69,16 @@ class VideoFragment : CategoryGankFragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = createView(inflater, container)
 
-        mStore.setObserver(this)
+        mStore.setObserver(object : StoreObserver {
+            override fun onChange(actionType: String) {
+                loadDataSuccess()
+            }
+
+            override fun onError(actionType: String) {
+                loadDataFail()
+            }
+
+        })
         mStore.register(ActionType.GET_VIDEO_LIST)
         return contentView
     }
@@ -90,7 +97,7 @@ class VideoFragment : CategoryGankFragment(),
         mActionCreator.getVideoList(wrappedAdapter.curPage + 1)
     }
 
-    override fun onChange(store: Store, actionType: String) {
+    override fun loadDataSuccess() {
         if (1 == mStore.page) {
             refresh_layout.isRefreshing = false
         }
@@ -99,7 +106,7 @@ class VideoFragment : CategoryGankFragment(),
         vLoadMore.status = LoadMoreView.STATUS_INIT
     }
 
-    override fun onError(store: Store, actionType: String) {
+    override fun loadDataFail() {
         refresh_layout.isRefreshing = false
         loadingMore = false
         vLoadMore.status = LoadMoreView.STATUS_FAIL

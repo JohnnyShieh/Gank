@@ -33,7 +33,6 @@ import com.johnny.gank.ui.activity.MainActivity
 import com.johnny.gank.ui.activity.PictureActivity
 import com.johnny.gank.ui.activity.WebviewActivity
 import com.johnny.gank.ui.adapter.GankListAdapter
-import com.johnny.rxflux.Store
 import com.johnny.rxflux.StoreObserver
 import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
 import javax.inject.Inject
@@ -43,7 +42,6 @@ import javax.inject.Inject
  * @version 1.0
  */
 class TodayGankFragment : BaseFragment(),
-        StoreObserver,
         SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
@@ -80,7 +78,16 @@ class TodayGankFragment : BaseFragment(),
         val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
 
         mStore.register(ActionType.GET_TODAY_GANK)
-        mStore.setObserver(this)
+        mStore.setObserver(object : StoreObserver {
+            override fun onChange(actionType: String) {
+                loadDataSuccess()
+            }
+
+            override fun onError(actionType: String) {
+                loadDataFail()
+            }
+
+        })
         return contentView
     }
 
@@ -124,12 +131,12 @@ class TodayGankFragment : BaseFragment(),
         refreshData()
     }
 
-    override fun onChange(store: Store, actionType: String) {
+    private fun loadDataSuccess() {
         refresh_layout.isRefreshing = false
         mAdapter.swapData(mStore.items)
     }
 
-    override fun onError(store: Store, actionType: String) {
+    private fun loadDataFail() {
         refresh_layout.isRefreshing = false
     }
 }

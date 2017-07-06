@@ -43,8 +43,7 @@ import javax.inject.Inject;
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-class FrontEndFragment : CategoryGankFragment(),
-    StoreObserver {
+class FrontEndFragment : CategoryGankFragment() {
 
     companion object {
         const val TAG = "FrontEndFragment"
@@ -77,7 +76,16 @@ class FrontEndFragment : CategoryGankFragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = createView(inflater, container)
 
-        mStore.setObserver(this)
+        mStore.setObserver(object : StoreObserver {
+            override fun onChange(actionType: String) {
+                loadDataSuccess()
+            }
+
+            override fun onError(actionType: String) {
+                loadDataFail()
+            }
+
+        })
         mStore.register(ActionType.GET_FRONT_END_LIST)
         return contentView
     }
@@ -93,11 +101,10 @@ class FrontEndFragment : CategoryGankFragment(),
     }
 
     override fun loadMore() {
-
         mActionCreator.getFrontEndList(wrappedAdapter.curPage + 1)
     }
 
-    override fun onChange(store: Store, actionType: String) {
+    override fun loadDataSuccess() {
         if (1 == mStore.page) {
             refresh_layout.isRefreshing = false
         }
@@ -106,7 +113,7 @@ class FrontEndFragment : CategoryGankFragment(),
         vLoadMore.status = LoadMoreView.STATUS_INIT
     }
 
-    override fun onError(store: Store, actionType: String) {
+    override fun loadDataFail() {
         refresh_layout.isRefreshing = false
         loadingMore = false
         vLoadMore.status = LoadMoreView.STATUS_FAIL

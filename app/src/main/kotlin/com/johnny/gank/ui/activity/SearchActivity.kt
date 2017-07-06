@@ -27,7 +27,6 @@ import com.johnny.gank.action.QueryActionCreator
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.gank.store.SearchStore
 import com.johnny.gank.ui.adapter.QueryGankAdapter
-import com.johnny.rxflux.Store
 import com.johnny.rxflux.StoreObserver
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.content_search.*
@@ -39,8 +38,7 @@ import javax.inject.Inject
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-class SearchActivity : BaseActivity(),
-        StoreObserver {
+class SearchActivity : BaseActivity() {
 
     companion object {
         @JvmStatic
@@ -67,7 +65,16 @@ class SearchActivity : BaseActivity(),
         handleIntent(intent)
         initInjector()
 
-        mStore.setObserver(this)
+        mStore.setObserver(object : StoreObserver {
+            override fun onChange(actionType: String) {
+                searchSuccess()
+            }
+
+            override fun onError(actionType: String) {
+                searchFail()
+            }
+
+        })
         mStore.register(ActionType.QUERY_GANK)
     }
 
@@ -121,12 +128,12 @@ class SearchActivity : BaseActivity(),
         mQueryActionCreator.query(queryText)
     }
 
-    override fun onChange(store: Store?, actionType: String?) {
+    private fun searchSuccess() {
         mAdapter.updateData(mStore.gankList)
         empty_view.visibility = if (mStore.gankList.isEmpty()) View.VISIBLE else View.INVISIBLE
     }
 
-    override fun onError(store: Store?, actionType: String?) {
+    private fun searchFail() {
         mAdapter.clearData()
         empty_view.visibility = View.VISIBLE
     }
