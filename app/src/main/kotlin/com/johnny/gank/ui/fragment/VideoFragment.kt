@@ -21,10 +21,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.johnny.gank.action.ActionType
 import com.johnny.gank.action.VideoActionCreator
-import com.johnny.gank.di.component.VideoFramentComponent
 import com.johnny.gank.stat.StatName
 import com.johnny.gank.store.NormalGankStore
-import com.johnny.gank.ui.activity.MainActivity
 import com.johnny.gank.ui.widget.LoadMoreView
 import com.johnny.rxflux.StoreObserver
 import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
@@ -50,21 +48,7 @@ class VideoFragment : CategoryGankFragment() {
     lateinit var mActionCreator: VideoActionCreator
         @Inject set
 
-    private lateinit var mComponent: VideoFramentComponent
-
     override val statPageName = StatName.PAGE_VIDEO
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initInjector()
-    }
-
-    private fun initInjector() {
-        mComponent = (activity as MainActivity).component
-                .videoFragmentComponent()
-                .build()
-        mComponent.inject(this)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = createView(inflater, container)

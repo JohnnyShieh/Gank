@@ -21,12 +21,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.johnny.gank.action.ActionType
 import com.johnny.gank.action.IOSActionCreator
-import com.johnny.gank.di.component.IOSFragmentComponent
 import com.johnny.gank.stat.StatName
 import com.johnny.gank.store.NormalGankStore
-import com.johnny.gank.ui.activity.MainActivity
 import com.johnny.gank.ui.widget.LoadMoreView
-import com.johnny.rxflux.Store
 import com.johnny.rxflux.StoreObserver
 import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
 import javax.inject.Inject
@@ -51,21 +48,7 @@ class IOSFragment : CategoryGankFragment() {
     lateinit var mActionCreator: IOSActionCreator
         @Inject set
 
-    private lateinit var mComponent: IOSFragmentComponent
-
     override val statPageName = StatName.PAGE_IOS
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initInjector()
-    }
-
-    private fun initInjector() {
-        mComponent = (activity as MainActivity).component
-            .iosFragmentComponent()
-            .build()
-        mComponent.inject(this)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = createView(inflater, container)

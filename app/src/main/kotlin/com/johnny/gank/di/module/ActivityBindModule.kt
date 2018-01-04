@@ -16,11 +16,12 @@ package com.johnny.gank.di.module
  * limitations under the License.
  */
 
-import com.johnny.gank.di.component.MainActivityComponent
-import com.johnny.gank.di.component.PictureActivityComponent
-import com.johnny.gank.di.component.SearchActivityComponent
-
+import com.johnny.gank.di.ActivityScope
+import com.johnny.gank.ui.activity.MainActivity
+import com.johnny.gank.ui.activity.PictureActivity
+import com.johnny.gank.ui.activity.SearchActivity
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
 /**
  * description
@@ -29,5 +30,18 @@ import dagger.Module
  * *
  * @version 1.0
  */
-@Module(subcomponents = arrayOf(MainActivityComponent::class, PictureActivityComponent::class, SearchActivityComponent::class))
-class ActivityBindModule
+@Module
+abstract class ActivityBindModule {
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [FragmentBindModule::class])
+    abstract fun mainActivityInjector(): MainActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract fun pictureActivityInjector(): PictureActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract fun searchActivityInjector(): SearchActivity
+}

@@ -17,8 +17,8 @@ package com.johnny.gank.ui.fragment
  */
 
 import com.umeng.analytics.MobclickAgent
+import dagger.android.DaggerFragment
 
-import android.app.Fragment
 
 /**
  * description
@@ -27,7 +27,7 @@ import android.app.Fragment
  * *
  * @version 1.0
  */
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : DaggerFragment() {
 
     protected abstract val statPageName: String
 

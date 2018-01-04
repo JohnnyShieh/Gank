@@ -28,6 +28,7 @@ import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.gank.store.SearchStore
 import com.johnny.gank.ui.adapter.QueryGankAdapter
 import com.johnny.rxflux.StoreObserver
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.content_search.*
 import javax.inject.Inject
@@ -54,6 +55,7 @@ class SearchActivity : BaseActivity() {
     private val mAdapter = QueryGankAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
@@ -63,7 +65,6 @@ class SearchActivity : BaseActivity() {
         initSearchView()
         initRecyclerView()
         handleIntent(intent)
-        initInjector()
 
         mStore.setObserver(object : StoreObserver {
             override fun onChange(actionType: String) {
@@ -76,14 +77,6 @@ class SearchActivity : BaseActivity() {
 
         })
         mStore.register(ActionType.QUERY_GANK)
-    }
-
-    private fun initInjector() {
-        getAppComponent()
-            .searchActivityComponent()
-            .activity(this)
-            .build()
-            .inject(this)
     }
 
     override fun onNewIntent(intent: Intent?) {

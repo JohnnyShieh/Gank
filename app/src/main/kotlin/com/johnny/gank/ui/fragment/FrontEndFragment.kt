@@ -15,27 +15,18 @@ package com.johnny.gank.ui.fragment
  * limitations under the License.
  */
 
-import com.johnny.gank.action.ActionType;
-import com.johnny.gank.action.FrontEndActionCreator;
-import com.johnny.gank.data.ui.GankNormalItem;
-import com.johnny.gank.di.component.FrontEndFragmentComponent;
-import com.johnny.gank.stat.StatName;
-import com.johnny.gank.store.NormalGankStore;
-import com.johnny.gank.ui.activity.MainActivity;
-import com.johnny.gank.ui.activity.WebviewActivity;
-import com.johnny.gank.ui.adapter.CategoryGankAdapter;
-import com.johnny.gank.ui.widget.LoadMoreView;
-import com.johnny.rxflux.Store;
-import com.johnny.rxflux.StoreObserver;
-
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.johnny.gank.action.ActionType
+import com.johnny.gank.action.FrontEndActionCreator
+import com.johnny.gank.stat.StatName
+import com.johnny.gank.store.NormalGankStore
+import com.johnny.gank.ui.widget.LoadMoreView
+import com.johnny.rxflux.StoreObserver
 import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
-
-import javax.inject.Inject;
+import javax.inject.Inject
 
 /**
  * description
@@ -57,21 +48,7 @@ class FrontEndFragment : CategoryGankFragment() {
     lateinit var mActionCreator: FrontEndActionCreator
         @Inject set
 
-    private lateinit var mComponent: FrontEndFragmentComponent
-
     override val statPageName = StatName.PAGE_FRONTEND
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initInjector()
-    }
-
-    private fun initInjector() {
-        mComponent = (activity as MainActivity).component
-            .frontEndFragmentComponent()
-            .build()
-        mComponent.inject(this)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = createView(inflater, container)

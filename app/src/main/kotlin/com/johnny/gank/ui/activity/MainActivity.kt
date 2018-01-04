@@ -15,6 +15,7 @@ package com.johnny.gank.ui.activity
  * limitations under the License.
  */
 
+import android.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -23,26 +24,37 @@ import android.view.Menu
 import android.view.MenuItem
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.johnny.gank.R
-import com.johnny.gank.di.component.MainActivityComponent
-import com.johnny.gank.ui.fragment.*
+import com.johnny.gank.ui.fragment.AndroidFragment
+import com.johnny.gank.ui.fragment.FrontEndFragment
+import com.johnny.gank.ui.fragment.IOSFragment
+import com.johnny.gank.ui.fragment.TodayGankFragment
+import com.johnny.gank.ui.fragment.VideoFragment
+import com.johnny.gank.ui.fragment.WelfareFragment
 import com.umeng.analytics.MobclickAgent
+import dagger.android.AndroidInjection
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import javax.inject.Inject
 
 /**
  * @author Johnny Shieh
  * @version 1.0
  */
 class MainActivity : BaseActivity(),
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener,
+        HasFragmentInjector {
 
-    lateinit var component: MainActivityComponent
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun fragmentInjector() = fragmentInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        initInjector()
 
         setSupportActionBar(toolbar)
         val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar,
@@ -53,13 +65,6 @@ class MainActivity : BaseActivity(),
 
         nav_view.setNavigationItemSelectedListener(this)
         replaceFragment(R.id.fragment_container, TodayGankFragment.newInstance(), TodayGankFragment.TAG)
-    }
-
-    private fun initInjector() {
-        component = getAppComponent()
-            .mainActivityComponent()
-            .activity(this)
-            .build()
     }
 
     override fun onResume() {

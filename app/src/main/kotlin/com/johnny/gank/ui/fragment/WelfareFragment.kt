@@ -26,10 +26,8 @@ import com.johnny.gank.R
 import com.johnny.gank.action.ActionType
 import com.johnny.gank.action.WelfareActionCreator
 import com.johnny.gank.data.ui.GankNormalItem
-import com.johnny.gank.di.component.WelfareFragmentComponent
 import com.johnny.gank.stat.StatName
 import com.johnny.gank.store.NormalGankStore
-import com.johnny.gank.ui.activity.MainActivity
 import com.johnny.gank.ui.activity.PictureActivity
 import com.johnny.gank.ui.adapter.WelfareAdapter
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter
@@ -57,8 +55,6 @@ class WelfareFragment : BaseFragment(),
 
     private lateinit var mLayoutManager: GridLayoutManager
 
-    private lateinit var mComponent: WelfareFragmentComponent
-
     private lateinit var mAdapter: WelfareAdapter
 
     lateinit var mStore: NormalGankStore
@@ -70,18 +66,6 @@ class WelfareFragment : BaseFragment(),
     private var loadingMore = false
 
     override var statPageName = StatName.PAGE_WELFARE
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initInjector()
-    }
-
-    private fun initInjector() {
-        mComponent = (activity as MainActivity).component
-                .welfareFragmentComponent()
-                .build()
-        mComponent.inject(this)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
@@ -131,7 +115,7 @@ class WelfareFragment : BaseFragment(),
         mAdapter = WelfareAdapter(this)
         mAdapter.onItemClickListener = object : WelfareAdapter.OnItemClickListener {
             override fun onClickItem(view: View, item: GankNormalItem) {
-                startActivity(PictureActivity.newIntent(mComponent.activity, item.page, item.gank._id))
+                startActivity(PictureActivity.newIntent(activity, item.page, item.gank._id))
             }
         }
         val adapter = HeaderViewRecyclerAdapter(mAdapter)

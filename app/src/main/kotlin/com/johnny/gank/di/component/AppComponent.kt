@@ -20,10 +20,12 @@ import com.johnny.gank.di.module.ActivityBindModule
 import com.johnny.gank.di.module.AppModule
 
 import android.content.Context
+import com.johnny.gank.GankApp
 
 import javax.inject.Singleton
 
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 
 /**
  * description
@@ -33,14 +35,10 @@ import dagger.Component
  * @version 1.0
  */
 @Singleton
-@Component(modules = arrayOf(AppModule::class, ActivityBindModule::class))
+@Component(modules = [AppModule::class, AndroidInjectionModule::class, ActivityBindModule::class])
 interface AppComponent {
 
     val appContext: Context
 
-    fun mainActivityComponent(): MainActivityComponent.Builder
-
-    fun pictureActivityComponent(): PictureActivityComponent.Builder
-
-    fun searchActivityComponent(): SearchActivityComponent.Builder
+    fun inject(app: GankApp)
 }

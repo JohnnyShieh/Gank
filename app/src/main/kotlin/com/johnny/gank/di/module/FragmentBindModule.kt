@@ -16,14 +16,15 @@ package com.johnny.gank.di.module
  * limitations under the License.
  */
 
-import com.johnny.gank.di.component.AndroidFragmentComponent
-import com.johnny.gank.di.component.FrontEndFragmentComponent
-import com.johnny.gank.di.component.IOSFragmentComponent
-import com.johnny.gank.di.component.TodayGankFragmentComponent
-import com.johnny.gank.di.component.VideoFramentComponent
-import com.johnny.gank.di.component.WelfareFragmentComponent
-
+import com.johnny.gank.di.FragmentScope
+import com.johnny.gank.ui.fragment.AndroidFragment
+import com.johnny.gank.ui.fragment.FrontEndFragment
+import com.johnny.gank.ui.fragment.IOSFragment
+import com.johnny.gank.ui.fragment.TodayGankFragment
+import com.johnny.gank.ui.fragment.VideoFragment
+import com.johnny.gank.ui.fragment.WelfareFragment
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
 /**
  * description
@@ -32,5 +33,30 @@ import dagger.Module
  * *
  * @version 1.0
  */
-@Module(subcomponents = arrayOf(TodayGankFragmentComponent::class, AndroidFragmentComponent::class, IOSFragmentComponent::class, FrontEndFragmentComponent::class, WelfareFragmentComponent::class, VideoFramentComponent::class))
-class FragmentBindModule
+@Module
+abstract class FragmentBindModule {
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun androidFragmentInjector(): AndroidFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun frontEndFragmentInjector(): FrontEndFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun iosFragmentInjector(): IOSFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun todayGankFragmentInjector(): TodayGankFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun VideoFragmentInjector(): VideoFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun welfareFragmentInjector(): WelfareFragment
+}

@@ -26,10 +26,8 @@ import com.johnny.gank.action.ActionType
 import com.johnny.gank.action.TodayGankActionCreator
 import com.johnny.gank.data.ui.GankGirlImageItem
 import com.johnny.gank.data.ui.GankNormalItem
-import com.johnny.gank.di.component.TodayGankFragmentComponent
 import com.johnny.gank.stat.StatName
 import com.johnny.gank.store.TodayGankStore
-import com.johnny.gank.ui.activity.MainActivity
 import com.johnny.gank.ui.activity.PictureActivity
 import com.johnny.gank.ui.activity.WebviewActivity
 import com.johnny.gank.ui.adapter.GankListAdapter
@@ -50,8 +48,6 @@ class TodayGankFragment : BaseFragment(),
         fun newInstance() = TodayGankFragment()
     }
 
-    private lateinit var mComponent: TodayGankFragmentComponent
-
     lateinit var mStore: TodayGankStore
         @Inject set
 
@@ -61,18 +57,6 @@ class TodayGankFragment : BaseFragment(),
     private lateinit var mAdapter: GankListAdapter
 
     override var statPageName = StatName.PAGE_TODAY
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initInjector()
-    }
-
-    private fun initInjector() {
-        mComponent = (activity as MainActivity).component
-                .todayGankFragmentComponent()
-                .build()
-        mComponent.inject(this)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
         val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
@@ -101,13 +85,13 @@ class TodayGankFragment : BaseFragment(),
         mAdapter.onItemClickListener = object : GankListAdapter.OnItemClickListener {
             override fun onClickNormalItem(view: View, normalItem: GankNormalItem) {
                 if (!normalItem.gank.url.isNullOrEmpty()) {
-                    WebviewActivity.openUrl(mComponent.activity, normalItem.gank.url, normalItem.gank.desc)
+                    WebviewActivity.openUrl(activity, normalItem.gank.url, normalItem.gank.desc)
                 }
             }
 
             override fun onClickGirlItem(view: View, girlImageItem: GankGirlImageItem) {
                 if (!girlImageItem.imgUrl.isNullOrEmpty()) {
-                    startActivity(PictureActivity.newIntent(mComponent.activity, girlImageItem.imgUrl, girlImageItem.publishedAt))
+                    startActivity(PictureActivity.newIntent(activity, girlImageItem.imgUrl, girlImageItem.publishedAt))
                 }
             }
         }

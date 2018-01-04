@@ -17,8 +17,6 @@ package com.johnny.gank.ui.activity
 
 import android.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import com.johnny.gank.GankApp
-import com.johnny.gank.di.component.AppComponent
 
 /**
  * description
@@ -27,10 +25,6 @@ import com.johnny.gank.di.component.AppComponent
  * @version 1.0
  */
 abstract class BaseActivity : AppCompatActivity() {
-
-    fun getAppComponent(): AppComponent {
-        return (application as GankApp).getAppComponent()
-    }
 
     fun replaceFragment(containerViewId: Int, fragment: Fragment, tag: String) {
         if (null == fragmentManager.findFragmentByTag(tag)) {

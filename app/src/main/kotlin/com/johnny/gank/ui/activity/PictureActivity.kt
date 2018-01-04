@@ -30,6 +30,7 @@ import com.johnny.gank.store.NormalGankStore
 import com.johnny.gank.ui.adapter.PicturePagerAdapter
 import com.johnny.rxflux.StoreObserver
 import com.umeng.analytics.MobclickAgent
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_picture.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -125,6 +126,7 @@ class PictureActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_picture)
 
@@ -132,18 +134,9 @@ class PictureActivity : BaseActivity() {
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        initInjector()
         parseIntentAndInitAdapter()
         view_pager.adapter = mPagerAdapter
         view_pager.addOnPageChangeListener(mPageChangeListener)
-    }
-
-    private fun initInjector() {
-        getAppComponent()
-            .pictureActivityComponent()
-            .activity(this)
-            .build()
-            .inject(this)
     }
 
     override fun onResume() {
