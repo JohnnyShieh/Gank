@@ -15,9 +15,9 @@ package com.johnny.gank.ui.activity
  * limitations under the License.
  */
 
-import android.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
@@ -33,7 +33,7 @@ import com.johnny.gank.ui.fragment.WelfareFragment
 import com.umeng.analytics.MobclickAgent
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasFragmentInjector
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import javax.inject.Inject
@@ -44,12 +44,12 @@ import javax.inject.Inject
  */
 class MainActivity : BaseActivity(),
         NavigationView.OnNavigationItemSelectedListener,
-        HasFragmentInjector {
+        HasSupportFragmentInjector {
 
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
-    override fun fragmentInjector() = fragmentInjector
+    override fun supportFragmentInjector() = fragmentInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -101,37 +101,37 @@ class MainActivity : BaseActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.nav_today -> {
-                if(null == fragmentManager.findFragmentByTag(TodayGankFragment.TAG)) {
+                if(null == supportFragmentManager.findFragmentByTag(TodayGankFragment.TAG)) {
                     replaceFragment(R.id.fragment_container, TodayGankFragment.newInstance(), TodayGankFragment.TAG)
                     setTitle(R.string.app_name)
                 }
             }
             R.id.nav_welfare -> {
-                if(null == fragmentManager.findFragmentByTag(WelfareFragment.TAG)) {
+                if(null == supportFragmentManager.findFragmentByTag(WelfareFragment.TAG)) {
                     replaceFragment(R.id.fragment_container, WelfareFragment.newInstance(), WelfareFragment.TAG)
                     setTitle(R.string.nav_welfare)
                 }
             }
             R.id.nav_android -> {
-                if(null == fragmentManager.findFragmentByTag(AndroidFragment.TAG)) {
+                if(null == supportFragmentManager.findFragmentByTag(AndroidFragment.TAG)) {
                     replaceFragment(R.id.fragment_container, AndroidFragment.newInstance(), AndroidFragment.TAG)
                     setTitle(R.string.nav_android)
                 }
             }
             R.id.nav_ios -> {
-                if(null == fragmentManager.findFragmentByTag(IOSFragment.TAG)) {
+                if(null == supportFragmentManager.findFragmentByTag(IOSFragment.TAG)) {
                     replaceFragment(R.id.fragment_container, IOSFragment.newInstance(), IOSFragment.TAG)
                     setTitle(R.string.nav_ios)
                 }
             }
             R.id.nav_front_end -> {
-                if(null == fragmentManager.findFragmentByTag(FrontEndFragment.TAG)) {
+                if(null == supportFragmentManager.findFragmentByTag(FrontEndFragment.TAG)) {
                     replaceFragment(R.id.fragment_container, FrontEndFragment.newInstance(), FrontEndFragment.TAG)
                     setTitle(R.string.nav_front_end)
                 }
             }
             R.id.nav_video -> {
-                if(null == fragmentManager.findFragmentByTag(VideoFragment.TAG)) {
+                if(null == supportFragmentManager.findFragmentByTag(VideoFragment.TAG)) {
                     replaceFragment(R.id.fragment_container, VideoFragment.newInstance(), VideoFragment.TAG)
                     setTitle(R.string.nav_video)
                 }

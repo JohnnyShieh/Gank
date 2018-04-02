@@ -18,7 +18,8 @@ package com.johnny.gank.action
 import com.johnny.gank.core.http.GankService
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.rxflux.Action
-import com.johnny.rxflux.RxFlux
+import com.johnny.rxflux.postAction
+import com.johnny.rxflux.postError
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -38,7 +39,6 @@ class QueryActionCreator
         @Inject set
 
     fun query(queryText: String) {
-        val action = Action.type(ActionType.QUERY_GANK).build()
         if(hasAction) {
             return
         }
@@ -51,11 +51,12 @@ class QueryActionCreator
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ items ->
                     hasAction = false
-                    action.data.put(Key.QUERY_RESULT, items)
-                    RxFlux.postAction(action)
+                    postAction(Action(ActionType.QUERY_GANK).apply {
+                        data[Key.QUERY_RESULT] = items
+                    })
                 }, { throwable ->
                     hasAction = false
-                    RxFlux.postError(action, throwable)
+                    postError(Action(ActionType.QUERY_GANK, isError = true, throwable = throwable))
                 })
     }
 

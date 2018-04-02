@@ -15,7 +15,7 @@ package com.johnny.gank.ui.adapter
  * limitations under the License.
  */
 
-import android.app.Fragment
+import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View

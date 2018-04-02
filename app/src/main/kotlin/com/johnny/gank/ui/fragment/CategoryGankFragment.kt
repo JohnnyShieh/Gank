@@ -15,6 +15,8 @@ package com.johnny.gank.ui.fragment
  * limitations under the License.
  */
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -24,6 +26,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.johnny.gank.R
 import com.johnny.gank.data.ui.GankNormalItem
+import com.johnny.gank.store.NormalGankStore
 import com.johnny.gank.ui.activity.WebviewActivity
 import com.johnny.gank.ui.adapter.CategoryGankAdapter
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter
@@ -47,15 +50,21 @@ abstract class CategoryGankFragment : BaseFragment(),
 
     protected var loadingMore = false
 
-    protected fun createView(inflater: LayoutInflater, container: ViewGroup): View {
-        val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
+    protected lateinit var mStore: NormalGankStore
 
-        vLoadMore = inflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView
-        return contentView
+    abstract val actionType: String
+
+    override fun onCreateView(
+        inflater: LayoutInflater?,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater?.inflate(R.layout.fragment_refresh_recycler, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         refresh_layout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
         refresh_layout.setOnRefreshListener(this)
         layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -66,6 +75,7 @@ abstract class CategoryGankFragment : BaseFragment(),
                 WebviewActivity.openUrl(activity, normalItem.gank.url, normalItem.gank.desc)
             }
         }
+        vLoadMore = layoutInflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView
         val adapter = HeaderViewRecyclerAdapter(wrappedAdapter)
         adapter.loadingView = vLoadMore
         recycler_view.adapter = adapter
@@ -92,15 +102,23 @@ abstract class CategoryGankFragment : BaseFragment(),
             refresh_layout.isRefreshing = true
             refreshList()
         }
+
+        mStore = ViewModelProviders.of(this).get(NormalGankStore::class.java)
+        mStore.register(actionType)
+
+        mStore.isSwipeRefreshing.observe(this, Observer { refresh_layout.isRefreshing = false })
+        mStore.isLoadingMore.observe(this, Observer {
+            loadingMore = false
+            vLoadMore.status = LoadMoreView.STATUS_INIT
+        })
+        mStore.gankList.observe(this, Observer {
+            wrappedAdapter.updateData(mStore.page, it)
+        })
     }
 
     protected abstract fun refreshList()
 
     protected abstract fun loadMore()
-
-    protected abstract fun loadDataSuccess()
-
-    protected abstract fun loadDataFail()
 
     override fun onRefresh() {
         refreshList()

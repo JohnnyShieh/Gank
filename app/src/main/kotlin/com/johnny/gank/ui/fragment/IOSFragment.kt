@@ -15,17 +15,10 @@ package com.johnny.gank.ui.fragment
  * limitations under the License.
  */
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.johnny.gank.action.ActionType
 import com.johnny.gank.action.IOSActionCreator
 import com.johnny.gank.stat.StatName
-import com.johnny.gank.store.NormalGankStore
 import com.johnny.gank.ui.widget.LoadMoreView
-import com.johnny.rxflux.StoreObserver
-import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
 import javax.inject.Inject
 
 /**
@@ -42,35 +35,13 @@ class IOSFragment : CategoryGankFragment() {
         fun newInstance() = IOSFragment()
     }
 
-    lateinit var mStore: NormalGankStore
-        @Inject set
-
     lateinit var mActionCreator: IOSActionCreator
         @Inject set
 
     override val statPageName = StatName.PAGE_IOS
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
-        val contentView = createView(inflater, container)
-
-        mStore.setObserver(object : StoreObserver {
-            override fun onChange(actionType: String) {
-                loadDataSuccess()
-            }
-
-            override fun onError(actionType: String) {
-                loadDataFail()
-            }
-
-        })
-        mStore.register(ActionType.GET_IOS_LIST)
-        return contentView
-    }
-
-    override fun onDestroyView() {
-        mStore.unRegister()
-        super.onDestroyView()
-    }
+    override val actionType: String
+        get() = ActionType.GET_IOS_LIST
 
     override fun refreshList() {
         mActionCreator.getIOSList(1)
@@ -81,18 +52,4 @@ class IOSFragment : CategoryGankFragment() {
         mActionCreator.getIOSList(wrappedAdapter.curPage + 1)
     }
 
-    override fun loadDataSuccess() {
-        if (1 == mStore.page) {
-            refresh_layout.isRefreshing = false
-        }
-        wrappedAdapter.updateData(mStore.page, mStore.gankList)
-        loadingMore = false
-        vLoadMore.status = LoadMoreView.STATUS_INIT
-    }
-
-    override fun loadDataFail() {
-        refresh_layout.isRefreshing = false
-        loadingMore = false
-        vLoadMore.status = LoadMoreView.STATUS_FAIL
-    }
 }

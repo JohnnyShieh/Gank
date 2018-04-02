@@ -15,6 +15,7 @@ package com.johnny.gank.store
  * limitations under the License.
  */
 
+import android.arch.lifecycle.MutableLiveData
 import com.johnny.gank.action.Key
 import com.johnny.gank.data.ui.GankItem
 import com.johnny.rxflux.Action
@@ -27,16 +28,19 @@ import javax.inject.Inject
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-class TodayGankStore
-    @Inject constructor() : Store() {
+class TodayGankStore : Store() {
 
-    var items = arrayListOf<GankItem>()
-        private set
+    val isSwipeRefreshing = MutableLiveData<Boolean>()
 
-    override fun onAction(action: Action): Boolean {
-        items = action.get(Key.DAY_GANK)
-        return true
+    val items = MutableLiveData<List<GankItem>>()
+
+    @Suppress("UNCHECKED_CAST")
+    override fun onAction(action: Action) {
+        isSwipeRefreshing.value = false
+        items.value = action.data[Key.DAY_GANK] as List<GankItem>
     }
 
-    override fun onError(action: Action, throwable: Throwable?) = true
+    override fun onError(action: Action) {
+        isSwipeRefreshing.value = false
+    }
 }

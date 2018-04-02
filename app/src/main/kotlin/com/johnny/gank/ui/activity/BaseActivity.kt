@@ -15,7 +15,7 @@ package com.johnny.gank.ui.activity
  * limitations under the License.
  */
 
-import android.app.Fragment
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 
 /**
@@ -27,8 +27,8 @@ import android.support.v7.app.AppCompatActivity
 abstract class BaseActivity : AppCompatActivity() {
 
     fun replaceFragment(containerViewId: Int, fragment: Fragment, tag: String) {
-        if (null == fragmentManager.findFragmentByTag(tag)) {
-            fragmentManager.beginTransaction()
+        if (null == supportFragmentManager.findFragmentByTag(tag)) {
+            supportFragmentManager.beginTransaction()
                     .replace(containerViewId, fragment, tag)
                     .commit()
         }

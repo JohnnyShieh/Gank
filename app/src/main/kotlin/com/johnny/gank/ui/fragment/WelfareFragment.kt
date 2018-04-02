@@ -15,6 +15,8 @@ package com.johnny.gank.ui.fragment
  * limitations under the License.
  */
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
@@ -32,7 +34,6 @@ import com.johnny.gank.ui.activity.PictureActivity
 import com.johnny.gank.ui.adapter.WelfareAdapter
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter
 import com.johnny.gank.ui.widget.LoadMoreView
-import com.johnny.rxflux.StoreObserver
 import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
 import javax.inject.Inject
 
@@ -58,7 +59,6 @@ class WelfareFragment : BaseFragment(),
     private lateinit var mAdapter: WelfareAdapter
 
     lateinit var mStore: NormalGankStore
-        @Inject set
 
     lateinit var mActionCreator: WelfareActionCreator
         @Inject set
@@ -67,21 +67,12 @@ class WelfareFragment : BaseFragment(),
 
     override var statPageName = StatName.PAGE_WELFARE
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
         vLoadMore = inflater.inflate(R.layout.load_more, recycler_view, false) as LoadMoreView
 
+        mStore = ViewModelProviders.of(this).get(NormalGankStore::class.java)
         mStore.register(ActionType.GET_WELFARE_LIST)
-        mStore.setObserver(object : StoreObserver {
-            override fun onChange(actionType: String) {
-                loadDataSuccess()
-            }
-
-            override fun onError(actionType: String) {
-                loadDataFail()
-            }
-
-        })
         return contentView
     }
 
@@ -125,11 +116,13 @@ class WelfareFragment : BaseFragment(),
             refresh_layout.isRefreshing = true
             refreshList()
         }
-    }
 
-    override fun onDestroyView() {
-        mStore.unRegister()
-        super.onDestroyView()
+        mStore.isSwipeRefreshing.observe(this, Observer { refresh_layout.isRefreshing = false })
+        mStore.isLoadingMore.observe(this, Observer {
+            loadingMore = false
+            vLoadMore.status = LoadMoreView.STATUS_INIT
+        })
+        mStore.gankList.observe(this, Observer { mAdapter.updateData(mStore.page, it) })
     }
 
     private fun refreshList() {
@@ -143,20 +136,5 @@ class WelfareFragment : BaseFragment(),
 
     override fun onRefresh() {
         refreshList()
-    }
-
-    private fun loadDataSuccess() {
-        if (1 == mStore.page) {
-            refresh_layout.isRefreshing = false
-        }
-        mAdapter.updateData(mStore.page, mStore.gankList)
-        loadingMore = false
-        vLoadMore.status = LoadMoreView.STATUS_INIT
-    }
-
-    private fun loadDataFail() {
-        refresh_layout.isRefreshing = false
-        loadingMore = false
-        vLoadMore.status = LoadMoreView.STATUS_FAIL
     }
 }

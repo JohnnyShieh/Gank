@@ -19,7 +19,8 @@ package com.johnny.gank.action
 import com.johnny.gank.core.http.GankService
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.rxflux.Action
-import com.johnny.rxflux.RxFlux
+import com.johnny.rxflux.postAction
+import com.johnny.rxflux.postError
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -44,7 +45,6 @@ abstract class CategoryGankActionCreator {
         get() = DEFAULT_PAGE_COUNT
 
     protected fun getGankList(category: String, page: Int) {
-        val action = Action.type(actionId).build()
         if (hasAction) {
             return
         }
@@ -57,12 +57,13 @@ abstract class CategoryGankActionCreator {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ gankNormalItems ->
                     hasAction = false
-                    action.data.put(Key.GANK_LIST, gankNormalItems)
-                    action.data.put(Key.PAGE, page)
-                    RxFlux.postAction(action)
+                    postAction(Action(actionId).apply {
+                        data[Key.GANK_LIST] = gankNormalItems
+                        data[Key.PAGE] = page
+                    })
                 }) { throwable ->
                     hasAction = false
-                    RxFlux.postError(action, throwable)
+                    postError(Action(actionId, isError = true, throwable = throwable))
                 }
     }
 

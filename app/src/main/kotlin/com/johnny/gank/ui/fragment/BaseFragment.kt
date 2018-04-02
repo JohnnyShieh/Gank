@@ -17,7 +17,7 @@ package com.johnny.gank.ui.fragment
  */
 
 import com.umeng.analytics.MobclickAgent
-import dagger.android.DaggerFragment
+import dagger.android.support.DaggerFragment
 
 
 /**

@@ -15,6 +15,7 @@ package com.johnny.gank.ui.activity
  * limitations under the License.
  */
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -28,7 +29,6 @@ import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.gank.stat.StatName
 import com.johnny.gank.store.NormalGankStore
 import com.johnny.gank.ui.adapter.PicturePagerAdapter
-import com.johnny.rxflux.StoreObserver
 import com.umeng.analytics.MobclickAgent
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_picture.*
@@ -76,7 +76,6 @@ class PictureActivity : BaseActivity() {
         @Inject set
 
     lateinit var mStore: NormalGankStore
-        @Inject set
 
     lateinit var mActionCreator: PictureActionCreator
         @Inject set
@@ -137,18 +136,16 @@ class PictureActivity : BaseActivity() {
         parseIntentAndInitAdapter()
         view_pager.adapter = mPagerAdapter
         view_pager.addOnPageChangeListener(mPageChangeListener)
+
+        mStore = ViewModelProviders.of(this).get(NormalGankStore::class.java)
+        mStore.register(ActionType.GET_PICTURE_LIST)
+        mStore.gankList.observe(this, android.arch.lifecycle.Observer {
+            updateList()
+        })
     }
 
     override fun onResume() {
         super.onResume()
-        mStore.setObserver(object : StoreObserver {
-            override fun onChange(actionType: String) {
-                updateList()
-            }
-
-            override fun onError(actionType: String) {}
-        })
-        mStore.register(ActionType.GET_PICTURE_LIST)
         MobclickAgent.onPageStart(StatName.PAGE_PICTURE)
         MobclickAgent.onResume(this)
     }
@@ -168,7 +165,7 @@ class PictureActivity : BaseActivity() {
 
     private fun getInitPicPos(list: List<GankNormalItem>): Int {
         val size = list.size
-        (0..size-1).forEach { i ->
+        (0 until size).forEach { i ->
             if(TextUtils.equals(list[i].gank._id, mInitPicId)) {
                 return i
             }
@@ -178,9 +175,9 @@ class PictureActivity : BaseActivity() {
 
     private fun updateList() {
         if (0 == mPagerAdapter.count) {
-            mPagerAdapter.initList(mStore.gankList)
+            mPagerAdapter.initList(mStore.gankList.value!!)
             mPagerAdapter.notifyDataSetChanged()
-            val initPos = getInitPicPos(mStore.gankList)
+            val initPos = getInitPicPos(mStore.gankList.value!!)
             view_pager.currentItem = initPos
             // when use setCurrentItem(0), onPageSelected would not be called.
             // so just call it manually.
@@ -188,9 +185,9 @@ class PictureActivity : BaseActivity() {
                 mPageChangeListener.onPageSelected(0)
             }
         } else {
-            val addStatus = mPagerAdapter.appendList(mStore.page, mStore.gankList)
+            val addStatus = mPagerAdapter.appendList(mStore.page, mStore.gankList.value!!)
             mPagerAdapter.notifyDataSetChanged()
-            if (addStatus == PicturePagerAdapter.ADD_FRONT) view_pager.setCurrentItem(view_pager.currentItem + mStore.gankList.size, false)
+            if (addStatus == PicturePagerAdapter.ADD_FRONT) view_pager.setCurrentItem(view_pager.currentItem + (mStore.gankList.value?.size ?: 0), false)
         }
     }
 }

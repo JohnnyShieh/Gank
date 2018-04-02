@@ -24,7 +24,8 @@ import com.johnny.gank.data.ui.GankHeaderItem
 import com.johnny.gank.data.ui.GankItem
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.rxflux.Action
-import com.johnny.rxflux.RxFlux
+import com.johnny.rxflux.postAction
+import com.johnny.rxflux.postError
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.text.ParseException
@@ -44,11 +45,10 @@ class TodayGankActionCreator
 
     private var hasAction = false
 
-    lateinit internal var mGankService: GankService
+    internal lateinit var mGankService: GankService
         @Inject set
 
     fun getTodayGank() {
-        val action = Action.type(ActionType.GET_TODAY_GANK).build()
         if (hasAction) {
             return
         }
@@ -74,11 +74,12 @@ class TodayGankActionCreator
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ gankList ->
                     hasAction = false
-                    action.data.put(Key.DAY_GANK, gankList)
-                    RxFlux.postAction(action)
+                    postAction(Action(ActionType.GET_TODAY_GANK).apply {
+                        data[Key.DAY_GANK] = gankList
+                    })
                 }, { throwable ->
                     hasAction = false
-                    RxFlux.postError(action, throwable)
+                    postError(Action(ActionType.GET_TODAY_GANK, isError = true, throwable = throwable))
                 })
     }
 

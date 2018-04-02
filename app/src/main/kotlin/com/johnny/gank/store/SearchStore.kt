@@ -15,6 +15,7 @@ package com.johnny.gank.store
  * limitations under the License.
  */
 
+import android.arch.lifecycle.MutableLiveData
 import com.johnny.gank.action.Key
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.rxflux.Action
@@ -27,16 +28,20 @@ import javax.inject.Inject
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * @version 1.0
  */
-class SearchStore
-    @Inject constructor() : Store() {
+class SearchStore : Store() {
 
-    var gankList = arrayListOf<GankNormalItem>()
-        private set
+    val showEmptyView = MutableLiveData<Boolean>()
 
-    override fun onAction(action: Action): Boolean {
-        gankList = action.get(Key.QUERY_RESULT)
-        return true
+    val gankList = MutableLiveData<List<GankNormalItem>>()
+
+    @Suppress("UNCHECKED_CAST")
+    override fun onAction(action: Action) {
+        gankList.value = action.data[Key.QUERY_RESULT] as List<GankNormalItem>
+        showEmptyView.value = gankList.value?.isEmpty() ?: true
     }
 
-    override fun onError(action: Action, throwable: Throwable?) = true
+    override fun onError(action: Action) {
+        showEmptyView.value = true
+        gankList.value = mutableListOf()
+    }
 }

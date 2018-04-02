@@ -1,4 +1,5 @@
 package com.johnny.gank.ui.fragment
+
 /*
  * Copyright (C) 2016 Johnny Shieh Open Source Project
  *
@@ -15,6 +16,8 @@ package com.johnny.gank.ui.fragment
  * limitations under the License.
  */
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -31,7 +34,6 @@ import com.johnny.gank.store.TodayGankStore
 import com.johnny.gank.ui.activity.PictureActivity
 import com.johnny.gank.ui.activity.WebviewActivity
 import com.johnny.gank.ui.adapter.GankListAdapter
-import com.johnny.rxflux.StoreObserver
 import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
 import javax.inject.Inject
 
@@ -40,7 +42,7 @@ import javax.inject.Inject
  * @version 1.0
  */
 class TodayGankFragment : BaseFragment(),
-        SwipeRefreshLayout.OnRefreshListener {
+    SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
         const val TAG = "TodayGankFragment"
@@ -49,7 +51,6 @@ class TodayGankFragment : BaseFragment(),
     }
 
     lateinit var mStore: TodayGankStore
-        @Inject set
 
     lateinit var mActionCreator: TodayGankActionCreator
         @Inject set
@@ -58,40 +59,41 @@ class TodayGankFragment : BaseFragment(),
 
     override var statPageName = StatName.PAGE_TODAY
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?): View {
-        val contentView = inflater.inflate(R.layout.fragment_refresh_recycler, container, false)
-
-        mStore.register(ActionType.GET_TODAY_GANK)
-        mStore.setObserver(object : StoreObserver {
-            override fun onChange(actionType: String) {
-                loadDataSuccess()
-            }
-
-            override fun onError(actionType: String) {
-                loadDataFail()
-            }
-
-        })
-        return contentView
+    override fun onCreateView(
+        inflater: LayoutInflater?,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater?.inflate(R.layout.fragment_refresh_recycler, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        refresh_layout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
+        refresh_layout.setColorSchemeResources(
+            R.color.colorPrimary,
+            R.color.colorPrimaryDark,
+            R.color.colorAccent
+        )
         refresh_layout.setOnRefreshListener(this)
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recycler_view.setHasFixedSize(true)
         mAdapter = GankListAdapter(this)
         mAdapter.onItemClickListener = object : GankListAdapter.OnItemClickListener {
             override fun onClickNormalItem(view: View, normalItem: GankNormalItem) {
-                if (!normalItem.gank.url.isNullOrEmpty()) {
+                if (!normalItem.gank.url.isEmpty()) {
                     WebviewActivity.openUrl(activity, normalItem.gank.url, normalItem.gank.desc)
                 }
             }
 
             override fun onClickGirlItem(view: View, girlImageItem: GankGirlImageItem) {
-                if (!girlImageItem.imgUrl.isNullOrEmpty()) {
-                    startActivity(PictureActivity.newIntent(activity, girlImageItem.imgUrl, girlImageItem.publishedAt))
+                if (!girlImageItem.imgUrl.isEmpty()) {
+                    startActivity(
+                        PictureActivity.newIntent(
+                            activity,
+                            girlImageItem.imgUrl,
+                            girlImageItem.publishedAt
+                        )
+                    )
                 }
             }
         }
@@ -100,11 +102,11 @@ class TodayGankFragment : BaseFragment(),
             refresh_layout.isRefreshing = true
             refreshData()
         }
-    }
 
-    override fun onDestroyView() {
-        mStore.unRegister()
-        super.onDestroyView()
+        mStore = ViewModelProviders.of(this).get(TodayGankStore::class.java)
+        mStore.register(ActionType.GET_TODAY_GANK)
+        mStore.isSwipeRefreshing.observe(this, Observer { refresh_layout.isRefreshing = false })
+        mStore.items.observe(this, Observer { it?.let { mAdapter.swapData(it) } })
     }
 
     private fun refreshData() {
@@ -113,14 +115,5 @@ class TodayGankFragment : BaseFragment(),
 
     override fun onRefresh() {
         refreshData()
-    }
-
-    private fun loadDataSuccess() {
-        refresh_layout.isRefreshing = false
-        mAdapter.swapData(mStore.items)
-    }
-
-    private fun loadDataFail() {
-        refresh_layout.isRefreshing = false
     }
 }

@@ -15,6 +15,8 @@ package com.johnny.gank.ui.activity
  * limitations under the License.
  */
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -27,7 +29,6 @@ import com.johnny.gank.action.QueryActionCreator
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.gank.store.SearchStore
 import com.johnny.gank.ui.adapter.QueryGankAdapter
-import com.johnny.rxflux.StoreObserver
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.content_search.*
@@ -47,7 +48,6 @@ class SearchActivity : BaseActivity() {
     }
 
     lateinit var mStore: SearchStore
-        @Inject set
 
     lateinit var mQueryActionCreator: QueryActionCreator
         @Inject set
@@ -66,17 +66,11 @@ class SearchActivity : BaseActivity() {
         initRecyclerView()
         handleIntent(intent)
 
-        mStore.setObserver(object : StoreObserver {
-            override fun onChange(actionType: String) {
-                searchSuccess()
-            }
-
-            override fun onError(actionType: String) {
-                searchFail()
-            }
-
-        })
+        mStore = ViewModelProviders.of(this).get(SearchStore::class.java)
         mStore.register(ActionType.QUERY_GANK)
+
+        mStore.showEmptyView.observe(this, Observer { empty_view.visibility = if (it == true) View.VISIBLE else View.INVISIBLE })
+        mStore.gankList.observe(this, Observer { it?.let { mAdapter.updateData(it) } })
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -112,22 +106,7 @@ class SearchActivity : BaseActivity() {
         search_view.requestFocus()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mStore.unRegister()
-    }
-
     private fun queryGank(queryText: String) {
         mQueryActionCreator.query(queryText)
-    }
-
-    private fun searchSuccess() {
-        mAdapter.updateData(mStore.gankList)
-        empty_view.visibility = if (mStore.gankList.isEmpty()) View.VISIBLE else View.INVISIBLE
-    }
-
-    private fun searchFail() {
-        mAdapter.clearData()
-        empty_view.visibility = View.VISIBLE
     }
 }

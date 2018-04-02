@@ -77,7 +77,7 @@ class BallSpinFadeLoadingIndicator : BaseLoadingIndicator() {
         val delays = arrayOf(0, 120, 240, 360, 480, 600, 720, 780, 840)
         for (i in 1..7) {
             val scaleAnim = ValueAnimator.ofFloat(1f, 0.4f, 1f)
-            scaleAnim.duration = 100
+            scaleAnim.duration = 1000
             scaleAnim.repeatCount = -1
             scaleAnim.startDelay = delays[i].toLong()
             scaleAnim.addUpdateListener { animation ->
