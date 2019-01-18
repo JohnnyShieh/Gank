@@ -24,6 +24,4 @@ package com.johnny.gank.action
 object Key {
     const val PAGE = "page"
     const val GANK_LIST = "gank_list"
-    const val DAY_GANK = "day_gank"
-    const val QUERY_RESULT = "query_result"
 }

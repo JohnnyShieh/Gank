@@ -15,6 +15,7 @@ package com.johnny.gank.ui.adapter
  * limitations under the License.
  */
 
+import android.os.Build
 import android.support.annotation.IntDef
 import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
@@ -85,6 +86,9 @@ class PicturePagerAdapter
                 .centerCrop()
                 .into(view.pic)
         container.addView(view)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            view.pic.transitionName = item.gank.url
+        }
         return view
     }
 

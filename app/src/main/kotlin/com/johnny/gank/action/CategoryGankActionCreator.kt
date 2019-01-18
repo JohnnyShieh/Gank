@@ -16,6 +16,7 @@ package com.johnny.gank.action
  * limitations under the License.
  */
 
+import android.annotation.SuppressLint
 import com.johnny.gank.core.http.GankService
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.rxflux.Action
@@ -44,6 +45,7 @@ abstract class CategoryGankActionCreator {
     protected val pageCount: Int
         get() = DEFAULT_PAGE_COUNT
 
+    @SuppressLint("CheckResult")
     protected fun getGankList(category: String, page: Int) {
         if (hasAction) {
             return
@@ -57,13 +59,10 @@ abstract class CategoryGankActionCreator {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ gankNormalItems ->
                     hasAction = false
-                    postAction(Action(actionId).apply {
-                        data[Key.GANK_LIST] = gankNormalItems
-                        data[Key.PAGE] = page
-                    })
+                    postAction(actionId, Key.GANK_LIST to gankNormalItems, Key.PAGE to page)
                 }) { throwable ->
                     hasAction = false
-                    postError(Action(actionId, isError = true, throwable = throwable))
+                    postError(actionId, throwable)
                 }
     }
 

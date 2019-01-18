@@ -15,6 +15,7 @@ package com.johnny.gank.ui.adapter
  * limitations under the License.
  */
 
+import android.os.Build
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -65,6 +66,9 @@ class WelfareAdapter(private val fragment: Fragment) : RecyclerView.Adapter<Recy
         itemView.setOnClickListener { view ->
             val tag = view.tag
             if (null != tag && tag is Int) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.girl_image.transitionName = items[tag].gank.url
+                }
                 onItemClickListener?.onClickItem(view, items[tag])
             }
         }

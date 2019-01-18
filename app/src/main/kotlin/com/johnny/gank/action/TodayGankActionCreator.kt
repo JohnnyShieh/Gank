@@ -16,6 +16,7 @@ package com.johnny.gank.action
  * limitations under the License.
  */
 
+import android.annotation.SuppressLint
 import com.johnny.gank.core.http.GankService
 import com.johnny.gank.data.GankType
 import com.johnny.gank.data.response.DayData
@@ -48,6 +49,7 @@ class TodayGankActionCreator
     internal lateinit var mGankService: GankService
         @Inject set
 
+    @SuppressLint("CheckResult")
     fun getTodayGank() {
         if (hasAction) {
             return
@@ -74,12 +76,10 @@ class TodayGankActionCreator
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ gankList ->
                     hasAction = false
-                    postAction(Action(ActionType.GET_TODAY_GANK).apply {
-                        data[Key.DAY_GANK] = gankList
-                    })
+                    postAction(ActionType.GET_TODAY_GANK, gankList)
                 }, { throwable ->
                     hasAction = false
-                    postError(Action(ActionType.GET_TODAY_GANK, isError = true, throwable = throwable))
+                    postError(ActionType.GET_TODAY_GANK, throwable)
                 })
     }
 

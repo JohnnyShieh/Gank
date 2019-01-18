@@ -18,9 +18,13 @@ package com.johnny.gank.ui.activity
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
+import android.transition.ChangeImageTransform
+import android.view.Window
 import com.johnny.gank.R
 import com.johnny.gank.action.ActionType
 import com.johnny.gank.action.PictureActionCreator
@@ -32,6 +36,7 @@ import com.johnny.gank.ui.adapter.PicturePagerAdapter
 import com.umeng.analytics.MobclickAgent
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_picture.*
+import org.jetbrains.anko.firstChild
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -127,7 +132,15 @@ class PictureActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+            window.allowEnterTransitionOverlap = true
+            window.sharedElementEnterTransition = ChangeImageTransform()
+            window.sharedElementReturnTransition = null
+        }
         setContentView(R.layout.activity_picture)
+
+        ActivityCompat.postponeEnterTransition(this)
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
@@ -142,6 +155,11 @@ class PictureActivity : BaseActivity() {
         mStore.gankList.observe(this, android.arch.lifecycle.Observer {
             updateList()
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     override fun onResume() {
@@ -184,6 +202,7 @@ class PictureActivity : BaseActivity() {
             if(0 == initPos) {
                 mPageChangeListener.onPageSelected(0)
             }
+            ActivityCompat.startPostponedEnterTransition(this)
         } else {
             val addStatus = mPagerAdapter.appendList(mStore.page, mStore.gankList.value!!)
             mPagerAdapter.notifyDataSetChanged()

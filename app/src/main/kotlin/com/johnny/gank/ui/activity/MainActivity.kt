@@ -15,13 +15,16 @@ package com.johnny.gank.ui.activity
  * limitations under the License.
  */
 
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.transition.ChangeImageTransform
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.johnny.gank.R
 import com.johnny.gank.ui.fragment.AndroidFragment
@@ -54,6 +57,13 @@ class MainActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+            window.allowEnterTransitionOverlap = true
+            window.sharedElementExitTransition = ChangeImageTransform()
+            window.sharedElementReenterTransition = null
+        }
+
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)

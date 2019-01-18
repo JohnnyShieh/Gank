@@ -15,6 +15,7 @@ package com.johnny.gank.action
  * limitations under the License.
  */
 
+import android.annotation.SuppressLint
 import com.johnny.gank.core.http.GankService
 import com.johnny.gank.data.ui.GankNormalItem
 import com.johnny.rxflux.Action
@@ -38,6 +39,7 @@ class QueryActionCreator
     lateinit var mGankService: GankService
         @Inject set
 
+    @SuppressLint("CheckResult")
     fun query(queryText: String) {
         if(hasAction) {
             return
@@ -51,12 +53,10 @@ class QueryActionCreator
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ items ->
                     hasAction = false
-                    postAction(Action(ActionType.QUERY_GANK).apply {
-                        data[Key.QUERY_RESULT] = items
-                    })
+                    postAction(ActionType.QUERY_GANK, items)
                 }, { throwable ->
                     hasAction = false
-                    postError(Action(ActionType.QUERY_GANK, isError = true, throwable = throwable))
+                    postError(ActionType.QUERY_GANK, throwable)
                 })
     }
 

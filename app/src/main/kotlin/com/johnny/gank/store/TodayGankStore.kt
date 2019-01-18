@@ -37,7 +37,7 @@ class TodayGankStore : Store() {
     @Suppress("UNCHECKED_CAST")
     override fun onAction(action: Action) {
         isSwipeRefreshing.value = false
-        items.value = action.data[Key.DAY_GANK] as List<GankItem>
+        items.value = action.singleData as List<GankItem>
     }
 
     override fun onError(action: Action) {

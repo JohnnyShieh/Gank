@@ -36,7 +36,7 @@ class SearchStore : Store() {
 
     @Suppress("UNCHECKED_CAST")
     override fun onAction(action: Action) {
-        gankList.value = action.data[Key.QUERY_RESULT] as List<GankNormalItem>
+        gankList.value = action.singleData as List<GankNormalItem>
         showEmptyView.value = gankList.value?.isEmpty() ?: true
     }
 

@@ -18,6 +18,7 @@ package com.johnny.gank.ui.fragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -35,6 +36,7 @@ import com.johnny.gank.ui.adapter.WelfareAdapter
 import com.johnny.gank.ui.widget.HeaderViewRecyclerAdapter
 import com.johnny.gank.ui.widget.LoadMoreView
 import kotlinx.android.synthetic.main.fragment_refresh_recycler.*
+import kotlinx.android.synthetic.main.recycler_item_welfare.view.*
 import javax.inject.Inject
 
 /**
@@ -106,7 +108,8 @@ class WelfareFragment : BaseFragment(),
         mAdapter = WelfareAdapter(this)
         mAdapter.onItemClickListener = object : WelfareAdapter.OnItemClickListener {
             override fun onClickItem(view: View, item: GankNormalItem) {
-                startActivity(PictureActivity.newIntent(activity, item.page, item.gank._id))
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, view.girl_image, item.gank.url)
+                startActivity(PictureActivity.newIntent(activity, item.page, item.gank._id), options.toBundle())
             }
         }
         val adapter = HeaderViewRecyclerAdapter(mAdapter)
