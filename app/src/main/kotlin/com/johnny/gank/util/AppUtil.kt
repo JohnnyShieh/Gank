@@ -15,9 +15,7 @@ package com.johnny.gank.util
  * limitations under the License.
  */
 
-import android.content.Context
 import android.os.Environment
-import android.support.annotation.NonNull
 
 /**
  *
@@ -27,26 +25,13 @@ import android.support.annotation.NonNull
  */
 object AppUtil {
 
-    lateinit var appContext: Context
-        @JvmStatic get
-        private set
-
-    /**
-     * The method should be call when app create.
-     */
-    @JvmStatic
-    fun init(@NonNull context: Context) {
-        appContext = context
-    }
-
-    @JvmStatic
-    fun getCacheDir(): String {
-        if(Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() || !Environment.isExternalStorageRemovable()) {
-            val cacheFile = appContext.externalCacheDir
-            if(null != cacheFile) {
-                return cacheFile.path
-            }
+    // cache path save temp file, it may be free up by system
+    val cachePath: String by lazy {
+        if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState() || !Environment.isExternalStorageRemovable()) {
+            AppHolder.app.externalCacheDir?.path?: AppHolder.app.cacheDir.path
+        } else {
+            AppHolder.app.cacheDir.path
         }
-        return appContext.cacheDir.path
     }
+
 }

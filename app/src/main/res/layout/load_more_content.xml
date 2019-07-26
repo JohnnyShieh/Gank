@@ -21,7 +21,7 @@
     android:layout_height="wrap_content"
     >
 
-    <com.johnny.gank.ui.widget.LoadingIndicatorView
+    <com.johnny.gank.widget.LoadingIndicatorView
         android:id="@+id/loading_indicator"
         android:layout_width="27dp"
         android:layout_height="27dp"

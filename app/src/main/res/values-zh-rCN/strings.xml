@@ -21,8 +21,8 @@
     <string name="nav_header_title">干货集中营</string>
     <string name="nav_today">今天</string>
     <string name="nav_welfare">福利</string>
-    <string name="nav_android">Android</string>
-    <string name="nav_ios">iOS</string>
+    <string name="nav_android">安卓</string>
+    <string name="nav_ios">苹果</string>
     <string name="nav_front_end">前端</string>
     <string name="nav_extra">拓展资源</string>
     <string name="nav_casual">瞎推荐</string>

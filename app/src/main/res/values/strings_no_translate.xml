@@ -16,7 +16,7 @@
  * limitations under the License.
  */-->
 <resources>
-    <string name="about_introduction_content" translatable="false">Gank是干货集中营的非官方Android客户端, 每天精选妹纸图片, 一个精选休息视频以及若干Android, ios, 前端方面的技术干货. \n\n本项目完全开源, 使用Facebook的Flux应用架构实现单向数据流, 并学习RxJava, RxAndroid, Retrofit, Glide等优秀开源库.\n\n数据来源: http://gank.io/api (干货集中营)\n\n项目源码: https://github.com/JohnnyShieh/Gank</string>
+    <string name="about_introduction_content" translatable="false">Gank是干货集中营的非官方Android客户端, 每天精选妹纸图片, 一个精选休息视频以及若干Android, ios, 前端方面的技术干货. \n\n本项目完全开源, 使用基于Facebook的Flux应用架构的 RxFlux 架构实现单向数据流, 并运用了RxJava, RxFlux, Retrofit, Glide, Koin等优秀开源库.\n\n数据来源: http://gank.io/api (干货集中营)\n\n项目源码: https://github.com/JohnnyShieh/Gank</string>
     <string name="share_page" translatable="false">「%1$s%2$1s (分享自 @Gank) </string>
     <string name="share" translatable="false">分享</string>
     <string name="open_in_browser" translatable="false">浏览器打开</string>

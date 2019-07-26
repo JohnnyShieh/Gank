@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */-->
-<com.johnny.gank.ui.widget.LoadMoreView
+<com.johnny.gank.widget.LoadMoreView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

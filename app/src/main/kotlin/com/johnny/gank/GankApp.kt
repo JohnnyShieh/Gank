@@ -16,33 +16,25 @@ package com.johnny.gank
  * limitations under the License.
  */
 
-import android.app.Activity
 import android.app.Application
-import android.util.Log
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
-import com.johnny.gank.di.component.AppComponent
-import com.johnny.gank.di.component.DaggerAppComponent
-import com.johnny.gank.di.module.AppModule
-import com.johnny.gank.util.AppUtil
-import com.orhanobut.logger.Logger
-import com.orhanobut.logger.Settings
+import com.johnny.gank.di.actionCreatorModule
+import com.johnny.gank.di.appModule
+import com.johnny.gank.di.storeModule
+import com.johnny.gank.util.AppHolder
+import com.johnny.rxflux.RxFlux
 import com.squareup.leakcanary.LeakCanary
 import com.umeng.analytics.MobclickAgent
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 /**
  * @author Johnny Shieh (JohnnyShieh17@gmail.com)
  * *
  * @version 1.0
  */
-class GankApp : Application(), HasActivityInjector {
-
-    @Inject
-    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
-
-    private lateinit var appComponent: AppComponent
+class GankApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -50,29 +42,22 @@ class GankApp : Application(), HasActivityInjector {
         MobclickAgent.openActivityDurationTrack(false)
         MobclickAgent.enableEncrypt(true)
         FeedbackAPI.initAnnoy(this, getString(R.string.ali_app_key))
-        AppUtil.init(this)
-        Logger.initialize(
-                Settings()
-                        .isShowMethodLink(true)
-                        .isShowThreadInfo(false)
-                        .setMethodOffset(0)
-                        .setLogPriority(if (BuildConfig.DEBUG) Log.VERBOSE else Log.ASSERT)
-        )
+        AppHolder.init(this)
+        RxFlux.enableRxFluxLog(BuildConfig.DEBUG)
         initInjector()
         LeakCanary.install(this)
     }
 
-    override fun activityInjector() = dispatchingActivityInjector
-
     private fun initInjector() {
-        appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
-        appComponent.inject(this)
-    }
-
-    fun getAppComponent(): AppComponent {
-        return appComponent
+        startKoin {
+            androidLogger()
+            androidContext(this@GankApp)
+            modules(listOf(
+                appModule,
+                actionCreatorModule,
+                storeModule
+            ))
+        }
     }
 
 }
