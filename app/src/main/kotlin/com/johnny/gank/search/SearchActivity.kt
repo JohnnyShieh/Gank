@@ -74,7 +74,7 @@ class SearchActivity : BaseActivity() {
 
         initSearchView()
         initRecyclerView()
-        handleIntent(intent)
+        handleIntent()
 
         mStore.showEmptyView.observe(this, Observer {
             empty_view.visibility = View.VISIBLE
@@ -89,7 +89,7 @@ class SearchActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        handleIntent(intent)
+        handleIntent()
     }
 
     private fun initSearchView() {
@@ -119,7 +119,7 @@ class SearchActivity : BaseActivity() {
         recycler_view.adapter = mAdapter
     }
 
-    private fun handleIntent(intent: Intent?) {
+    private fun handleIntent() {
         search_view.requestFocus()
     }
 

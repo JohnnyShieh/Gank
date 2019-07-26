@@ -105,7 +105,7 @@ class PictureActivity : BaseActivity() {
         val pageIndex = intent.getIntExtra(EXTRA_PAGE_INDEX, -1)
         if (pageIndex == -1) {
             val publishAt = intent.getSerializableExtra(EXTRA_PUBLISH_SINGLE_PIC) as Date
-            val item = GankNormalItem(gank = Gank(url = picUrl, publishedAt = publishAt))
+            val item = GankNormalItem(gank = Gank(url = picUrl.orEmpty(), publishedAt = publishAt))
             mPagerAdapter.initList(arrayListOf(item))
             title = sDateFormatter.format(publishAt)
         } else {

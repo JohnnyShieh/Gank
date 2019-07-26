@@ -24,6 +24,8 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
+-keep public class * extends androidx.fragment.app.Fragment
+
 ## keep serializable and parcelable
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
@@ -38,8 +40,8 @@
 }
 
 ## keep entity and repsonse
--keep class com.johnny.gank.data.entity.** {*;}
--keep class com.johnny.gank.data.response.** {*;}
+-keep class com.johnny.gank.model.entity.** {*;}
+-keep class com.johnny.gank.model.response.** {*;}
 
 ### for retrofit
 -dontwarn retrofit2.**

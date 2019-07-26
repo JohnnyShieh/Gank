@@ -15,6 +15,7 @@ package com.johnny.gank.main
  * limitations under the License.
  */
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -68,14 +69,15 @@ class WebviewActivity : BaseActivity(),
         setUpWebView()
 
         if (null != intent) {
-            mUrl = intent.getStringExtra(EXTRA_URL)
-            mTitle = intent.getStringExtra(EXTRA_TITLE)
+            mUrl = intent.getStringExtra(EXTRA_URL).orEmpty()
+            mTitle = intent.getStringExtra(EXTRA_TITLE).orEmpty()
         }
 
         title = mTitle
         webview.loadUrl(mUrl)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun setUpWebView() {
         webview.settings.javaScriptEnabled = true
         webview.settings.loadWithOverviewMode = true

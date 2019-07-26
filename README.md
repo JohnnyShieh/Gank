@@ -6,17 +6,6 @@
 
 简洁美观的干货集中营(gank.io)的非官方安卓客户端, 数据来源于[干货集中营](http://gank.io/)
 
-本项目包含原生 android 版和 kotlin 版两种实现：
-
-| 分支    | 版本    |
-| ------ | ------ |
-| [master](https://github.com/JohnnyShieh/Gank/tree/master) | 原生 android 版 |
-| [kotlin](https://github.com/JohnnyShieh/Gank/tree/kotlin) | kotlin 版 |
-
-kotlin 版的改动如下：
-
-全面使用 kotlin 语言，还使用了 [Anko Commons](https://github.com/Kotlin/anko)，用 [kotlin Android Extensions](http://kotlinlang.org/docs/tutorials/android-plugin.html) 替换了 ButterKnife。
-
 **Description**
 
 每天提供一张精选的妹纸图片, 一个精选的休息视频, 若干精选的Android, ios, web等方面的技术干货
@@ -29,7 +18,7 @@ kotlin 版的改动如下：
 
 **Download**
 
-[fir下载](http://fir.im/gankandroidapp)
+最近版本是 [v1.2](https://github.com/JohnnyShieh/Gank/releases/download/v1.2/Gank_v1.2_2019-07-26_fir.apk)
 
 # App 设计
 
@@ -51,15 +40,17 @@ App基本包含下面几个页面:
 
 **Architecture**
 
-项目使用Facebook的Flux架构实现单向数据流, 因为app基本上只是展示网络获取的数据, 单向数据流可以保证数据获取清晰明了. 
+项目使用 [RxFlux](https://github.com/JohnnyShieh/RxFlux) 架构实现单向数据流, 因为app基本上只是展示网络获取的数据, 单向数据流可以保证数据获取清晰明了. 
 
 ![](/pic/flux-arch.png)
 
-更多关于Flux架构的信息, 请看[Android Flux一览](http://androidflux.github.io/docs/overview.html#content)
-
 App主要分为UI, Action, Store三层, UI请求数据的时候用ActionCreator通过Web API获取数据并产生Action, Action由Dispatcher传递给Store, 最后UI监听到Store的change event再从store中取数据刷新页面. 这样UI层的逻辑就简单了, 业务逻辑转移到Action层.
 
-Web API获取数据是使用RxJava + Retrofit + okhttp, 使用Glide完成图片加载, 使用Dagger2完成依赖注入.
+其中 Store 是继承自 Google Architecture Component 中的 ViewModel 的，用来接受 action 触发的数据变更，其中的 LiveData 修改后驱动 UI 变更.
+
+更详细的信息，请看 [RxFlux](https://github.com/JohnnyShieh/RxFlux) 的介绍.
+
+Web API获取数据是使用 RxJava + Retrofit + okhttp, 使用 Glide 完成图片加载, 使用 Koin 完成依赖注入.
 
 # Dagger 完全解析
 
@@ -75,7 +66,11 @@ Web API获取数据是使用RxJava + Retrofit + okhttp, 使用Glide完成图片�
 
 [Dagger 2 完全解析（五），Kotlin 中使用 Dagger 2](http://johnnyshieh.me/posts/dagger-use-in-kotlin/)
 
+最近接触过 [Koin](https://github.com/InsertKoinIO/koin) 依赖注入框架后，立马从 Dagger 2 阵营转投到 Koin 阵营，简单说明下它的优点：对 Kotlin 和 Android 非常友好，容易上手，使用简便. 
+
 # Library
+
+* [RxFlux](https://github.com/JohnnyShieh/RxFlux)
 
 * [RxJava](https://github.com/ReactiveX/RxJava)
 
@@ -85,21 +80,16 @@ Web API获取数据是使用RxJava + Retrofit + okhttp, 使用Glide完成图片�
 
 * [Glide](https://github.com/bumptech/glide)
 
-* [Dagger2](https://github.com/google/dagger)
+* [Koin](https://github.com/InsertKoinIO/koin)
 
 * [Leakcanary](https://github.com/square/leakcanary)
 
-* [RxFlux](https://github.com/JohnnyShieh/RxFlux)
-
 * [gson](https://github.com/google/gson)
-
-* [logger](https://github.com/tianzhijiexian/logger)
-
 
 # License
 
 
-    Copyright 2017 Johnny Shieh Open Project
+    Copyright 2019 Johnny Shieh Open Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
